@@ -18,9 +18,9 @@ $(function () {
   });
   $('.connectedSortable .box-header, .connectedSortable .nav-tabs-custom').css('cursor', 'move');
 
-  
 
-		
+
+
 // donut chart
 		$('.donut').peity('donut');
 
@@ -65,7 +65,7 @@ jQuery('#world-map-markers').vectorMap(
 
         alert(message);
     }
-});	
+});
 
 
 $('#usa').vectorMap({
@@ -123,7 +123,7 @@ $('#usa').vectorMap({
                     label: function(e, d) {
                     },
                     title: function() {
-                        return;
+
                     }
                 }
             },
@@ -184,7 +184,7 @@ $('#usa').vectorMap({
                     label: function(e, d) {
                     },
                     title: function() {
-                        return;
+
                     }
                 }
             },
@@ -219,8 +219,8 @@ $('#usa').vectorMap({
             }
         }
     });
-	
-    
+
+
 	if( $('#chart_2').length > 0 ){
 		var ctx2 = document.getElementById("chart_2").getContext("2d");
 		var data2 = {
@@ -234,11 +234,11 @@ $('#usa').vectorMap({
 				}
 			]
 		};
-		
+
 		var hBar = new Chart(ctx2, {
 			type:"horizontalBar",
 			data:data2,
-			
+
 			options: {
 				tooltips: {
 					mode:"label"
@@ -264,7 +264,7 @@ $('#usa').vectorMap({
 							fontColor:"#888888"
 						}
 					}],
-					
+
 				},
 				elements:{
 					point: {
@@ -283,10 +283,10 @@ $('#usa').vectorMap({
 					cornerRadius:0,
 					footerFontFamily:"'Poppins'"
 				}
-				
+
 			}
 		});
-	};
+	}
 
 
 // AREA CHART
@@ -338,9 +338,9 @@ $('#usa').vectorMap({
 		hideHover: 'auto',
 		color: '#666666'
     });
-	
-	
-	
-	
+
+
+
+
 }); // End of use strict
 

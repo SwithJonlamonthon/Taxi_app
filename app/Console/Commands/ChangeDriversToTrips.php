@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Carbon\Carbon;
 use App\Models\Request\Request;
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use App\Models\Request\RequestMeta;
@@ -91,7 +92,7 @@ class ChangeDriversToTrips extends Command
             dispatch(new SendRequestToNextDriversJob($next_driver_request_meta_id,$this->database));
 
             $this->info('success');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
             Log::error('Error while changing requests to other drivers');

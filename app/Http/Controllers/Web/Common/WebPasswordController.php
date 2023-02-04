@@ -14,22 +14,22 @@ class WebPasswordController extends BaseController
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
     /**
      * The password broker instance.
      *
-     * @var \Illuminate\Contracts\Auth\PasswordBroker
+     * @var PasswordBroker
      */
     protected $broker;
 
     /**
      * PasswordResetController constructor.
      *
-     * @param \App\Models\User $user
-     * @param \Illuminate\Contracts\Auth\PasswordBroker $broker
+     * @param User $user
+     * @param PasswordBroker $broker
      */
     public function __construct(User $user, PasswordBroker $broker)
     {
@@ -69,7 +69,7 @@ class WebPasswordController extends BaseController
      * Resolve the user from their email.
      *
      * @param string $email
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromEmail($email)
     {

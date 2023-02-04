@@ -14,6 +14,7 @@ use App\Jobs\Notifications\AndroidPushNotification;
 use App\Transformers\Requests\TripRequestTransformer;
 use App\Transformers\Requests\CronTripRequestTransformer;
 use Kreait\Firebase\Contract\Database;
+use stdClass;
 
 class SendRequestToNextDriversJob implements ShouldQueue
 {
@@ -48,19 +49,19 @@ class SendRequestToNextDriversJob implements ShouldQueue
             $request_result =  fractal($request_meta_detail->request, new CronTripRequestTransformer)->parseIncludes('userDetail');
 
             $pus_request_detail = $request_result->toJson();
-            
+
             $push_data = ['notification_enum'=>PushEnums::REQUEST_CREATED,'result'=>(string)$pus_request_detail];
 
             if ($request_meta_detail->driver->user()->exists()) {
                 $driver = $request_meta_detail->driver;
                 // Form a socket sturcture using users'id and message with event name
-                $socket_data = new \stdClass();
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::REQUEST_CREATED;
                 $socket_data->result = $request_result;
                 // Form a socket sturcture using users'id and message with event name
                 // $socket_message = structure_for_socket($driver->id, 'driver', $socket_data, 'create_request');
-                
+
                 // dispatch(new NotifyViaSocket('transfer_msg', $socket_message));
 
                 // dispatch(new NotifyViaMqtt('create_request_'.$driver->id, json_encode($socket_data), $driver->id));

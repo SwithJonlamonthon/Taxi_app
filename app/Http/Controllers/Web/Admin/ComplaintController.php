@@ -20,7 +20,7 @@ class ComplaintController extends Controller
     /**
      * FaqController constructor.
      *
-     * @param \App\Models\Admin\Complaint $complaint
+     * @param Complaint $complaint
      */
     public function __construct(Complaint $complaint)
     {
@@ -147,7 +147,7 @@ class ComplaintController extends Controller
 
 
         if($complaint->user_id){
-        $user = User::whereId($complaint->user_id)->first();            
+        $user = User::whereId($complaint->user_id)->first();
         }elseif($complaint->driver_id){
 
             $user = Driver::whereId($complaint->driver_id)->first()->user;
@@ -175,7 +175,7 @@ class ComplaintController extends Controller
         ]);
 
         if($complaint->user_id){
-        $user = User::whereId($complaint->user_id)->first();            
+        $user = User::whereId($complaint->user_id)->first();
         }elseif($complaint->driver_id){
 
             $user = Driver::whereId($complaint->driver_id)->first()->user;

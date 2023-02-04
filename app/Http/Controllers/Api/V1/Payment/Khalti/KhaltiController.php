@@ -20,6 +20,7 @@ use App\Transformers\Payment\OwnerWalletTransformer;
 use App\Transformers\Payment\WalletTransformer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use stdClass;
 
 class KhaltiController extends Controller
 {
@@ -60,7 +61,7 @@ class KhaltiController extends Controller
 
         $pus_request_detail = json_encode($request->all());
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
         $socket_data->result = $request->all();

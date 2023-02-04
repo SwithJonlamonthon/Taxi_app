@@ -2,6 +2,7 @@
 
 namespace App\Base\Validators;
 
+use Illuminate\Validation\Validator;
 use InvalidArgumentException;
 
 class CustomValidators
@@ -19,7 +20,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateMobileNumber($attribute, $value, $parameters, $validator)
@@ -37,7 +38,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateDecimal($attribute, $value, $parameters, $validator)
@@ -57,7 +58,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateDouble($attribute, $value, $parameters, $validator)
@@ -76,7 +77,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateUuid($attribute, $value, $parameters, $validator)
@@ -94,7 +95,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateOtp($attribute, $value, $parameters, $validator)
@@ -114,7 +115,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateNumericMin($attribute, $value, $parameters, $validator)
@@ -137,7 +138,7 @@ class CustomValidators
      * @param $attribute
      * @param $value
      * @param $parameters
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @return bool
      */
     public function validateNumericMax($attribute, $value, $parameters, $validator)
@@ -157,7 +158,7 @@ class CustomValidators
     /**
      * Register a custom validator message.
      *
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @param string $message
      */
     protected function registerCustomMessage($validator, $message)
@@ -168,7 +169,7 @@ class CustomValidators
     /**
      * Register a custom validator message replacer.
      *
-     * @param \Illuminate\Validation\Validator $validator
+     * @param Validator $validator
      * @param string|array $replacer
      */
     protected function registerReplacer($validator, $replacer)
@@ -189,7 +190,7 @@ class CustomValidators
      *
      * @param int $count
      * @param array $parameters
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function requireParameterCount($count, $parameters)
     {

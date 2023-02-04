@@ -1,5 +1,7 @@
 <?php
 
+use App\Base\Serializers\CustomDataArraySerializer;
+
 return [
 
 	/*
@@ -13,7 +15,7 @@ return [
 		    |
 	*/
 
-	'default_serializer' => \App\Base\Serializers\CustomDataArraySerializer::class,
+	'default_serializer' => CustomDataArraySerializer::class,
 
 	/*
 		    |--------------------------------------------------------------------------

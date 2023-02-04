@@ -2,6 +2,9 @@
 
 namespace App\Base\Services\Setting;
 
+use App\Models\Setting;
+use Exception;
+
 interface SettingContract {
 	/**
 	 * Get the database setting value.
@@ -18,8 +21,8 @@ interface SettingContract {
 	 * @param string $name
 	 * @param mixed $value
 	 * @param string $type
-	 * @return \App\Models\Setting
-	 * @throws \Exception
+	 * @return Setting
+	 * @throws Exception
 	 */
 	public function set($name, $value, $type = 'string');
 	/**
@@ -27,7 +30,7 @@ interface SettingContract {
 	 *
 	 * @param string $name
 	 * @param string $value
-	 * @return \App\Models\Setting
+	 * @return Setting
 	 */
 	public function setString($name, $value);
 
@@ -36,7 +39,7 @@ interface SettingContract {
 	 *
 	 * @param string $name
 	 * @param boolean $value
-	 * @return \App\Models\Setting
+	 * @return Setting
 	 */
 	public function setBoolean($name, $value);
 
@@ -45,7 +48,7 @@ interface SettingContract {
 	 *
 	 * @param string $name
 	 * @param int|double $value
-	 * @return \App\Models\Setting
+	 * @return Setting
 	 */
 	public function setDecimal($name, $value);
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Admin;
 use App\Models\Admin\ZoneTypePackagePrice;
 use App\Models\Admin\ZoneType;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ZoneTypePackagePriceController extends BaseController
 {
@@ -14,7 +15,7 @@ class ZoneTypePackagePriceController extends BaseController
     /**
      * ZoneTypePackagePriceController constructor.
      *
-     * @param \App\Models\Admin\ZoneTypePackagePrice $zone
+     * @param ZoneTypePackagePrice $zone
      */
     public function __construct(ZoneTypePackagePrice $package)
     {
@@ -33,7 +34,7 @@ class ZoneTypePackagePriceController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -48,8 +49,8 @@ class ZoneTypePackagePriceController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -74,7 +75,7 @@ class ZoneTypePackagePriceController extends BaseController
      * Display the specified resource.
      *
      * @param  \App\ZoneTypePackagePrice  $zoneTypePackagePrice
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(ZoneTypePackagePrice $zoneTypePackagePrice)
     {
@@ -85,7 +86,7 @@ class ZoneTypePackagePriceController extends BaseController
      * Show the form for editing the specified resource.
      *
      * @param  \App\ZoneTypePackagePrice  $zoneTypePackagePrice
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(ZoneTypePackagePrice $zoneTypePackagePrice)
     {
@@ -95,9 +96,9 @@ class ZoneTypePackagePriceController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\ZoneTypePackagePrice  $zoneTypePackagePrice
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, ZoneTypePackagePrice $zoneTypePackagePrice)
     {
@@ -108,12 +109,12 @@ class ZoneTypePackagePriceController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  \App\ZoneTypePackagePrice  $zoneTypePackagePrice
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(ZoneTypePackagePrice $zoneTypePackagePrice)
     {
         //
     }
 
-     
+
 }

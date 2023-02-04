@@ -2,6 +2,8 @@
 
 namespace App\Base\Services\OTP\Handler;
 
+use Exception;
+
 interface OTPHandlerContract
 {
     /**
@@ -63,7 +65,7 @@ interface OTPHandlerContract
      * Get the current mobile number.
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function getMobile();
 

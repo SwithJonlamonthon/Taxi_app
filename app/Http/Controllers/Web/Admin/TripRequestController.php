@@ -6,12 +6,15 @@ use App\Base\Filters\Master\CommonMasterFilter;
 use App\Base\Libraries\QueryFilter\QueryFilterContract;
 use App\Base\Services\ImageUploader\ImageUploaderContract;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Driver\CreateDriverRequest;
 use App\Http\Requests\Admin\SoS\CreateSosRequest;
 use App\Http\Requests\Admin\SoS\UpdateSosRequest;
+use App\Models\Admin\Driver;
 use App\Models\Admin\ServiceLocation;
 use App\Models\Admin\Sos;
 use App\Models\Admin\TripRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 
@@ -20,14 +23,14 @@ class TripRequestController extends Controller
     /**
      * The Driver model instance.
      *
-     * @var \App\Models\Admin\Driver
+     * @var Driver
      */
     protected $driver;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -42,7 +45,7 @@ class TripRequestController extends Controller
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(Sos $sos, ImageUploaderContract $imageUploader, User $user)
     {
@@ -53,7 +56,7 @@ class TripRequestController extends Controller
 
     /**
      * Get all drivers
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -92,8 +95,8 @@ class TripRequestController extends Controller
     /**
      * Create Driver.
      *
-     * @param \App\Http\Requests\Admin\Driver\CreateDriverRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateDriverRequest $request
+     * @return JsonResponse
      */
     public function store(CreateSosRequest $request)
     {

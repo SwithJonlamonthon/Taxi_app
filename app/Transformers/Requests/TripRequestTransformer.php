@@ -11,6 +11,8 @@ use App\Transformers\Requests\RequestBillTransformer;
 use Carbon\Carbon;
 use App\Base\Constants\Masters\PaymentType;
 use App\Base\Constants\Setting\Settings;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\NullResource;
 
 
 class TripRequestTransformer extends Transformer
@@ -119,7 +121,7 @@ class TripRequestTransformer extends Transformer
         $params['free_waiting_time_in_mins_before_trip_start'] = $zone_type_price->free_waiting_time_in_mins_before_trip_start;
 
         $params['free_waiting_time_in_mins_before_trip_start'] = $zone_type_price->free_waiting_time_in_mins_before_trip_start;
-        
+
         if($request->requestRating()->exists()){
 
           $params['ride_user_rating'] = $request->requestRating()->where('user_rating',1)->pluck('rating')->first();
@@ -134,11 +136,11 @@ class TripRequestTransformer extends Transformer
         }
 
         if(get_settings('show_ride_otp_feature')=='0'){
-            $params['show_otp_feature'] = false;  
+            $params['show_otp_feature'] = false;
         }
-        
+
         if($request->payment_opt ==PaymentType::CARD){
-            
+
             $params['payment_type_string'] = 'card';
 
         }elseif($request->payment_opt ==PaymentType::CASH){
@@ -182,7 +184,7 @@ class TripRequestTransformer extends Transformer
      * Include the driver of the request.
      *
      * @param RequestModel $request
-     * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+     * @return Item|NullResource
      */
     public function includeDriverDetail(RequestModel $request)
     {
@@ -196,7 +198,7 @@ class TripRequestTransformer extends Transformer
      * Include the user of the request.
      *
      * @param RequestModel $request
-     * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+     * @return Item|NullResource
      */
     public function includeUserDetail(RequestModel $request)
     {
@@ -217,7 +219,7 @@ class TripRequestTransformer extends Transformer
     * Include the calculated bill of the request.
     *
     * @param RequestModel $request
-    * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+    * @return Item|NullResource
     */
     public function includeRequestBill(RequestModel $request)
     {

@@ -4,13 +4,18 @@ namespace App\Base\Libraries\QueryFilter;
 
 use Exception;
 use Illuminate\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use JsonSerializable;
+use League\Fractal\Serializer\SerializerAbstract;
+use League\Fractal\TransformerAbstract;
+use Spatie\Fractal\Fractal;
 
 class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSerializable
 {
@@ -45,28 +50,28 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * The Request object.
      *
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     protected $request;
 
     /**
      * The Eloquent Query Builder instance.
      *
-     * @var \Illuminate\Database\Eloquent\Builder|null
+     * @var Builder|null
      */
     protected $builder = null;
 
     /**
      * The custom filter class instance.
      *
-     * @var \App\Base\Libraries\QueryFilter\FilterContract|null
+     * @var FilterContract|null
      */
     protected $customFilter = null;
 
     /**
      * The query builder model.
      *
-     * @var \Illuminate\Database\Eloquent\Model|null
+     * @var Model|null
      */
     protected $model = null;
 
@@ -80,14 +85,14 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * The fractal transformer for data transformation.
      *
-     * @var \League\Fractal\TransformerAbstract|callable|null
+     * @var TransformerAbstract|callable|null
      */
     protected $transformer = null;
 
     /**
      * The serializer used with data transformation.
      *
-     * @var \League\Fractal\Serializer\SerializerAbstract|null
+     * @var SerializerAbstract|null
      */
     protected $serializer = null;
 
@@ -160,8 +165,8 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * QueryFilter constructor.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Illuminate\Config\Repository $config
+     * @param Request $request
+     * @param ConfigRepository $config
      */
     public function __construct(Request $request, ConfigRepository $config)
     {
@@ -178,7 +183,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * Set the Query Builder.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
      * @return $this
      */
     public function builder(Builder $builder)
@@ -191,7 +196,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * Set the custom filter.
      *
-     * @param \App\Base\Libraries\QueryFilter\FilterContract $filter
+     * @param FilterContract $filter
      * @return $this
      */
     public function customFilter(FilterContract $filter)
@@ -205,8 +210,8 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      * Set the transformer and serializer to be used for data transformation.
      * Setting the transformer enables the data transformation.
      *
-     * @param \League\Fractal\TransformerAbstract|callable $transformer
-     * @param \League\Fractal\Serializer\SerializerAbstract|null $serializer
+     * @param TransformerAbstract|callable $transformer
+     * @param SerializerAbstract|null $serializer
      * @return $this
      */
     public function transformWith($transformer, $serializer = null)
@@ -250,9 +255,9 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * Lazy eager load all the requested relationships.
      *
-     * @param \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null $modelOrCollection
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Spatie\Fractal\Fractal|null
-     * @throws \Exception
+     * @param Model|Collection|null $modelOrCollection
+     * @return Model|Collection|Fractal|null
+     * @throws Exception
      */
     public function loadIncludes($modelOrCollection)
     {
@@ -281,7 +286,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      * Apply the filters and get the first result.
      *
      * @param array $columns
-     * @return \Illuminate\Database\Eloquent\Model|\Spatie\Fractal\Fractal|null
+     * @return Model|Fractal|null
      */
     public function first($columns = ['*'])
     {
@@ -296,7 +301,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      * Apply the filters and get the result.
      *
      * @param array $columns
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Spatie\Fractal\Fractal|null
+     * @return Collection|LengthAwarePaginator|Fractal|null
      */
     public function get($columns = ['*'])
     {
@@ -313,7 +318,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      * Apply the filters and paginate the result.
      *
      * @param array $columns
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Spatie\Fractal\Fractal
+     * @return LengthAwarePaginator|Fractal
      */
     public function paginate($columns = ['*'])
     {
@@ -341,7 +346,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      *
      * @param int $options
      * @return string
-     * @throws \Illuminate\Database\Eloquent\JsonEncodingException
+     * @throws JsonEncodingException
      */
     public function toJson($options = 0)
     {
@@ -362,7 +367,7 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
      * Apply transformation to the provided data.
      *
      * @param mixed|null $data
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|\Spatie\Fractal\Fractal|null
+     * @return LengthAwarePaginator|Collection|Model|Fractal|null
      */
     protected function transformData($data)
     {
@@ -377,8 +382,8 @@ class QueryFilter implements QueryFilterContract, Arrayable, Jsonable, JsonSeria
     /**
      * Apply all the requested filters that are available.
      *
-     * @return \Illuminate\Database\Eloquent\Builder
-     * @throws \Exception
+     * @return Builder
+     * @throws Exception
      */
     protected function applyFilters()
     {

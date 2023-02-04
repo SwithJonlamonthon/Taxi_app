@@ -2,6 +2,8 @@
 
 namespace App\Models\Admin;
 
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Storage;
 use Carbon\Carbon;
 use App\Models\User;
@@ -83,7 +85,7 @@ class VehicleType extends Model
      * The admin that the uploaded image belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function serviceLocation()
     {
@@ -126,7 +128,7 @@ class VehicleType extends Model
      * The Zone has many Types.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return hasMany
      */
     public function zoneType()
     {

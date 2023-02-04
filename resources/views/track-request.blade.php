@@ -35,7 +35,7 @@
 
     @if($request->is_completed || $request->is_cancelled)
     <!-- <div class="w-screen">
-        <img src="{{ asset('map/logo.png') }}" alt="" class="w-full h-16 object-cover object-bottom">    
+        <img src="{{ asset('map/logo.png') }}" alt="" class="w-full h-16 object-cover object-bottom">
     </div> -->
 
     <div class="flex justify-center h-screen">
@@ -202,7 +202,7 @@
         var infowindow = new google.maps.InfoWindow();
         var marker, i, carIcon;
 
-        var markers = new Array();
+        var markers = [];
         for (i = 0; i < locations.length; i++) {
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(locations[i][1], locations[i][2]),

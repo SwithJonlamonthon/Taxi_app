@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\V1\BaseController;
 use App\Base\Constants\Auth\Role as RoleSlug;
 use App\Models\Setting;
 use App\Base\Services\ImageUploader\ImageUploaderContract;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use DB;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +24,7 @@ class SettingController extends BaseController
     /**
      * The Setting model instance.
      *
-     * @var \App\Models\Setting
+     * @var Setting
      */
     protected $settings;
 
@@ -31,7 +33,7 @@ class SettingController extends BaseController
     /**
      * VehicleTypeController constructor.
      *
-     * @param \App\Models\Setting $settings
+     * @param Setting $settings
      */
     public function __construct(Setting $settings, ImageUploaderContract $imageUploader)
     {
@@ -41,7 +43,7 @@ class SettingController extends BaseController
 
     /**
     * Get all vehicle types
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -92,7 +94,7 @@ class SettingController extends BaseController
 
             Cache::forget('setting_cache_set');
             // Redis::set('settings', json_encode($settings_to_redis));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e . 'Error while Create Admin. Input params : ' . json_encode($request->all()));
             return $this->respondBadRequest('Unknown error occurred. Please try again later or contact us if it continues.');

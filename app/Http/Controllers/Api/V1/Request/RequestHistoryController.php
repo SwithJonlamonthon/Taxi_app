@@ -8,6 +8,7 @@ use App\Base\Filters\Admin\RequestFilter;
 use App\Http\Controllers\Api\V1\BaseController;
 use App\Models\Request\Request as RequestModel;
 use App\Transformers\Requests\TripRequestTransformer;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group Request-Histories
@@ -25,7 +26,7 @@ class RequestHistoryController extends BaseController
 
     /**
     * Request History List
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     * @responseFile responses/requests/history-list.json
     * @responseFile responses/requests/driver-history-list.json
     */

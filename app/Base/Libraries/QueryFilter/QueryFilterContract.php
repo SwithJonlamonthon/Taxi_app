@@ -2,13 +2,20 @@
 
 namespace App\Base\Libraries\QueryFilter;
 
+use Exception;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use League\Fractal\Serializer\SerializerAbstract;
+use League\Fractal\TransformerAbstract;
+use Spatie\Fractal\Fractal;
 
 interface QueryFilterContract {
 	/**
 	 * Set the Query Builder.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Builder $builder
+	 * @param Builder $builder
 	 * @return $this
 	 */
 	public function builder(Builder $builder);
@@ -16,7 +23,7 @@ interface QueryFilterContract {
 	/**
 	 * Set the custom filter.
 	 *
-	 * @param \App\Base\Libraries\QueryFilter\FilterContract $filter
+	 * @param FilterContract $filter
 	 * @return $this
 	 */
 	public function customFilter(FilterContract $filter);
@@ -25,8 +32,8 @@ interface QueryFilterContract {
 	 * Set the transformer and serializer to be used for data transformation.
 	 * Setting the transformer enables the data transformation.
 	 *
-	 * @param \League\Fractal\TransformerAbstract|callable $transformer
-	 * @param \League\Fractal\Serializer\SerializerAbstract|null $serializer
+	 * @param TransformerAbstract|callable $transformer
+	 * @param SerializerAbstract|null $serializer
 	 * @return $this
 	 */
 	public function transformWith($transformer, $serializer = null);
@@ -51,9 +58,9 @@ interface QueryFilterContract {
 	/**
 	 * Lazy eager load all the requested relationships.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|null $modelOrCollection
-	 * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Spatie\Fractal\Fractal|null
-	 * @throws \Exception
+	 * @param Model|Collection|null $modelOrCollection
+	 * @return Model|Collection|Fractal|null
+	 * @throws Exception
 	 */
 	public function loadIncludes($modelOrCollection);
 
@@ -61,7 +68,7 @@ interface QueryFilterContract {
 	 * Apply the filters and get the first result.
 	 *
 	 * @param array $columns
-	 * @return \Illuminate\Database\Eloquent\Model|\Spatie\Fractal\Fractal|null
+	 * @return Model|Fractal|null
 	 */
 	public function first($columns = ['*']);
 
@@ -69,7 +76,7 @@ interface QueryFilterContract {
 	 * Apply the filters and get the result.
 	 *
 	 * @param array $columns
-	 * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Spatie\Fractal\Fractal|null
+	 * @return Collection|LengthAwarePaginator|Fractal|null
 	 */
 	public function get($columns = ['*']);
 
@@ -77,7 +84,7 @@ interface QueryFilterContract {
 	 * Apply the filters and paginate the result.
 	 *
 	 * @param array $columns
-	 * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Spatie\Fractal\Fractal
+	 * @return LengthAwarePaginator|Fractal
 	 */
 	public function paginate($columns = ['*']);
 }

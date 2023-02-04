@@ -19,12 +19,14 @@ use App\Http\Requests\Admin\Zone\CreateZoneRequest;
 use App\Http\Requests\Admin\Zone\AssignZoneTypeRequest;
 use App\Models\Request\Request;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream;
 use Prewk\XmlStringStreamer\Parser;
+use stdClass;
 
 /**
  * @resource Airport
@@ -36,14 +38,14 @@ class AirportController extends BaseController
     /**
      * The Airport model instance.
      *
-     * @var \App\Models\Admin\Airport
+     * @var Airport
      */
     protected $airport;
 
     /**
      * AirportController constructor.
      *
-     * @param \App\Models\Admin\Airport $airport
+     * @param Airport $airport
      */
     public function __construct(Airport $airport)
     {
@@ -52,7 +54,7 @@ class AirportController extends BaseController
 
     /**
     * Get all Airports
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -109,7 +111,7 @@ class AirportController extends BaseController
         foreach ($coordinates as $key => $coordinate) {
             $polygon = [];
             foreach ($coordinate[0] as $key => $point) {
-                $pp = new \stdClass;
+                $pp = new stdClass;
                 $pp->lat = $point->getLat();
                 $pp->lng = $point->getLng();
                 $polygon [] = $pp;
@@ -129,7 +131,7 @@ class AirportController extends BaseController
     /**
      * Get Airport By ID
      * @param id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getById($id)
     {
@@ -141,8 +143,8 @@ class AirportController extends BaseController
     /**
      * Create Airport.
      *
-     * @param \App\Http\Requests\Admin\Zone\CreateZoneRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateZoneRequest $request
+     * @return JsonResponse
      */
     public function store(CreateZoneRequest $request)
     {
@@ -188,7 +190,7 @@ class AirportController extends BaseController
 
         $airport = $this->airport->create($created_params);
 
-        
+
         $message = trans('succes_messages.airport_added_succesfully');
 
         return redirect('airport')->with('success', $message);
@@ -197,7 +199,7 @@ class AirportController extends BaseController
     * Create Airport.
     *
     * @param \App\Http\Requests\Admin\Airport\CreateZoneRequest $request
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function update(Airport $airport, CreateZoneRequest $request)
     {
@@ -209,7 +211,7 @@ class AirportController extends BaseController
         if($request->coordinates==null){
             throw ValidationException::withMessages(['zone_name' => __('Please Complete the shape before submit')]);
         }
-        
+
         foreach (json_decode($request->coordinates) as $key => $coordinates) {
             $points = [];
             $lineStrings = [];
@@ -261,7 +263,7 @@ class AirportController extends BaseController
         foreach ($coordinates as $key => $airport) {
             $polygon = [];
             foreach ($airport[0] as $key => $point) {
-                $pp = new \stdClass;
+                $pp = new stdClass;
                 $pp->lat = $point->getLat();
                 $pp->lng = $point->getLng();
                 $polygon [] = $pp;

@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Admin\Driver;
 use App\Models\Request\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class RequestRating extends Model
 {
@@ -35,7 +36,7 @@ class RequestRating extends Model
     /**
      * The request that the Rating belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function requestDetail()
     {
@@ -44,7 +45,7 @@ class RequestRating extends Model
     /**
      * The driver that the Rating belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function driverDetail()
     {
@@ -53,7 +54,7 @@ class RequestRating extends Model
     /**
      * The user that the Rating belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function userDetail()
     {

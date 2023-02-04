@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Response;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\MessageBag;
 use Illuminate\Contracts\Support\Arrayable;
@@ -23,7 +24,7 @@ trait ResponseHelpers
      * @param bool $success
      * @param mixed|null $data
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondOk($data = null, $success = true, $message = null)
     {
@@ -38,7 +39,7 @@ trait ResponseHelpers
      *
      * @param mixed|null $data
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondSuccess($data = null, $message = 'success')
     {
@@ -53,7 +54,7 @@ trait ResponseHelpers
      *
      * @param mixed $data
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondCreated($data = null, $message = 'created')
     {
@@ -66,7 +67,7 @@ trait ResponseHelpers
      * Respond with no content.
      * Status code = 204
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondNoContent()
     {
@@ -80,7 +81,7 @@ trait ResponseHelpers
      * Status code = 200
      *
      * @param string $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondFailed($message = 'failed')
     {
@@ -92,7 +93,7 @@ trait ResponseHelpers
      * Status code = 400
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondBadRequest($message = null)
     {
@@ -104,7 +105,7 @@ trait ResponseHelpers
      * Status code = 401
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondUnauthorized($message = null)
     {
@@ -116,7 +117,7 @@ trait ResponseHelpers
      * Status code = 403
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondForbidden($message = null)
     {
@@ -128,7 +129,7 @@ trait ResponseHelpers
      * Status code = 404
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondNotFound($message = null)
     {
@@ -140,7 +141,7 @@ trait ResponseHelpers
      * Status code = 405
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondMethodNotAllowed($message = null)
     {
@@ -152,7 +153,7 @@ trait ResponseHelpers
      * Status code = 500
      *
      * @param string|null $message
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondInternalError($message = null)
     {
@@ -167,7 +168,7 @@ trait ResponseHelpers
      * @param mixed|null $errors
      * @param array $headers
      * @param int $options
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respondError($message, $status, $errors = null, array $headers = [], $options = 0)
     {
@@ -187,7 +188,7 @@ trait ResponseHelpers
      * @param int $status
      * @param array $headers
      * @param int $options
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function respond($data, $message = null, $status = Response::HTTP_OK, array $headers = [], $options = 0)
     {
@@ -206,7 +207,7 @@ trait ResponseHelpers
      * @param int $status
      * @param array $headers
      * @param int $options
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function jsonResponse($data = [], $status = Response::HTTP_OK, array $headers = [], $options = 0)
     {

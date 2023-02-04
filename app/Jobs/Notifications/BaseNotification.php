@@ -5,6 +5,7 @@ namespace App\Jobs\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Mail\Mailer;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
@@ -22,7 +23,7 @@ abstract class BaseNotification implements ShouldQueue
     /**
      * Get the Mailer instance.
      *
-     * @return \Illuminate\Mail\Mailer
+     * @return Mailer
      */
     protected function mailer()
     {

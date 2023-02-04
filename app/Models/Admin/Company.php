@@ -8,6 +8,7 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use App\Models\Traits\DeleteOldFiles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
@@ -51,7 +52,7 @@ class Company extends Model
      * The admin that the uploaded image belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function admin()
     {

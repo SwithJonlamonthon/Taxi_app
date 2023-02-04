@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ZoneType extends Model
@@ -48,14 +49,14 @@ class ZoneType extends Model
      * The zone type that belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function zone()
     {
         return $this->belongsTo(Zone::class, 'zone_id', 'id');
     }
 
-   
+
 
     /**
     * Get vehicle type's name.
@@ -86,7 +87,7 @@ class ZoneType extends Model
      * The zone type that belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function vehicleType()
     {

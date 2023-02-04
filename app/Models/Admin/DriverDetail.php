@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Admin\Driver;
 
@@ -26,7 +27,7 @@ class DriverDetail extends Model {
 		'driver_id', 'latitude', 'longitude','bearing','is_socket_connected','current_zone','rating','rated_by','owner','is_company_driver'
 	];
 
-	
+
 
 	/**
 	 * The relationships that can be loaded with query string filtering includes.
@@ -41,12 +42,12 @@ class DriverDetail extends Model {
      * The driver that the uploaded data belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function driver()
     {
         return $this->belongsTo(Driver::class, 'admin_id', 'id');
     }
 
-    
+
 }

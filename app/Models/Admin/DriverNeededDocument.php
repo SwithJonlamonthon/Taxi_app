@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 
 class DriverNeededDocument extends Model
 {
@@ -36,7 +37,7 @@ class DriverNeededDocument extends Model
     /**
      * The Driver Document associated with the driver needed document's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function driverDocument()
     {

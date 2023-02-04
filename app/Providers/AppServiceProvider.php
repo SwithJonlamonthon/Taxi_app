@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Schema;
 use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
@@ -15,14 +16,14 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Validator instance.
      *
-     * @var \Illuminate\Contracts\Validation\Factory
+     * @var Validator
      */
     protected $validator;
 
     /**
      * Bootstrap any application services.
      *
-     * @param \Illuminate\Contracts\Validation\Factory $validator
+     * @param Validator $validator
      * @return void
      */
     public function boot(Validator $validator)
@@ -50,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->environment('local')) {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
 
             if (app_debug_enabled()) {
                 $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);

@@ -77,7 +77,7 @@
 
       return ret;
     }, {});
-  };
+  }
 
   function stringifyURL(obj) {
     return obj ? Object.keys(obj).sort().map(function (key) {
@@ -91,7 +91,7 @@
 
       return encodeURIComponent(key) + '=' + encodeURIComponent(val);
     }).join('&') : '';
-  };
+  }
 
   // gets the language set in the query string
   function getLanguageFromQueryString() {

@@ -16,6 +16,7 @@ use App\Helpers\Exception\ExceptionHelpers;
 use App\Base\Constants\Masters\EtaConstants;
 use App\Base\Constants\Masters\zoneRideType;
 use App\Transformers\Access\RoleTransformer;
+use stdClass;
 
 class EtaTransformer extends Transformer
 {
@@ -104,7 +105,7 @@ class EtaTransformer extends Transformer
             $driver_data_with_distance = [];
             $driver_distance = [];
             foreach (json_decode(request()->drivers) as $key => $driver) {
-                $driver_data = new \stdClass();
+                $driver_data = new stdClass();
                 $driver_data->id = $driver->driver_id;
                 $driver_data->lat = $driver->driver_lat;
                 $driver_data->lng = $driver->driver_lng;
@@ -224,11 +225,11 @@ class EtaTransformer extends Transformer
         $wait_time_in_seconds = 180; // can be change
 
         $calculatable_distance = ($distance_in_unit - $type_prices->base_distance);
-        
+
         if($calculatable_distance < 0 ){
 
             $calculatable_distance = 0;
-        }   
+        }
 
         $price_per_distance = $type_prices->price_per_distance;
 

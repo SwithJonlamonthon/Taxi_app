@@ -7,6 +7,7 @@ use App\Models\Admin\Driver;
 use App\Jobs\NotifyViaSocket;
 use App\Models\Admin\ZoneType;
 use App\Models\Request\Request;
+use Exception;
 use Salman\Mqtt\MqttClass\Mqtt;
 use Illuminate\Support\Facades\DB;
 use App\Models\Request\RequestMeta;
@@ -21,6 +22,7 @@ use App\Base\Constants\Setting\Settings;
 use Sk\Geohash\Geohash;
 use Kreait\Firebase\Contract\Database;
 use App\Jobs\Notifications\AndroidPushNotification;
+use stdClass;
 
 /**
  * @group Dispatcher-trips-apis
@@ -63,7 +65,7 @@ class DispatcherCreateRequestController extends BaseController
         * assing driver to the trip depends the assignment method
         * send emails and sms & push notifications to the user& drivers as well.
         */
-        
+
         // Validate payment option is available.
         if ($request->has('is_later') && $request->is_later) {
             return $this->createRideLater($request);
@@ -76,7 +78,7 @@ class DispatcherCreateRequestController extends BaseController
         // Get currency code of Request
         $service_location = $zone_type_detail->zone->serviceLocation;
         $currency_code = $service_location->currency_code;
-        
+
         // $currency_code = get_settings(Settings::CURRENCY);
         //Find the zone using the pickup coordinates & get the nearest drivers
         // $nearest_drivers =  $this->getDrivers($request, $type_id);
@@ -145,7 +147,7 @@ class DispatcherCreateRequestController extends BaseController
             $selected_drivers[$i]["created_at"] = date('Y-m-d H:i:s');
             $selected_drivers[$i]["updated_at"] = date('Y-m-d H:i:s');
             if ($i == 0) {
-                
+
             }
             $i++;
         }
@@ -154,20 +156,20 @@ class DispatcherCreateRequestController extends BaseController
         $first_meta_driver = $selected_drivers[0]['driver_id'];
         // Add first Driver into Firebase Request Meta
         $this->database->getReference('request-meta/'.$request_detail->id)->set(['driver_id'=>$first_meta_driver,'request_id'=>$request_detail->id,'user_id'=>$request_detail->user_id,'active'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
-        
+
         $request_result =  fractal($request_detail, new TripRequestTransformer)->parseIncludes('userDetail');
 
 
-        
 
 
-        $mqtt_object = new \stdClass();
+
+        $mqtt_object = new stdClass();
         $mqtt_object->success = true;
         $mqtt_object->success_message  = PushEnums::REQUEST_CREATED;
         $mqtt_object->result = $request_result;
 
         $driver = Driver::find($first_meta_driver);
-        
+
         $notifable_driver = $driver->user;
 
         $title = trans('push_notifications.new_request_title',[],$notifable_driver->lang);
@@ -244,7 +246,7 @@ class DispatcherCreateRequestController extends BaseController
         $pick_lat = $request->pick_lat;
         $pick_lng = $request->pick_lng;
 
-        // NEW flow        
+        // NEW flow
         $driver_search_radius = get_settings('driver_search_radius')?:30;
 
         $radius = kilometer_to_miles($driver_search_radius);
@@ -270,13 +272,13 @@ class DispatcherCreateRequestController extends BaseController
         $vehicle_type = $type_id;
 
         $fire_drivers = $this->database->getReference('drivers')->orderByChild('g')->startAt($lower_hash)->endAt($higher_hash)->getValue();
-        
+
         $firebase_drivers = [];
 
         $i=-1;
 
         foreach ($fire_drivers as $key => $fire_driver) {
-            $i +=1; 
+            $i +=1;
             $driver_updated_at = Carbon::createFromTimestamp($fire_driver['updated_at'] / 1000)->timestamp;
 
             if(array_key_exists('vehicle_type',$fire_driver) && $fire_driver['vehicle_type']==$vehicle_type && $fire_driver['is_active']==1 && $fire_driver['is_available']==1 && $conditional_timestamp < $driver_updated_at){
@@ -285,18 +287,18 @@ class DispatcherCreateRequestController extends BaseController
 
                 $firebase_drivers[$fire_driver['id']]['distance']= $distance;
 
-            }      
+            }
 
         }
 
         asort($firebase_drivers);
 
         if (!empty($firebase_drivers)) {
-           
+
                 $nearest_driver_ids = [];
 
                 foreach ($firebase_drivers as $key => $firebase_driver) {
-                    
+
                     $nearest_driver_ids[]=$key;
                 }
 
@@ -316,7 +318,7 @@ class DispatcherCreateRequestController extends BaseController
                 }
 
                 return $this->respondSuccess($nearest_drivers, 'drivers_list');
-            
+
         } else {
             return $this->respondFailed('no drivers available');
         }
@@ -397,7 +399,7 @@ class DispatcherCreateRequestController extends BaseController
 
             $request_result =  fractal($request_detail, new TripRequestTransformer)->parseIncludes('userDetail');
             // @TODO send sms & email to the user
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
             Log::error('Error while Create new schedule request. Input params : ' . json_encode($request->all()));

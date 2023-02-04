@@ -3,6 +3,7 @@
 namespace App\Base\Slug;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class Slug {
 	/**
@@ -66,7 +67,7 @@ class Slug {
 	 * Generate suffix for unique slug
 	 *
 	 * @param string $slug
-	 * @param \Illuminate\Support\Collection $notAllowed
+	 * @param Collection $notAllowed
 	 * @return int
 	 */
 	public function generateSuffix($slug, $notAllowed) {
@@ -85,7 +86,7 @@ class Slug {
 	/**
 	 * Set eloquent model to check uniqueness on.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Model $model
+	 * @param Model $model
 	 * @return $this
 	 */
 	public function uniqueFor(Model $model) {
@@ -110,7 +111,7 @@ class Slug {
 	 * Get collection of similar slugs based on database
 	 *
 	 * @param string $slug
-	 * @return \Illuminate\Support\Collection
+	 * @return Collection
 	 */
 	private function getSimilarSlugs($slug) {
 		if (!$this->model instanceof Model || !method_exists($this->model, 'getSlugColumn')) {

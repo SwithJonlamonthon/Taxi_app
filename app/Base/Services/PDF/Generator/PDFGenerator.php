@@ -2,15 +2,17 @@
 
 namespace App\Base\Services\PDF\Generator;
 
+use Barryvdh\DomPDF\PDF;
 use Exception;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Http\Response;
 
 class PDFGenerator implements PDFGeneratorContract {
 	/**
 	 * The DomPDF instance.
 	 *
-	 * @var \Barryvdh\DomPDF\PDF
+	 * @var PDF
 	 */
 	protected $dompdf;
 
@@ -73,7 +75,7 @@ class PDFGenerator implements PDFGeneratorContract {
 	 * Requires the name for the downloaded file.
 	 *
 	 * @param string $filename
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function download($filename) {
 		return $this->dompdf->download($filename);
@@ -83,7 +85,7 @@ class PDFGenerator implements PDFGeneratorContract {
 	 * Return a response to make the PDF viewable in the browser without downloading.
 	 *
 	 * @param string $filename
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function stream($filename) {
 		return $this->dompdf->stream($filename);

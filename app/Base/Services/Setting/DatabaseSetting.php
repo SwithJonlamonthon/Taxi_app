@@ -4,6 +4,7 @@ namespace App\Base\Services\Setting;
 
 use App\Models\Setting;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSetting implements SettingContract {
 	/**
@@ -48,7 +49,7 @@ class DatabaseSetting implements SettingContract {
 	 * @param string $name
 	 * @param mixed $value
 	 * @param string $type
-	 * @return \Illuminate\Database\Eloquent\Model|Setting
+	 * @return Model|Setting
 	 * @throws Exception
 	 */
 	public function set($name, $value, $type = 'string') {

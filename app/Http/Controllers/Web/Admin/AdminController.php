@@ -21,6 +21,7 @@ use App\Models\Country;
 use App\Models\Access\Role;
 use App\Models\Admin\ServiceLocation;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -33,14 +34,14 @@ class AdminController extends BaseController
     /**
      * The Driver model instance.
      *
-     * @var \App\Models\Admin\AdminDetail
+     * @var AdminDetail
      */
     protected $admin_detail;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -55,7 +56,7 @@ class AdminController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\AdminDetail $admin_detail
+     * @param AdminDetail $admin_detail
      */
     public function __construct(AdminDetail $admin_detail, ImageUploaderContract $imageUploader, User $user)
     {
@@ -66,7 +67,7 @@ class AdminController extends BaseController
 
     /**
     * Get all admins
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -127,8 +128,8 @@ class AdminController extends BaseController
     /**
      * Store admin.
      *
-     * @param \App\Http\Requests\Admin\Driver\CreateDriverRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateDriverRequest $request
+     * @return JsonResponse
      */
     public function store(CreateAdminRequest $request)
     {
@@ -179,7 +180,7 @@ class AdminController extends BaseController
 
     public function getById(AdminDetail $admin)
     {
-        
+
 
         $page = trans('pages_names.edit_admin');
 
@@ -239,7 +240,7 @@ class AdminController extends BaseController
 
             return redirect('admins')->with('warning', $message);
         }
-        
+
         $status = $user->isActive() ? false: true;
         $user->update(['active' => $status]);
 
@@ -252,7 +253,7 @@ class AdminController extends BaseController
         if(env('APP_FOR')=='demo'){
 
         $message = 'you cannot perform this action due to demo version';
-        
+
         return $message;
 
         }
@@ -279,11 +280,11 @@ class AdminController extends BaseController
         if(env('APP_FOR')=='demo'){
 
         $message = 'you cannot update the profile due to demo version';
-        
+
         return redirect('admins')->with('success', $message);
 
         }
-        
+
         if ($request->action == 'password') {
             $updated_user_params['password'] = bcrypt($request->input('password'));
         } else {

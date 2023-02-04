@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web\Master;
 use App\Base\Filters\Master\CommonMasterFilter;
 use App\Base\Libraries\QueryFilter\QueryFilterContract;
 use App\Http\Controllers\Web\BaseController;
+use App\Models\Admin\CarMake;
 use App\Models\Master\PackageType;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class PackageTypeController extends BaseController
@@ -16,7 +18,7 @@ class PackageTypeController extends BaseController
     /**
      * CarMakeController constructor.
      *
-     * @param \App\Models\Admin\CarMake $car_make
+     * @param CarMake $car_make
      */
     public function __construct(PackageType $package)
     {
@@ -43,7 +45,7 @@ class PackageTypeController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -58,8 +60,8 @@ class PackageTypeController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -137,12 +139,12 @@ class PackageTypeController extends BaseController
 
             return redirect('package_type')->with('warning', $message);
         }
-        
+
         $package->delete();
 
         $message = trans('succes_messages.package_type_deleted_succesfully');
         return redirect('package_type')->with('success', $message);
     }
 
-    
+
 }

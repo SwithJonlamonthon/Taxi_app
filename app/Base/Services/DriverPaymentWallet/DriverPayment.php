@@ -2,6 +2,7 @@
 
 namespace App\Base\Services\DriverPaymentWallet;
 
+use Intervention\Image\ImageManager;
 use Validator;
 use Braintree\Gateway;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class DriverPayment implements DriverPaymentContract {
 	/**
 	 * The ImageManager instance.
 	 *
-	 * @var \Intervention\Image\ImageManager
+	 * @var ImageManager
 	 */
 
 	 use ExceptionHelpers;
@@ -63,11 +64,11 @@ class DriverPayment implements DriverPaymentContract {
         $conversion = $converted_type.':'.$request->amount.'-'.$converted_amount;
         $transaction_id = str_rand(7);
 
-       
+
             $wallet_model = new DriverWallet();
             $wallet_add_history_model = new DriverWalletHistory();
             $user_id = $driver->id;
-       
+
 
         $user_wallet = $wallet_model::firstOrCreate([
             'user_id'=>$user_id]);
@@ -89,5 +90,5 @@ class DriverPayment implements DriverPaymentContract {
         return $user_wallet;
     }
 
-	
+
 }

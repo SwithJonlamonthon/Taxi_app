@@ -2,12 +2,18 @@
 
 namespace App\Listeners;
 
+use App\Events\Auth\UserLogin;
+use App\Events\Auth\UserLogout;
+use App\Events\Auth\UserRegistered;
+use App\Models\User;
+use Illuminate\Events\Dispatcher;
+
 class UserEventSubscriber
 {
     /**
      * Handle user login event.
      *
-     * @param \App\Events\Auth\UserLogin $event
+     * @param UserLogin $event
      */
     public function onUserLogin($event)
     {
@@ -17,7 +23,7 @@ class UserEventSubscriber
     /**
      * Handle user logout event.
      *
-     * @param \App\Events\Auth\UserLogout $event
+     * @param UserLogout $event
      */
     public function onUserLogout($event)
     {
@@ -26,7 +32,7 @@ class UserEventSubscriber
     /**
      * Handle user register event.
      *
-     * @param \App\Events\Auth\UserRegistered $event
+     * @param UserRegistered $event
      */
     public function onUserRegistered($event)
     {
@@ -36,7 +42,7 @@ class UserEventSubscriber
     /**
      * Register the listeners for the subscriber.
      *
-     * @param \Illuminate\Events\Dispatcher $events
+     * @param Dispatcher $events
      */
     public function subscribe($events)
     {
@@ -58,7 +64,7 @@ class UserEventSubscriber
     /**
      * Update the user's last known ip and last login time.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      */
     protected function updateUserInfo($user)
     {

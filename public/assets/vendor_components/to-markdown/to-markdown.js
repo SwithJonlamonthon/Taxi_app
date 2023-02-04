@@ -81,7 +81,7 @@ function getContent (node) {
       text += node.childNodes[i]._replacement
     } else if (node.childNodes[i].nodeType === 3) {
       text += node.childNodes[i].data
-    } else continue
+    } else ;
   }
   return text
 }

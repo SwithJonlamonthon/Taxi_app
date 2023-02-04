@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Base\Uuid\UuidModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class UserWallet extends Model
 {
@@ -48,7 +49,7 @@ class UserWallet extends Model
     * The user wallet that the user_id belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function user()
     {

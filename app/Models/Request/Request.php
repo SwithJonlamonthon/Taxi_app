@@ -12,6 +12,8 @@ use App\Models\Admin\UserDetails;
 use App\Models\Request\AdHocUser;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasActiveCompanyKey;
+use Illuminate\Database\Eloquent\Relations\hasMany;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use App\Models\Admin\CancellationReason;
 use App\Models\Master\PackageType;
@@ -56,13 +58,13 @@ class Request extends Model
     /**
      * The Request place associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function requestPlace()
     {
         return $this->hasOne(RequestPlace::class, 'request_id', 'id');
-    } 
-    
+    }
+
     public function requestRating()
     {
         return $this->hasMany(RequestRating::class, 'request_id','id');
@@ -71,7 +73,7 @@ class Request extends Model
     /**
      * The Request Adhoc user associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function adHocuserDetail()
     {
@@ -80,7 +82,7 @@ class Request extends Model
     /**
      * The Request Bill associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function requestBill()
     {
@@ -89,7 +91,7 @@ class Request extends Model
     /**
      * The Request Bill associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function requestBillDetail()
     {
@@ -98,7 +100,7 @@ class Request extends Model
     /**
      * The Request meta associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function requestMeta()
     {
@@ -132,7 +134,7 @@ class Request extends Model
     /**
      * The Request place associated with the request's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function requestCancellationFee()
     {
@@ -363,7 +365,7 @@ class Request extends Model
      /**
     * The Request Chat associated with the request's id.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasMany
+    * @return hasMany
     */
     public function requestChat()
     {
@@ -377,6 +379,6 @@ class Request extends Model
     public function cancelReason()
     {
          return $this->hasOne(CancellationReason::class, 'id', 'reason');
-       
+
     }
 }

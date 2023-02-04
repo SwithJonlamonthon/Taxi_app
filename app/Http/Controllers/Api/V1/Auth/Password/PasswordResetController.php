@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\Password\ValidateResetTokenRequest;
 use App\Jobs\Notifications\Auth\Password\PasswordResetNotification;
 use App\Models\User;
 use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group Password-Reset
@@ -20,22 +21,22 @@ class PasswordResetController extends ApiController
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
     /**
      * The password broker instance.
      *
-     * @var \Illuminate\Contracts\Auth\PasswordBroker
+     * @var PasswordBroker
      */
     protected $broker;
 
     /**
      * PasswordResetController constructor.
      *
-     * @param \App\Models\User $user
-     * @param \Illuminate\Contracts\Auth\PasswordBroker $broker
+     * @param User $user
+     * @param PasswordBroker $broker
      */
     public function __construct(User $user, PasswordBroker $broker)
     {
@@ -46,8 +47,8 @@ class PasswordResetController extends ApiController
     /**
      * Send the password reset email to the user.
      *
-     * @param \App\Http\Requests\Auth\Password\ForgotPasswordRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param ForgotPasswordRequest $request
+     * @return JsonResponse
      * @bodyParam email email required email of the user entered
      * @response {"success":true,"message":"success"}
      */
@@ -88,7 +89,7 @@ class PasswordResetController extends ApiController
      * Validate the password reset token.
      *
      * @param *\App\Http\Requests\Auth\Password\ValidateResetTokenRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @bodyParam token string required token of the email
      * @bodyParam email string required email of the user entered
      * @response {"success":true,"message":"success"}
@@ -107,8 +108,8 @@ class PasswordResetController extends ApiController
     * Validate the password reset token and update the password.
     * @bodyParam mobile number required number of the user entered
     * @bodyParam role required string of the user entered
-    * @param \App\Http\Requests\Auth\Password\ResetPasswordRequest $request
-    * @return \Illuminate\Http\JsonResponse
+    * @param ResetPasswordRequest $request
+    * @return JsonResponse
     * @response {"success":true,"message":"reset-success"}
     */
     public function reset(ResetPasswordRequest $request)
@@ -148,7 +149,7 @@ class PasswordResetController extends ApiController
      *
      * @param string $email
      * @param string $token
-     * @return \App\Models\User
+     * @return User
      */
     protected function validateResetToken($email, $token)
     {
@@ -168,7 +169,7 @@ class PasswordResetController extends ApiController
      * Resolve the user from their email.
      *
      * @param string $email
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromEmail($email)
     {

@@ -3,6 +3,8 @@
 namespace App\Transformers;
 
 use App\Models\City;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\NullResource;
 
 class CityTransformer extends Transformer {
 	/**
@@ -33,7 +35,7 @@ class CityTransformer extends Transformer {
 	 * Include the state of the city.
 	 *
 	 * @param City $city
-	 * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+	 * @return Item|NullResource
 	 */
 	public function includeState(City $city) {
 		$state = $city->state;

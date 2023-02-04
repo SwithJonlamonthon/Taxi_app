@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Api\V1\Auth;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Log;
 use Socialite;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,19 +25,18 @@ class LoginController extends BaseLoginController
      * Login user and respond with access token and refresh token.
      * @group User-Login
      *
-     * @param \App\Http\Requests\Auth\App\GenericAppLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param GenericAppLoginRequest $request
+     * @return JsonResponse
      * @bodyParam email string optional email of the user entered
      * @bodyParam mobile string optional mobile of the user entered
      * @bodyParam password string optional password of the user entered
      * @bodyParam device_token string required fcm_token of the user entered
-
-     * @response {
-    "token_type": "Bearer",
-    "expires_in": 1296000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwianRpIjoiMzhlMTY3ZjI3OWQzZTNlYTM4MzlkY2UyZjhiN2I0NDFiMzBkNDRiZWViMDM5Y2ZmMzMyYTZlNzRkNjUwNGI2YTc2",
-    "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf787999250966"
-}
+ * @response {
+    * "token_type": "Bearer",
+    * "expires_in": 1296000,
+    * "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwianRpIjoiMzhlMTY3ZjI3OWQzZTNlYTM4MzlkY2UyZjhiN2I0NDFiMzBkNDRiZWViMDM5Y2ZmMzMyYTZlNzRkNjUwNGI2YTc2",
+    * "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf787999250966"
+* }
      */
     public function loginUser(GenericAppLoginRequest $request)
     {
@@ -45,8 +47,8 @@ class LoginController extends BaseLoginController
      * Login driver and respond with access token and refresh token.
      * @group User-Login
      *
-     * @param \App\Http\Requests\Auth\App\GenericAppLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param GenericAppLoginRequest $request
+     * @return JsonResponse
       * @bodyParam email string optional email of the user entered
      * @bodyParam mobile string optional mobile of the user entered
      * @bodyParam social_unique_id string optional mobile of the user entered
@@ -54,13 +56,12 @@ class LoginController extends BaseLoginController
      * @bodyParam device_token string optional fcm_token for push notification
      * @bodyParam apn_token string optional fcm_token for ios push notification
      * @bodyParam login_by string required i.e android,ios
-
-     * @response {
-    "token_type": "Bearer",
-    "expires_in": 1296000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwianRpIjoiMzhlMTY3ZjI3OWQzZTNlYTM4MzlkY2UyZjhiN2I0NDFiMzBkNDRiZWViMDM5Y2ZmMzMyYTZlNzRkNjUwNGI2YTc2",
-    "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf787999250"
-}*/
+ * @response {
+    * "token_type": "Bearer",
+    * "expires_in": 1296000,
+    * "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwianRpIjoiMzhlMTY3ZjI3OWQzZTNlYTM4MzlkY2UyZjhiN2I0NDFiMzBkNDRiZWViMDM5Y2ZmMzMyYTZlNzRkNjUwNGI2YTc2",
+    * "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf787999250"
+* }*/
     public function loginDriver(GenericAppLoginRequest $request)
     {
 
@@ -71,7 +72,7 @@ class LoginController extends BaseLoginController
         if($request->has('role') && $request->role=='owner'){
             return $this->loginUserAccountApp($request, Role::OWNER);
         }
-            
+
         return $this->loginUserAccountApp($request, Role::DRIVER);
 
     }
@@ -82,15 +83,14 @@ class LoginController extends BaseLoginController
      * @group User-Login
      *@hideFromAPIDocumentation
      *
-     * @param \App\Http\Requests\Auth\App\GenericAppLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
-
-     * @response {
-    "token_type": "Bearer",
-    "expires_in": 1296000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwiacaP8zkCWTpzh8ZtWBUYVrPkYRWbwz-L5x6dx2d901Aq_7-LwlzPMtP0N93kVfFuLwK2RCzlVtcCTxZaUW9S7x3Y",
-    "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf7879992509667dd68eacc488bddb2cc005357cdab1da5f0582659eef11e06bf2447c1209f6c17c83453cd6fa6dd6d5d98ff7129a6d3f3509c6c99fba379ea4aee85c0eb89b5f648682484452219d1c592d80c3165657a519f790ba19ad347774c0a199"
-}*/
+     * @param GenericAppLoginRequest $request
+     * @return JsonResponse
+ * @response {
+    * "token_type": "Bearer",
+    * "expires_in": 1296000,
+    * "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwiacaP8zkCWTpzh8ZtWBUYVrPkYRWbwz-L5x6dx2d901Aq_7-LwlzPMtP0N93kVfFuLwK2RCzlVtcCTxZaUW9S7x3Y",
+    * "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf7879992509667dd68eacc488bddb2cc005357cdab1da5f0582659eef11e06bf2447c1209f6c17c83453cd6fa6dd6d5d98ff7129a6d3f3509c6c99fba379ea4aee85c0eb89b5f648682484452219d1c592d80c3165657a519f790ba19ad347774c0a199"
+* }*/
     public function loginAdmin(GenericAppLoginRequest $request)
     {
         return $this->loginUserAccountApp($request, Role::adminRoles());
@@ -101,7 +101,7 @@ class LoginController extends BaseLoginController
     * @bodyParam device_token string optional fcm_token for push notification
     * @bodyParam login_by string required i.e android,ios
     * @bodyParam oauth_token string required from social provider
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
 
      * @response {
     "token_type": "Bearer",
@@ -145,15 +145,14 @@ class LoginController extends BaseLoginController
      * Login Dispatcher user and respond with access token and refresh token.
      * @group User-Login
      *
-     * @param \App\Http\Requests\Auth\App\GenericAppLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
-
-     * @response {
-    "token_type": "Bearer",
-    "expires_in": 1296000,
-    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwiacaP8zkCWTpzh8ZtWBUYVrPkYRWbwz-L5x6dx2d901Aq_7-LwlzPMtP0N93kVfFuLwK2RCzlVtcCTxZaUW9S7x3Y",
-    "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf7879992509667dd68eacc488bddb2cc005357cdab1da5f0582659eef11e06bf2447c1209f6c17c83453cd6fa6dd6d5d98ff7129a6d3f3509c6c99fba379ea4aee85c0eb89b5f648682484452219d1c592d80c3165657a519f790ba19ad347774c0a199"
-}*/
+     * @param GenericAppLoginRequest $request
+     * @return JsonResponse
+ * @response {
+    * "token_type": "Bearer",
+    * "expires_in": 1296000,
+    * "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM4ZTE2N2YyNzlkM2UzZWEzODM5ZGNlMmY4YjdiNDQxYjMwZDQ0YmVlYjAzOWNmZjMzMmE2ZTc0ZDY1MDRiNmE3NjhhZWQzYWU5ZjE5MGUwIn0.eyJhdWQiOiIyIiwiacaP8zkCWTpzh8ZtWBUYVrPkYRWbwz-L5x6dx2d901Aq_7-LwlzPMtP0N93kVfFuLwK2RCzlVtcCTxZaUW9S7x3Y",
+    * "refresh_token": "def5020045b028faaca5890136e3a8d7c850fb6b95cf2f78698b2356e544ee567cef1efa4099eaea3e3738ba11c9baabb1188a3d49de316e4451f32cdaa6017ebb9ff748fdf43d84b4e796a0456c4125ebaeca7930491fe315e4b86adf7879992509667dd68eacc488bddb2cc005357cdab1da5f0582659eef11e06bf2447c1209f6c17c83453cd6fa6dd6d5d98ff7129a6d3f3509c6c99fba379ea4aee85c0eb89b5f648682484452219d1c592d80c3165657a519f790ba19ad347774c0a199"
+* }*/
     public function loginDispatcher(GenericAppLoginRequest $request)
     {
         return $this->loginUserAccountApp($request, Role::DISPATCHER);
@@ -162,7 +161,7 @@ class LoginController extends BaseLoginController
     /**
      * Redirect the user to the GitHub authentication page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function redirectToProvider()
     {
@@ -172,7 +171,7 @@ class LoginController extends BaseLoginController
     /**
     * Obtain the user information from GitHub.
     *
-    * @return \Illuminate\Http\Response
+    * @return Response
     */
     public function handleProviderCallback()
     {
@@ -187,7 +186,7 @@ class LoginController extends BaseLoginController
      * @group User-Login
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response {"success":true,"message":"success"}
      */
     public function logout(Request $request)
@@ -200,9 +199,9 @@ class LoginController extends BaseLoginController
     /**
      * Send the OTP for user login.
      * @group User-Login
-     * @param \App\Http\Requests\Auth\SendLoginOTPRequest $request
+     * @param SendLoginOTPRequest $request
      * @bodyParam mobile string required mobile of the user entered
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response {"success":true,"message":"success","uuid":"54e4ebe54er5e45re5ber54r5r5rr"}
      */
     public function sendUserLoginOTP(SendLoginOTPRequest $request)
@@ -224,7 +223,7 @@ class LoginController extends BaseLoginController
         * Send OTP here
         * Temporary logger
         */
-        \Log::info("Login OTP for {$mobile} is : {$otp}");
+        Log::info("Login OTP for {$mobile} is : {$otp}");
 
         return $this->respondSuccess(['uuid' => $user->getCreatedOTPUuid()]);
     }
@@ -232,7 +231,7 @@ class LoginController extends BaseLoginController
     /**
      * Validate the user model and their account status.
      *
-     * @param \App\Models\User|null $user
+     * @param User|null $user
      * @param string $message
      * @param string|null $field
      */

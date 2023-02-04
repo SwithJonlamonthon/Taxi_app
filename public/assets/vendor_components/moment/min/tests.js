@@ -64331,7 +64331,7 @@ function isArray(input) {
 test('isArray recognizes Array objects', function (assert) {
     assert.ok(isArray([1,2,3]), 'array args');
     assert.ok(isArray([]), 'empty array');
-    assert.ok(isArray(new Array(1,2,3)), 'array constructor');
+    assert.ok(isArray([1,2,3]), 'array constructor');
 });
 
 test('isArray rejects non-Array objects', function (assert) {
@@ -66209,7 +66209,7 @@ test('isNumber recognizes numbers', function (assert) {
     assert.ok(isNumber(Math.LN2), 'natural log of two');
     assert.ok(isNumber(Math.PI), 'delicious number');
     assert.ok(isNumber(5e10), 'scientifically notated number');
-    assert.ok(isNumber(new Number(1)), 'number primitive wrapped in an object'); // jshint ignore:line
+    assert.ok(isNumber(Number(1)), 'number primitive wrapped in an object'); // jshint ignore:line
 });
 
 test('isNumber rejects non-numbers', function (assert) {

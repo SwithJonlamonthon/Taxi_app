@@ -1,10 +1,12 @@
 <?php
 namespace App\Models\Admin;
 
+use App\Models\Master\PackageType;
 use Carbon\Carbon;
 use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ZoneTypePackagePrice extends Model
@@ -29,14 +31,14 @@ class ZoneTypePackagePrice extends Model
 
     public function PackageName()
     {
-    	return $this->hasOne(\App\Models\Master\PackageType::class, 'id','package_type_id');
+    	return $this->hasOne(PackageType::class, 'id','package_type_id');
     }
 
     /**
      * The zone type that belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function zoneType()
     {

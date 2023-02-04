@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Access\Traits\RoleTrait;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasActive;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends Model
 {
@@ -48,19 +49,19 @@ class Role extends Model
     /**
      * The users associated with the role.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users()
     {
         return $this->belongsToMany(User::class, 'role_user', 'role_id', 'user_id');
     }
 
-   
+
 
     /**
      * The permissions associated with the role.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function permissions()
     {

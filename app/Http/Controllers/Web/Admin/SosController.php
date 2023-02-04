@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Web\BaseController;
+use App\Http\Requests\Admin\Driver\CreateDriverRequest;
 use App\Http\Requests\Admin\SoS\CreateSosRequest;
 use App\Http\Requests\Admin\Driver\UpdateDriverRequest;
 use App\Base\Services\ImageUploader\ImageUploaderContract;
+use App\Models\Admin\Driver;
 use App\Models\Admin\Sos;
 use App\Base\Constants\Auth\Role as RoleSlug;
 use App\Models\User;
@@ -17,20 +19,21 @@ use App\Models\Admin\Company;
 use App\Models\Admin\ServiceLocation;
 use App\Models\Country;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 class SosController extends BaseController
 {
     /**
      * The Driver model instance.
      *
-     * @var \App\Models\Admin\Driver
+     * @var Driver
      */
     protected $driver;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -45,7 +48,7 @@ class SosController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(Sos $sos, ImageUploaderContract $imageUploader, User $user)
     {
@@ -56,7 +59,7 @@ class SosController extends BaseController
 
     /**
     * Get all drivers
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -96,8 +99,8 @@ class SosController extends BaseController
     /**
      * Create Driver.
      *
-     * @param \App\Http\Requests\Admin\Driver\CreateDriverRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateDriverRequest $request
+     * @return JsonResponse
      */
     public function store(CreateSosRequest $request)
     {

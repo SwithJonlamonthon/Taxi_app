@@ -10,6 +10,7 @@ use App\Base\Constants\Masters\PushEnums;
 use App\Jobs\Notifications\AndroidPushNotification;
 use App\Jobs\NotifyViaMqtt;
 use Illuminate\Http\Request;
+use stdClass;
 
 /**
  * @group Request-Chat
@@ -55,8 +56,8 @@ class ChatController extends BaseController
 
     /**
      * Update Seen
-     * 
-     * 
+     *
+     *
      * */
     public function updateSeen(Request $request){
 
@@ -122,7 +123,7 @@ class ChatController extends BaseController
         }
 
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::NEW_MESSAGE;
         $socket_data->data = $chats;

@@ -6,6 +6,7 @@ use App\Models\Request\Request;
 use App\Models\User;
 use App\Models\Admin\Driver;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class RequestCancellationFee extends Model
 {
@@ -35,14 +36,14 @@ class RequestCancellationFee extends Model
     /**
      * The request that the cancellation fee belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function requestDetail()
     {
         return $this->belongsTo(Request::class, 'request_id', 'id');
-    } 
+    }
 
-   
+
 
     public function userDetail()
     {
@@ -57,7 +58,7 @@ class RequestCancellationFee extends Model
     /**
      * The request that the cancellation fee belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function paidRequestDetail()
     {

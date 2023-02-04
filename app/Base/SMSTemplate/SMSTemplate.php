@@ -3,13 +3,14 @@
 namespace App\Base\SMSTemplate;
 
 use Exception;
+use Illuminate\Translation\Translator;
 
 class SMSTemplate
 {
     /** Default SMS template language file name, also used as key prefix */
     const DEFAULT_TEMPLATE_FILE = 'sms';
 
-    /** @var \Illuminate\Translation\Translator */
+    /** @var Translator */
     protected $translator;
 
     /** @var string */

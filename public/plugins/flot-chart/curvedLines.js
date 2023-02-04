@@ -35,7 +35,7 @@
 	 points. Both modes are achieved through adding of more data points
 	 => 1) with large data sets you may get trouble
 	 => 2) if you want to display the points too, you have to plot them as 2nd data series over the lines
-	 
+
 	 && 3) consecutive x data points are not allowed to have the same value
 
 	 This is version 0.5 of curvedLines so it will probably not work in every case. However
@@ -65,8 +65,8 @@
 	 curvePointFactor  int  defines how many "virtual" points are used per "real" data point to
 	 						emulate the curvedLines (points total = real points * curvePointFactor)
 	 fitPointDist:     int  defines the x axis distance of the additional two points that are used
-	 						to enforce the min max condition. 
-	 						
+	 						to enforce the min max condition.
+
 	 + line options (since v0.5 curved lines use flots line implementation for drawing
 	   => line options like fill, show ... are supported out of the box)
 
@@ -162,9 +162,9 @@
 				var points = datapoints.points, ps = datapoints.pointsize;
 				var num = curvedLinesOptions.curvePointFactor * (points.length / ps);
 
-				var xdata = new Array;
-				var ydata = new Array;
-				
+				var xdata = [];
+				var ydata = [];
+
 				var curX = -1;
 				var curY = -1;
 				var j = 0;
@@ -172,12 +172,12 @@
 				if (curvedLinesOptions.fit) {
 					//insert a point before and after the "real" data point to force the line
 					//to have a max,min at the data point.
-					
+
 					var fpDist;
 					if(typeof curvedLinesOptions.fitPointDist == 'undefined') {
 						//estimate it
 						var minX = points[0];
-						var maxX = points[points.length-ps];			
+						var maxX = points[points.length-ps];
 						fpDist = (maxX - minX) / (500 * 100); //x range / (estimated pixel length of placeholder * factor)
 					} else {
 						//use user defined value
@@ -194,15 +194,15 @@
 						//add point X s
 						frontX = points[curX] - fpDist;
 						backX = points[curX] + fpDist;
-						
+
 						var factor = 2;
 						while (frontX == points[curX] || backX == points[curX]) {
 							//inside the ulp
 							frontX = points[curX] - (fpDist * factor);
 							backX = points[curX] + (fpDist * factor);
 							factor++;
-						}												
-						
+						}
+
 						//add curve points
 						xdata[j] = frontX;
 						ydata[j] = points[curY];
@@ -230,8 +230,8 @@
 
 				var n = xdata.length;
 
-				var y2 = new Array();
-				var delta = new Array();
+				var y2 = [];
+				var delta = [];
 				y2[0] = 0;
 				y2[n - 1] = 0;
 				delta[0] = 0;
@@ -257,9 +257,9 @@
 				//   xmax  - xmin  / #points
 				var step = (xdata[n - 1] - xdata[0]) / (num - 1);
 
-				var xnew = new Array;
-				var ynew = new Array;
-				var result = new Array;
+				var xnew = [];
+				var ynew = [];
+				var result = [];
 
 				xnew[0] = xdata[0];
 				ynew[0] = ydata[0];
@@ -295,7 +295,7 @@
 					var b = (xnew[j] - xdata[min]) / h;
 
 					ynew[j] = a * ydata[min] + b * ydata[max] + ((a * a * a - a) * y2[min] + (b * b * b - b) * y2[max]) * (h * h) / 6;
-					
+
 					result.push(xnew[j]);
 					result.push(ynew[j]);
 				}

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Country;
 use App\Jobs\NotifyViaMqtt;
 use App\Models\Admin\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Jobs\NotifyViaSocket;
 use App\Models\Admin\Company;
@@ -40,6 +41,7 @@ use Illuminate\Support\Str;
 use App\Models\Payment\WalletWithdrawalRequest;
 use App\Base\Constants\Setting\Settings;
 use Kreait\Firebase\Contract\Database;
+use stdClass;
 
 /**
  * @resource Driver
@@ -51,14 +53,14 @@ class DriverController extends BaseController
     /**
      * The Driver model instance.
      *
-     * @var \App\Models\Admin\Driver
+     * @var Driver
      */
     protected $driver;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -78,7 +80,7 @@ class DriverController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(Driver $driver, ImageUploaderContract $imageUploader, User $user,Country $country,Database $database)
     {
@@ -94,7 +96,7 @@ class DriverController extends BaseController
 
     /**
     * Get all drivers
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -183,8 +185,8 @@ class DriverController extends BaseController
     /**
      * Create Driver.
      *
-     * @param \App\Http\Requests\Admin\Driver\CreateDriverRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateDriverRequest $request
+     * @return JsonResponse
      */
   public function store(CreateDriverRequest $request)
     {
@@ -289,12 +291,12 @@ class DriverController extends BaseController
         $user_param = $request->only(['profile']);
 
         $user_param['profile']=null;
-        
+
         if ($uploadedFile = $this->getValidatedUpload('profile_picture', $request)) {
             $user_param['profile'] = $this->imageUploader->file($uploadedFile)
                 ->saveProfilePicture();
         }
-        
+
         $driver->update(['name'=>$request->input('name'),
             'email'=>$request->input('email'),
             'mobile'=>$request->input('mobile'),
@@ -385,7 +387,7 @@ class DriverController extends BaseController
         $formated_driver = $this->formatResponseData($driver_result);
         // dd($formated_driver);
         $socket_params = $formated_driver['data'];
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = $socket_success_message;
         $socket_data->data  = $socket_params;
@@ -474,7 +476,7 @@ class DriverController extends BaseController
         // dd($item);
 
         $amount = DriverWallet::where('user_id',$driver->id)->first();
-        
+
         if ($amount == null) {
 
          $card = [];
@@ -543,7 +545,7 @@ class DriverController extends BaseController
         $page = trans('pages_names.drivers');
         $main_menu = 'drivers';
         $sub_menu = 'driver_ratings';
-       
+
         return view('admin.drivers.driver-ratings', compact('page', 'main_menu', 'sub_menu'));
 
     }

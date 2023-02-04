@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Common;
 use App\Models\State;
 use App\Transformers\StateTransformer;
 use App\Http\Controllers\ApiController;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @resource States
@@ -17,7 +18,7 @@ class StateController extends ApiController
      * Get all the states.
      *@hideFromAPIDocumentation
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -32,7 +33,7 @@ class StateController extends ApiController
      * Get a state by its id.
      *@hideFromAPIDocumentation
      * @param State $state
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(State $state)
     {

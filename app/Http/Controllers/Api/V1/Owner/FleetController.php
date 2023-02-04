@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Owner;
 
 use App\Models\Admin\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use App\Transformers\Driver\DriverProfileTransformer;
 use App\Http\Controllers\Api\V1\BaseController;
@@ -39,7 +40,7 @@ class FleetController extends BaseController
     /**
     * List Fleets
     * @group Fleet-Owner-apis
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     * @responseFile responses/driver/Online-OfflineResponse.json
     * @responseFile responses/driver/DriverOfflineResponse.json
     */
@@ -55,8 +56,8 @@ class FleetController extends BaseController
 
     /**
      * Store Fleets
-     * 
-     * 
+     *
+     *
      * */
     public function storeFleet(Request $request){
 
@@ -76,8 +77,8 @@ class FleetController extends BaseController
 
     /**
      * List Drivers For Assign Drivers
-     * 
-     * 
+     *
+     *
      * */
     public function listDrivers()
     {
@@ -102,19 +103,19 @@ class FleetController extends BaseController
 
     /**
      * Assign Drivers
-     * 
-     * 
+     *
+     *
      * */
     public function assignDriver(Request $request,Fleet $fleet)
     {
         $driver = Driver::whereId($request->driver_id)->first();
-        
+
         $request->validate([
         'driver_id' => 'required',
         ]);
 
         if($fleet->driver_id==$request->driver_id){
-            
+
             return $this->respondSuccess();
 
         }
@@ -122,7 +123,7 @@ class FleetController extends BaseController
 
             $fleet_driver = $fleet->driverDetail;
 
-            
+
 
             $this->database->getReference('drivers/'.$fleet_driver->id)->update(['fleet_changed'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
 
@@ -158,7 +159,7 @@ class FleetController extends BaseController
 
         $driver->fresh();
 
-        
+
         $notifable_driver = $driver->user;
 
         $title = trans('push_notifications.new_fleet_assigned_title',[],$notifable_driver->lang);
@@ -170,12 +171,12 @@ class FleetController extends BaseController
         $this->database->getReference('drivers/'.$driver->id)->update(['fleet_changed'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
 
         return $this->respondSuccess();
-        
+
     }
 
     /**
      * List of Fleet Needed Documents
-     * 
+     *
      * */
     public function neededDocuments(){
 

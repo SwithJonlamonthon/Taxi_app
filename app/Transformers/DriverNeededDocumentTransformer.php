@@ -8,6 +8,8 @@ use App\Base\Constants\Masters\DriverDocumentStatus;
 use App\Transformers\Driver\DriverDocumentTransformer;
 use App\Base\Constants\Masters\DriverDocumentStatusString;
 use App\Transformers\Transformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class DriverNeededDocumentTransformer extends Transformer
 {
@@ -68,7 +70,7 @@ class DriverNeededDocumentTransformer extends Transformer
      * Include the driver document of the driver needed document.
      *
      * @param DriverNeededDocument $driverneededdocument
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeDriverDocument(DriverNeededDocument $driverneededdocument)
     {

@@ -37,7 +37,7 @@ class SendQueuedSMS
     /**
      * Handle the queued job.
      *
-     * @param \App\Base\Libraries\SMS\SMSContract $sms
+     * @param SMSContract $sms
      */
     public function handle(SMSContract $sms)
     {

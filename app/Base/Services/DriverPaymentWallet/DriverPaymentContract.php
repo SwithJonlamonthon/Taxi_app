@@ -2,6 +2,7 @@
 
 namespace App\Base\Services\DriverPaymentWallet;
 use Illuminate\Http\Request;
+use Intervention\Image\Image;
 
 interface DriverPaymentContract {
 	/**
@@ -9,7 +10,7 @@ interface DriverPaymentContract {
 	 *
 	 * @param mixed $file
 	 * @param bool $autoScale
-	 * @return \Intervention\Image\Image
+	 * @return Image
 	 */
 	 /**
      * Add wallet

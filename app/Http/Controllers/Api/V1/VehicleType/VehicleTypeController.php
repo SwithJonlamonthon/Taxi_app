@@ -29,14 +29,14 @@ class VehicleTypeController extends BaseController
     /**
      * The VehicleType model instance.
      *
-     * @var \App\Models\Admin\VehicleType
+     * @var VehicleType
      */
     protected $vehicle_type;
 
     /**
      * VehicleTypeController constructor.
      *
-     * @param \App\Models\Admin\VehicleType $vehicle_type
+     * @param VehicleType $vehicle_type
      */
     public function __construct(VehicleType $vehicle_type, ImageUploaderContract $imageUploader)
     {

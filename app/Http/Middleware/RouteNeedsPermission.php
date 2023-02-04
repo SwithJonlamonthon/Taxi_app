@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class RouteNeedsPermission
@@ -17,8 +18,8 @@ class RouteNeedsPermission
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param Request $request
+     * @param Closure $next
      * @param string $permissions
      * @param bool $requireAll
      * @param string|null $guard

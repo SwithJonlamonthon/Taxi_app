@@ -49,7 +49,7 @@ var Support = (function() {
     var support = {};
     if (tests.csstransitions()) {
         /* jshint -W053 */
-        support.transition = new String(prefixed('transition'))
+        support.transition = String(prefixed('transition'))
         support.transition.end = events.transition.end[support.transition];
     }
 

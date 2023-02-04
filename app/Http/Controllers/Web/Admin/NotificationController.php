@@ -24,7 +24,7 @@ class NotificationController extends BaseController
     /**
      * NotificationController constructor.
      *
-     * @param \App\Models\Admin\Notification $notification
+     * @param Notification $notification
      */
     public function __construct(Notification $notification, ImageUploaderContract $imageUploader)
     {
@@ -76,7 +76,7 @@ class NotificationController extends BaseController
 
             return redirect('notifications/push')->with('warning', $message);
         }
-        
+
         $created_params = $request->only(['title']);
         $created_params['push_enum'] = PushEnums::GENERAL_NOTIFICATION;
         $created_params['body'] = $request->message;
@@ -107,7 +107,7 @@ class NotificationController extends BaseController
             $notification->update(['for_driver' => true]);
 
             Driver::whereIn('id', $request->driver)->chunk(20, function ($driverData) use ($notification,$request) {
-                
+
                 $title = $notification->title;
                 $body = $notification->body;
 

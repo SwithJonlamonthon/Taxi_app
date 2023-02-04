@@ -9,13 +9,14 @@ use App\Http\Controllers\ApiController;
 use App\Transformers\User\UserTransformer;
 use App\Transformers\Driver\DriverProfileTransformer;
 use App\Transformers\Owner\OwnerProfileTransformer;
+use Illuminate\Http\JsonResponse;
 
 class AccountController extends ApiController
 {
     /**
      * Get the current logged in user.
      * @group User-Management
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
     * @responseFile responses/auth/authenticated_driver.json
     * @responseFile responses/auth/authenticated_user.json
      */
@@ -43,7 +44,7 @@ class AccountController extends ApiController
         if(auth()->user()->hasRole(Role::DISPATCHER)){
 
             $user = User::where('id',auth()->user()->id)->first();
-   
+
         }
 
         return $this->respondOk($user);

@@ -2,6 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Base\Exceptions\UnknownUserTypeException;
+use Config;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Session\TokenMismatchException;
+use League\OAuth2\Server\Exception\OAuthServerException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 use Illuminate\Http\Response;
 use Illuminate\Database\QueryException;
@@ -20,15 +28,15 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
-        \App\Base\Exceptions\CustomValidationException::class,
-        \App\Base\Exceptions\UnknownUserTypeException::class,
-        \League\OAuth2\Server\Exception\OAuthServerException::class,
+        AuthenticationException::class,
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        TokenMismatchException::class,
+        ValidationException::class,
+        CustomValidationException::class,
+        UnknownUserTypeException::class,
+        OAuthServerException::class,
     ];
 
     /**
@@ -36,23 +44,23 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Throwable  $exception
+     * @param Throwable $exception
      * @return void
      */
     public function report(Throwable $exception)
     {
-        $isDebugSendMailOpen = \Config::get('app.debug_sendmail_open');
-        $debugSendMailEmail = \Config::get('app.debug_sendmail_email');
+        $isDebugSendMailOpen = Config::get('app.debug_sendmail_open');
+        $debugSendMailEmail = Config::get('app.debug_sendmail_email');
 
         if ($isDebugSendMailOpen && $debugSendMailEmail != '' && $exception instanceof Throwable && !in_array(get_class($exception), $this->dontReport)) {
-            $debugSetting = \Config::get('app.debug');
-            $appName = \Config::get('app.name');
+            $debugSetting = Config::get('app.debug');
+            $appName = Config::get('app.name');
 
-            \Config::set('app.debug', true);
+            Config::set('app.debug', true);
 
             $content = ExceptionHandler::isHttpException($exception) ? ExceptionHandler::toIlluminateResponse(ExceptionHandler::renderHttpException($exception), $exception) : ExceptionHandler::toIlluminateResponse(ExceptionHandler::convertExceptionToResponse($exception), $exception);
 
-            \Config::set('app.debug', $debugSetting);
+            Config::set('app.debug', $debugSetting);
 
             try {
                 $request = request();
@@ -78,9 +86,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param Throwable $exception
+     * @return Response
      */
     public function render($request, Throwable $exception)
     {
@@ -136,9 +144,9 @@ class Handler extends ExceptionHandler
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param AuthenticationException $exception
+     * @return Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
@@ -180,7 +188,7 @@ class Handler extends ExceptionHandler
     /**
      * Check if the current request expects a JSON response.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return bool
      */
     protected function expectsJson($request)

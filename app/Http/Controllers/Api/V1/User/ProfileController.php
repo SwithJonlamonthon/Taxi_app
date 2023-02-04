@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\User;
 
 use App\Http\Requests\Dispatcher\UpdateDispatcherProfileRequest;
 use App\Transformers\Dispatcher\UserForDispatcherRideTransformer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use App\Transformers\User\UserTransformer;
@@ -54,7 +55,7 @@ class ProfileController extends ApiController
      * Update user profile.
      *
      * @param UpdateProfileRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -188,7 +189,7 @@ class ProfileController extends ApiController
      * Update user Dispatcherprofile.
      *
      * @param UpdateProfileRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -247,7 +248,7 @@ class ProfileController extends ApiController
      * @bodyParam password password required password provided user
      * @bodyParam password_confirmation password required  confirmed password provided user
      * @param ChangePasswordRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -273,7 +274,7 @@ class ProfileController extends ApiController
     /**
     * Update My Language
     * @bodyParam lang string required language provided user
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,

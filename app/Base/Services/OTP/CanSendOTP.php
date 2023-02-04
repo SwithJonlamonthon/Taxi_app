@@ -63,7 +63,7 @@ trait CanSendOTP {
 	/**
 	 * Get the OTP handler instance for the current mobile number.
 	 *
-	 * @return \App\Base\Services\OTP\Handler\OTPHandlerContract
+	 * @return OTPHandlerContract
 	 */
 	protected function getOTPHandler() {
 		return app(OTPHandlerContract::class)

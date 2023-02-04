@@ -22,6 +22,7 @@ use App\Base\Constants\Masters\PushEnums;
 use App\Models\Payment\OwnerWallet;
 use App\Models\Payment\OwnerWalletHistory;
 use App\Transformers\Payment\OwnerWalletTransformer;
+use stdClass;
 
 /**
  * @group FlutterWave Payment Gateway
@@ -33,9 +34,9 @@ class FlutterWaveController extends ApiController
 
     /**
      * Initialize Payment
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * */
     public function initialize(Request $request){
 
@@ -96,7 +97,7 @@ class FlutterWaveController extends ApiController
     */
     public function addMoneyToWallet(AddMoneyToWalletRequest $request)
     {
-        
+
         $transaction_id = $request->payment_id;
 
             $user = auth()->user();
@@ -130,8 +131,8 @@ class FlutterWaveController extends ApiController
             'is_credit'=>true]);
 
                 $pus_request_detail = json_encode($request->all());
-        
-                $socket_data = new \stdClass();
+
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
                 $socket_data->result = $request->all();
@@ -140,7 +141,7 @@ class FlutterWaveController extends ApiController
                 $body = trans('push_notifications.amount_credited_to_your_wallet_body',[],$user->lang);
 
                 // dispatch(new NotifyViaMqtt('add_money_to_wallet_status'.$user_id, json_encode($socket_data), $user_id));
-                
+
                 $user->notify(new AndroidPushNotification($title, $body));
 
                 if (access()->hasRole(Role::USER)) {
@@ -155,5 +156,5 @@ class FlutterWaveController extends ApiController
         return $this->respondSuccess($result, 'money_added_successfully');
     }
 
-    
+
 }

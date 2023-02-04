@@ -7,6 +7,7 @@ use App\Base\Services\ImageUploader\ImageUploaderContract;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\BaseController;
 use App\Http\Requests\Taxi\Driver\DriverDocumentUploadRequest;
+use App\Models\Admin\Driver;
 use App\Models\Admin\Owner;
 use App\Models\Admin\OwnerDocument;
 use App\Models\Admin\OwnerNeededDocument;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 
 class OwnerDocumentController extends BaseController
 {
-    
+
     /**
      * The
      *
@@ -26,7 +27,7 @@ class OwnerDocumentController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(ImageUploaderContract $imageUploader)
     {
@@ -64,7 +65,7 @@ class OwnerDocumentController extends BaseController
     {
         $expiry_date = $request->expiry_date;
         $this->uploadOwnerDoc('document',$expiry_date,$request,$owner,$needed_document);
-     
+
         $message = trans('success_messages.owner_document_uploaded_successfully');
 
         return redirect("owners/document/view/$owner->id")->with('success', $message);

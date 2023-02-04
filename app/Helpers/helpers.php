@@ -1,6 +1,12 @@
 <?php
 
+use App\Base\Libraries\Access\Access;
+use App\HappyLocate\Libraries\QueryFilter\QueryFilter;
+use App\HappyLocate\Libraries\SMS\SMS;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
+use Illuminate\Foundation\Application;
+use League\Fractal\TransformerAbstract;
 use Ramsey\Uuid\Uuid;
 use App\Models\Setting;
 use App\Models\Admin\Zone;
@@ -90,7 +96,7 @@ if (! function_exists('str_random')) {
      * @param  int  $length
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     function str_random($length = 16)
     {
@@ -339,7 +345,7 @@ if (!function_exists('get_settings')) {
         // }
 
         return Setting::whereName($key)->pluck('value')->first();
-        
+
     }
 }
 
@@ -373,7 +379,7 @@ if (!function_exists('find_airport')) {
 if (!function_exists('get_distance_matrix')) {
     function get_distance_matrix($pick_lat, $pick_lng, $drop_lat, $drop_lng, $traffic = false)
     {
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         $url = 'https://maps.googleapis.com/maps/api/distancematrix/json';
         $args = [
           'units' => "imperial",
@@ -402,7 +408,7 @@ if (!function_exists('get_distance_matrix')) {
 if (!function_exists('get_distance_matrix_of_clients')) {
     function get_distance_matrix_of_clients($pick_lat, $pick_lng, $drop_lat, $drop_lng, $traffic = false,$map_key)
     {
-        $client = new \GuzzleHttp\Client();
+        $client = new Client();
         $url = 'https://maps.googleapis.com/maps/api/distancematrix/json';
         $args = [
           'units' => "imperial",
@@ -701,7 +707,7 @@ if (!function_exists('is_valid_date')) {
      *
      * @param string $date
      * @param bool $returnDate
-     * @return bool|\Carbon\Carbon
+     * @return bool|Carbon
      */
     function is_valid_date($date, $returnDate = true)
     {
@@ -771,7 +777,7 @@ if (!function_exists('access')) {
      * Get the singleton Access instance.
      *
      * @param string|null $guard
-     * @return \App\Base\Libraries\Access\Access
+     * @return Access
      */
     function access($guard = null)
     {
@@ -792,7 +798,7 @@ if (!function_exists('sms')) {
      * @param string|array|null $numbers
      * @param string|null $message
      * @param int|null $type
-     * @return \App\HappyLocate\Libraries\SMS\SMS
+     * @return SMS
      */
     function sms($numbers = null, $message = null, $type = null)
     {
@@ -819,10 +825,10 @@ if (!function_exists('filter')) {
     /**
      * Get the Query String Filter instance.
      *
-     * @param \Illuminate\Database\Eloquent\Builder|null $builder
-     * @param \League\Fractal\TransformerAbstract|callable|null $transformer
+     * @param Builder|null $builder
+     * @param TransformerAbstract|callable|null $transformer
      * @param \App\HappyLocate\Libraries\QueryFilter\FilterContract|null $customFilter
-     * @return \App\HappyLocate\Libraries\QueryFilter\QueryFilter
+     * @return QueryFilter
      */
     function filter(Builder $builder = null, $transformer = null, FilterContract $customFilter = null)
     {
@@ -850,7 +856,7 @@ if (!function_exists('db_setting')) {
      *
      * @param string $name
      * @param mixed|null $default
-     * @return SettingContract|\Illuminate\Foundation\Application|mixed|null
+     * @return SettingContract|Application|mixed|null
      */
     function db_setting($name = null, $default = null)
     {
@@ -872,7 +878,7 @@ if (!function_exists('hash_generator')) {
      * @param string|null $prefix
      * @param string|null $suffix
      * @param string|null $extension
-     * @return HashGeneratorContract|\Illuminate\Foundation\Application|mixed|string
+     * @return HashGeneratorContract|Application|mixed|string
      */
     function hash_generator($length = null, $prefix = null, $suffix = null, $extension = null)
     {
@@ -982,9 +988,9 @@ if (!function_exists('now')) {
     /**
      * Get a Carbon instance for the current date and time.
      *
-     * @param \DateTimeZone|string|null $tz
+     * @param DateTimeZone|string|null $tz
      *
-     * @return \Carbon\Carbon
+     * @return Carbon
      */
     function now($tz = null)
     {
@@ -997,7 +1003,7 @@ if (!function_exists('to_carbon')) {
      * Create a carbon instance from a string.
      *
      * @param string $time
-     * @return \Carbon\Carbon
+     * @return Carbon
      */
     function to_carbon($time)
     {

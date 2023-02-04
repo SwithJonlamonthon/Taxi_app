@@ -6,6 +6,7 @@ use App\Base\Slug\HasSlug;
 use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class State extends Model {
 	use HasActive, HasSlug, UuidModel;
@@ -54,7 +55,7 @@ class State extends Model {
 	/**
 	 * The list of cities the state has.
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\hasMany
+	 * @return hasMany
 	 */
 	public function cities() {
 		return $this->hasMany(City::class, 'state_id', 'id');

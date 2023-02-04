@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 
@@ -127,7 +128,7 @@ class Http
      * @param $method
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     private function makeRequest($method)
     {
@@ -147,8 +148,8 @@ class Http
                 'code'        => $e->getResponse()->getStatusCode(),
                 'response'    => json_decode($e->getResponse()->getBody(), true)
             ];
-        } catch (\Exception $e) {
-            throw new \Exception($e);
+        } catch (Exception $e) {
+            throw new Exception($e);
         }
 
         return $response;

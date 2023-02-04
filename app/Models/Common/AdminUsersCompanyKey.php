@@ -4,6 +4,7 @@ namespace App\Models\Common;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class AdminUsersCompanyKey extends Model
 {
@@ -35,7 +36,7 @@ class AdminUsersCompanyKey extends Model
      * The driver that the user_id belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function user()
     {

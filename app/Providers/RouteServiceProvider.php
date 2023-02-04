@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\City;
+use App\Models\State;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -77,11 +79,11 @@ class RouteServiceProvider extends ServiceProvider
     protected function registerRouteModelBindings()
     {
         Route::bind('city', function ($id) {
-            return \App\Models\City::where('id', $id)->active()->firstOrFail();
+            return City::where('id', $id)->active()->firstOrFail();
         });
 
         Route::bind('state', function ($id) {
-            return \App\Models\State::where('id', $id)->active()->firstOrFail();
+            return State::where('id', $id)->active()->firstOrFail();
         });
 
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Request;
 
 use Carbon\Carbon;
+use Exception;
 use Ramsey\Uuid\Uuid;
 use App\Jobs\NotifyViaMqtt;
 use App\Models\Admin\Driver;
@@ -21,6 +22,7 @@ use App\Jobs\Notifications\FcmPushNotification;
 use App\Base\Constants\Setting\Settings;
 use Sk\Geohash\Geohash;
 use Kreait\Firebase\Contract\Database;
+use stdClass;
 
 /**
  * @group User-trips-apis
@@ -213,7 +215,7 @@ class CreateRequestController extends BaseController
         $push_data = ['notification_enum'=>PushEnums::REQUEST_CREATED,'result'=>$pus_request_detail];
 
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::REQUEST_CREATED;
         $socket_data->result = $request_result;
@@ -403,7 +405,7 @@ class CreateRequestController extends BaseController
            $request_params['request_eta_amount'] = $request->request_eta_amount;
 
         }
-        
+
         if($request->has('rental_pack_id') && $request->rental_pack_id){
 
             $request_params['is_rental'] = true;
@@ -431,7 +433,7 @@ class CreateRequestController extends BaseController
 
             $request_result =  fractal($request_detail, new TripRequestTransformer)->parseIncludes('userDetail');
             // @TODO send sms & email to the user
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
             Log::error('Error while Create new schedule request. Input params : ' . json_encode($request->all()));

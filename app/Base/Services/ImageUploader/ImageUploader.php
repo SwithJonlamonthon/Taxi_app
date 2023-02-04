@@ -8,20 +8,21 @@ use Exception;
 use Illuminate\Config\Repository as ConfigRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Image;
 
 class ImageUploader implements ImageUploaderContract
 {
     /**
      * The ImageEncoder instance.
      *
-     * @var \App\Base\Services\ImageEncoder\ImageEncoderContract
+     * @var ImageEncoderContract
      */
     protected $encoder;
 
     /**
      * The HashGenerator instance.
      *
-     * @var \App\Base\Services\Hash\HashGeneratorContract
+     * @var HashGeneratorContract
      */
     protected $hashGenerator;
 
@@ -63,16 +64,16 @@ class ImageUploader implements ImageUploaderContract
     /**
      * The uploaded file.
      *
-     * @var \Illuminate\Http\UploadedFile|null
+     * @var UploadedFile|null
      */
     protected $file = null;
 
     /**
      * ImageUploader constructor.
      *
-     * @param \App\Base\Services\ImageEncoder\ImageEncoderContract $encoder
-     * @param \App\Base\Services\Hash\HashGeneratorContract $hashGenerator
-     * @param \Illuminate\Config\Repository $config
+     * @param ImageEncoderContract $encoder
+     * @param HashGeneratorContract $hashGenerator
+     * @param ConfigRepository $config
      */
     public function __construct(ImageEncoderContract $encoder, HashGeneratorContract $hashGenerator, ConfigRepository $config)
     {
@@ -200,7 +201,7 @@ class ImageUploader implements ImageUploaderContract
 
         return $filename;
     }
-    
+
     /**
      * Save the user profile picture.
      *
@@ -223,7 +224,7 @@ class ImageUploader implements ImageUploaderContract
 
 		$image = $this->file;
 		$filePath = data_get($config, 'path');
-		
+
 		$name = Storage::put($filePath, $image);
 		$pos = strpos($name,'//');
 		$str = substr($name,$pos+2);
@@ -303,7 +304,7 @@ class ImageUploader implements ImageUploaderContract
     /**
      * Set the uploaded image file to manipulate.
      *
-     * @param \Illuminate\Http\UploadedFile $file
+     * @param UploadedFile $file
      * @return $this
      */
     public function file(UploadedFile $file)
@@ -398,7 +399,7 @@ class ImageUploader implements ImageUploaderContract
      * Encode the uploaded image and get the resource handle.
      *
      * @param bool $autoScale
-     * @return \Intervention\Image\Image
+     * @return Image
      */
     protected function encodeImage($autoScale = true)
     {
@@ -432,7 +433,7 @@ class ImageUploader implements ImageUploaderContract
 
         return $filename;
     }
-    
+
 
     /**
      * Save the Fleet vehicle back side image

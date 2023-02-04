@@ -9,6 +9,7 @@ use App\Models\Admin\VehicleType;
 use App\Models\Admin\ServiceLocation;
 use App\Models\Admin\ZoneTypePackagePrice;
 use App\Http\Controllers\ApiController;
+use Exception;
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use App\Base\Constants\Masters\zoneRideType;
 use App\Models\Master\PackageType;
@@ -26,6 +27,7 @@ use App\Http\Requests\Admin\Zone\AssignZoneTypeRequest;
 use App\Http\Requests\Admin\Zone\ZoneTypePackagePriceRequest;
 use App\Models\Request\Request;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -33,6 +35,7 @@ use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream;
 use Prewk\XmlStringStreamer\Parser;
 use App\Models\Admin\ZoneTypePrice;
+use stdClass;
 
 
 /**
@@ -45,14 +48,14 @@ class ZoneController extends BaseController
     /**
      * The Zone model instance.
      *
-     * @var \App\Models\Admin\Zone
+     * @var Zone
      */
     protected $zone;
 
     /**
      * ZoneController constructor.
      *
-     * @param \App\Models\Admin\Zone $zone
+     * @param Zone $zone
      */
     public function __construct(Zone $zone)
     {
@@ -61,7 +64,7 @@ class ZoneController extends BaseController
 
     /**
     * Get all zones
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -91,7 +94,7 @@ class ZoneController extends BaseController
 
             return redirect('zone')->with('warning', $message);
         }
-        
+
         $page = trans('pages_names.add_zone');
 
         $main_menu = 'map';
@@ -109,7 +112,7 @@ class ZoneController extends BaseController
     */
     public function zoneEdit($id)
     {
-       
+
 
         $zone = $this->zone->where('id', $id)->first();
         $page = trans('pages_names.add_zone');
@@ -125,7 +128,7 @@ class ZoneController extends BaseController
         foreach ($coordinates as $key => $coordinate) {
             $polygon = [];
             foreach ($coordinate[0] as $key => $point) {
-                $pp = new \stdClass;
+                $pp = new stdClass;
                 $pp->lat = $point->getLat();
                 $pp->lng = $point->getLng();
                 $polygon [] = $pp;
@@ -145,7 +148,7 @@ class ZoneController extends BaseController
     /**
      * Get Zone By ID
      * @param id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getById($id)
     {
@@ -157,8 +160,8 @@ class ZoneController extends BaseController
     /**
      * Create Zone.
      *
-     * @param \App\Http\Requests\Admin\Zone\CreateZoneRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateZoneRequest $request
+     * @return JsonResponse
      */
     public function store(CreateZoneRequest $request)
     {
@@ -208,7 +211,7 @@ class ZoneController extends BaseController
 
         $zone = $this->zone->create($created_params);
 
-        
+
         $message = trans('succes_messages.zone_added_succesfully');
 
         return redirect('zone')->with('success', $message);
@@ -216,8 +219,8 @@ class ZoneController extends BaseController
     /**
     * Create Zone.
     *
-    * @param \App\Http\Requests\Admin\Zone\CreateZoneRequest $request
-    * @return \Illuminate\Http\JsonResponse
+    * @param CreateZoneRequest $request
+    * @return JsonResponse
     */
     public function update(Zone $zone, CreateZoneRequest $request)
     {
@@ -235,7 +238,7 @@ class ZoneController extends BaseController
         if($request->coordinates==null){
             throw ValidationException::withMessages(['zone_name' => __('Please Complete the shape before submit')]);
         }
-        
+
         foreach (json_decode($request->coordinates) as $key => $coordinates) {
             $points = [];
             $lineStrings = [];
@@ -286,7 +289,7 @@ class ZoneController extends BaseController
         foreach ($coordinates as $key => $zone) {
             $polygon = [];
             foreach ($zone[0] as $key => $point) {
-                $pp = new \stdClass;
+                $pp = new stdClass;
                 $pp->lat = $point->getLat();
                 $pp->lng = $point->getLng();
                 $polygon [] = $pp;
@@ -481,7 +484,7 @@ class ZoneController extends BaseController
         $message = trans('succes_messages.type_assigned_succesfully');
 
         return redirect('zone/assigned/types/'.$zone_type->zone_id)->with('success', $message);
-    
+
     }
 
 
@@ -492,7 +495,7 @@ class ZoneController extends BaseController
 
             return redirect('zone')->with('warning', $message);
         }
-        
+
         $status = $zone->isActive() ? false : true;
         $zone->update(['active' => $status]);
 
@@ -525,7 +528,7 @@ class ZoneController extends BaseController
 
             return redirect('zone/assigned/types/'.$zone->id)->with('warning', $message);
         }
-        
+
         $zone_type->delete();
 
         $message = trans('succes_messages.zone_type_deleted_succesfully');
@@ -586,10 +589,10 @@ class ZoneController extends BaseController
                     //     $surge_price->zoneSurgeDays()->create(['week_day'=>$days]);
                     // }
 
-                    
+
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             dd($e);
             DB::rollBack();
             return redirect()->back()->withInput()->with('failure', 'Something Went Wrong..Please try again...');
@@ -604,7 +607,7 @@ class ZoneController extends BaseController
 
     public function setDefaultType(ZoneTypePrice $zone_price)
     {
-        // dd($zone_price->zoneType->type_id);  
+        // dd($zone_price->zoneType->type_id);
         $zone_price->zoneType->zone->default_vehicle_type = $zone_price->zoneType->type_id;
 
         $zone_price->zoneType->zone->save();
@@ -649,7 +652,7 @@ class ZoneController extends BaseController
     {
         $multi_polygons = [];
         return json_encode($multi_polygons);
-        
+
         // Prepare our stream to be read with a 1kb buffer
         $filePath = env('COORDINATES_PATH');
         $stream = new Stream\File($filePath, 1024);
@@ -679,7 +682,7 @@ class ZoneController extends BaseController
                         $splited_coordinates = explode(' ', $polygon);
                         foreach ($splited_coordinates as $key => $splited_coordinate) {
                             $lat_lngs = explode(',', $splited_coordinate);
-                            $pp = new \stdClass;
+                            $pp = new stdClass;
                             $pp->lat = (float)$lat_lngs[1];
                             $pp->lng = (float)$lat_lngs[0];
                             $final_polygons [] = $pp;
@@ -695,7 +698,7 @@ class ZoneController extends BaseController
 
      public function packageIndex(ZoneType $zone_type)
     {
-       
+
         $results = $zone_type->zoneTypePackage()->paginate();
 
         $page = trans('pages_names.zone_type_package');
@@ -704,10 +707,10 @@ class ZoneController extends BaseController
         $sub_menu = '';
 
         return view('admin.zone_type_package.index', compact('results', 'page', 'main_menu', 'sub_menu', 'zone_type'));
-   
+
     }
 
-    
+
     public function packageCreate(ZoneType $zone_type)
     {
         // dd($zoneTypePackage);
@@ -743,7 +746,7 @@ class ZoneController extends BaseController
             'free_min' => $request->free_minute,
             'cancellation_fee' => $request->cancellation_fee,
             'zone_type_id' => $zone_type->id,
-          
+
         ]);
 
          $message = trans('succes_messages.zone_package_store_succesfully');
@@ -781,7 +784,7 @@ class ZoneController extends BaseController
             'free_distance' => $request->free_distance,
             'free_min' => $request->free_minute,
             'cancellation_fee' => $request->cancellation_fee,
-          
+
         ]);
 
          $message = trans('succes_messages.zone_package_update_succesfully');
@@ -807,14 +810,14 @@ class ZoneController extends BaseController
         }
 
         $status = $package->active == 1 ? 0 : 1;
-        
+
         $pack = ZoneTypePackagePrice::find($package->id);
         $pack->active = $status;
         $pack->save();
-        
+
 
         $message = trans('succes_messages.zone_type_package_status_changed_succesfully');
         return redirect()->back()->with('success', $message);
-        
+
     }
 }

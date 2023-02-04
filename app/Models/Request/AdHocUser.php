@@ -4,6 +4,7 @@ namespace App\Models\Request;
 
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class AdHocUser extends Model
 {
@@ -42,7 +43,7 @@ class AdHocUser extends Model
     /**
     * The request that the meta belongs to.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function request()
     {

@@ -23,6 +23,7 @@ use App\Models\Payment\UserWalletHistory;
 use App\Models\Payment\UserWallet;
 use App\Http\Requests\Admin\User\AddUserMoneyToWalletRequest;
 use App\Base\Constants\Setting\Settings;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use App\Base\Constants\Masters\WalletRemarks;
 
@@ -33,14 +34,14 @@ class UserController extends BaseController
     /**
      * The User Details model instance.
      *
-     * @var \App\Models\Admin\UserDetails
+     * @var UserDetails
      */
     protected $user_details ;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -55,7 +56,7 @@ class UserController extends BaseController
     /**
      * User Details Controller constructor.
      *
-     * @param \App\Models\Admin\UserDetails $user_details
+     * @param UserDetails $user_details
      */
     public function __construct(UserDetails $user_details, ImageUploaderContract $imageUploader, User $user)
     {
@@ -66,7 +67,7 @@ class UserController extends BaseController
 
     /**
     * Get all users
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -107,8 +108,8 @@ class UserController extends BaseController
     /**
      * Create User.
      *
-     * @param \App\Http\Requests\Admin\User\CreateUserRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateUserRequest $request
+     * @return JsonResponse
      */
     public function store(CreateUserRequest $request)
     {
@@ -215,7 +216,7 @@ class UserController extends BaseController
 
     public function UserTripRequest(QueryFilterContract $queryFilter, User $user)
     {
-       
+
         $completedTrips = RequestRequest::where('user_id',$user->id)->companyKey()->whereIsCompleted(true)->count();
         $cancelledTrips = RequestRequest::where('user_id',$user->id)->companyKey()->whereIsCancelled(true)->count();
         $upcomingTrips = RequestRequest::where('user_id',$user->id)->companyKey()->whereIsLater(true)->whereIsCompleted(false)->whereIsCancelled(false)->whereIsDriverStarted(false)->count();

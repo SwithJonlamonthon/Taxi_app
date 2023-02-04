@@ -8,6 +8,8 @@ use App\Base\Constants\Masters\DriverDocumentStatus;
 use App\Transformers\Owner\OwnerDocumentTransformer;
 use App\Base\Constants\Masters\DriverDocumentStatusString;
 use App\Transformers\Transformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class OwnerNeededDocumentTransformer extends Transformer
 {
@@ -68,7 +70,7 @@ class OwnerNeededDocumentTransformer extends Transformer
      * Include the owner document of the owner needed document.
      *
      * @param OwnerNeededDocument $ownerneededdocument
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeDriverDocument(OwnerNeededDocument $ownerneededdocument)
     {

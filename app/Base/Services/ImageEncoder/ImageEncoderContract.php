@@ -2,13 +2,15 @@
 
 namespace App\Base\Services\ImageEncoder;
 
+use Intervention\Image\Image;
+
 interface ImageEncoderContract {
 	/**
 	 * Encode the image and return the resource handle.
 	 *
 	 * @param mixed $file
 	 * @param bool $autoScale
-	 * @return \Intervention\Image\Image
+	 * @return Image
 	 */
 	public function encode($file, $autoScale = true);
 

@@ -7,6 +7,7 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Admin\Driver;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -50,7 +51,7 @@ class DriverDocument extends Model
      * The driver that the uploaded image belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function driver()
     {
@@ -99,7 +100,7 @@ class DriverDocument extends Model
     * The Document that the DriverNeededDocuments belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function driverNeededDocuments()
     {

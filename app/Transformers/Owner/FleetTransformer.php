@@ -10,6 +10,8 @@ use App\Transformers\Transformer;
 use App\Base\Constants\Setting\Settings;
 use App\Models\Admin\Fleet;
 use App\Transformers\Driver\DriverTransformer;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\NullResource;
 
 class FleetTransformer extends Transformer
 {
@@ -19,7 +21,7 @@ class FleetTransformer extends Transformer
      * @var array
      */
     protected array $availableIncludes = [
-        
+
     ];
 
     /**
@@ -30,7 +32,7 @@ class FleetTransformer extends Transformer
     protected array $defaultIncludes = [
 
         'driverDetail'
-        
+
     ];
 
     /**
@@ -55,12 +57,12 @@ class FleetTransformer extends Transformer
         return $params;
     }
 
-    
+
     /**
      * Include the driver of the request.
      *
      * @param Fleet $fleet
-     * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+     * @return Item|NullResource
      */
     public function includeDriverDetail(Fleet $fleet)
     {
@@ -71,5 +73,5 @@ class FleetTransformer extends Transformer
         : $this->null();
     }
 
-   
+
 }

@@ -5,20 +5,21 @@ namespace App\Http\Controllers\Web\Master;
 use App\Base\Filters\Master\CommonMasterFilter;
 use App\Base\Libraries\QueryFilter\QueryFilterContract;
 use App\Http\Controllers\Web\BaseController;
+use App\Models\Admin\DriverNeededDocument;
 use App\Models\Admin\OwnerNeededDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class OwnerNeededDocumentController extends BaseController
 {
-    
+
     protected $neededDoc;
     protected $doctypes = ['jpg','png','doc','pdf'];
 
     /**
      * DriverNeededDocumentController constructor.
      *
-     * @param \App\Models\Admin\DriverNeededDocument $neededDoc
+     * @param DriverNeededDocument $neededDoc
      */
     public function __construct(OwnerNeededDocument $neededDoc)
     {

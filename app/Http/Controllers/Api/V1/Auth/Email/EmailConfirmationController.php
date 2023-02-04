@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\Email\ConfirmEmailRequest;
 use App\Http\Requests\Auth\Email\ResendConfirmationEmailRequest;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group Email-Confirmation
@@ -35,7 +36,7 @@ class EmailConfirmationController extends ApiController
      * Confirm user's email using the confirmation token.
      *
      * @param ConfirmEmailRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @bodyParam token string required token of the email
      * @bodyParam email string required email of the user entered
      * @response {"success":true,"message":"success"}
@@ -63,7 +64,7 @@ class EmailConfirmationController extends ApiController
      * Resend user's email address confirmation email.
      *
      * @param ResendConfirmationEmailRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @bodyParam email email required email of the user entered
      * @response {"success":true,"message":"success"}
      */

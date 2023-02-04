@@ -14,6 +14,7 @@ use App\Models\Admin\CancellationReason;
 use App\Base\Constants\Masters\zoneRideType;
 use App\Base\Constants\Masters\WalletRemarks;
 use App\Models\Request\DriverRejectedRequest;
+use stdClass;
 
 
 /**
@@ -94,7 +95,7 @@ class DriverCancelRequestController extends BaseController
         }
 
         if ($charge_applicable) {
-            
+
             $zone_type_price = $request_detail->zoneType->zoneTypePrice()->where('price_type', $ride_type)->first();
 
             $cancellation_fee = $zone_type_price->cancellation_fee;
@@ -134,7 +135,7 @@ class DriverCancelRequestController extends BaseController
             'is_credit'=>false]);
 
             }
-            
+
 
             $request_detail->requestCancellationFee()->create(['driver_id'=>$request_detail->driver_id,'is_paid'=>true,'cancellation_fee'=>$cancellation_fee,'paid_request_id'=>$request_detail->id]);
         }
@@ -152,7 +153,7 @@ class DriverCancelRequestController extends BaseController
 
             $push_data = ['success'=>true,'success_message'=>PushEnums::REQUEST_CANCELLED_BY_DRIVER,'result'=>(string)$push_request_detail];
 
-            $socket_data = new \stdClass();
+            $socket_data = new stdClass();
             $socket_data->success = true;
             $socket_data->success_message  = PushEnums::REQUEST_CANCELLED_BY_DRIVER;
             $socket_data->result = $request_result;

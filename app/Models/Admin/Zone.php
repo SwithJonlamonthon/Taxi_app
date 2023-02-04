@@ -8,6 +8,8 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasActiveCompanyKey;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
@@ -48,7 +50,7 @@ class Zone extends Model
      * The admin that the uploaded image belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function admin()
     {
@@ -59,7 +61,7 @@ class Zone extends Model
      * The Zone has many bounds.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return hasMany
      */
     public function zoneBound()
     {
@@ -71,13 +73,13 @@ class Zone extends Model
      * The Zone has many Types.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     * @return hasMany
      */
     public function zoneType()
     {
         return $this->hasMany(ZoneType::class, 'zone_id', 'id');
-    } 
-   
+    }
+
 
     public function zoneSurge()
     {

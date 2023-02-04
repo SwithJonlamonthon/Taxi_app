@@ -13,6 +13,10 @@
  */
 
 use Hyn\Tenancy\Database\Connection;
+use Hyn\Tenancy\Middleware\EagerIdentification;
+use Hyn\Tenancy\Middleware\HostnameActions;
+use Hyn\Tenancy\Models\Hostname;
+use Hyn\Tenancy\Models\Website;
 
 return [
     /**
@@ -30,10 +34,10 @@ return [
          */
 
         // Must implement \Hyn\Tenancy\Contracts\Hostname
-        'hostname' => \Hyn\Tenancy\Models\Hostname::class,
+        'hostname' => Hostname::class,
 
         // Must implement \Hyn\Tenancy\Contracts\Website
-        'website' => \Hyn\Tenancy\Models\Website::class
+        'website' => Website::class
     ],
     /**
      * The package middleware. Removing a middleware here will disable it.
@@ -41,10 +45,10 @@ return [
      */
     'middleware' => [
         // The eager identification middleware.
-        \Hyn\Tenancy\Middleware\EagerIdentification::class,
+        EagerIdentification::class,
 
         // The hostname actions middleware (redirects, https, maintenance).
-        \Hyn\Tenancy\Middleware\HostnameActions::class,
+        HostnameActions::class,
     ],
     'website' => [
         /**

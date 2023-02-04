@@ -7,6 +7,7 @@ use App\Http\Controllers\ApiController;
 use App\Transformers\CountryTransformer;
 use App\Models\TimeZone;
 use App\Transformers\TimezoneTransformer;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group Web-Spa-Countries&Timezones
@@ -18,7 +19,7 @@ class CountryController extends ApiController
     /**
      * Get all the countries.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -32,7 +33,7 @@ class CountryController extends ApiController
     /**
      * Get all the timezone.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function timezones()
     {

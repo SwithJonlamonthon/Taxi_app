@@ -2,6 +2,8 @@
 
 namespace App\Base\Libraries\SMS;
 
+use Exception;
+
 interface SMSContract
 {
     /**
@@ -58,7 +60,7 @@ interface SMSContract
      * @param string|null $message
      * @param int|null $type
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function send($numbers = null, $message = null, $type = null);
 

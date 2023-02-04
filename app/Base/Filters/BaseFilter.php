@@ -3,7 +3,9 @@
 namespace App\Base\Filters;
 
 use App\Base\Libraries\QueryFilter\FilterContract;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class BaseFilter implements FilterContract {
 	/**
@@ -16,7 +18,7 @@ abstract class BaseFilter implements FilterContract {
 	/**
 	 * Apply status filter.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Builder $builder
+	 * @param Builder $builder
 	 * @param string $status
 	 * @throws Exception
 	 */
@@ -53,7 +55,7 @@ abstract class BaseFilter implements FilterContract {
 	 *
 	 * @param string $date
 	 * @param string $field
-	 * @return \Carbon\Carbon
+	 * @return Carbon
 	 * @throws Exception
 	 */
 	protected function validateDateTime($date, $field = 'date') {
@@ -70,7 +72,7 @@ abstract class BaseFilter implements FilterContract {
 	 *
 	 * @param string $date
 	 * @param string $field
-	 * @return \Carbon\Carbon
+	 * @return Carbon
 	 * @throws Exception
 	 */
 	protected function validateDate($date, $field = 'date') {

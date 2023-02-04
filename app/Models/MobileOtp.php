@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Base\Uuid\UuidModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class MobileOtp extends Model {
 	use UuidModel;
@@ -27,7 +28,7 @@ class MobileOtp extends Model {
 	/**
 	 * The user who owns the mobile number.
 	 *
-	 * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+	 * @return belongsTo
 	 */
 	public function user() {
 		return $this->belongsTo(User::class, 'mobile', 'mobile');

@@ -3,6 +3,7 @@
 namespace App\Base\Filters\Master;
 
 use App\Base\Libraries\QueryFilter\FilterContract;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Test filter to demonstrate the custom filter usage.
@@ -25,7 +26,7 @@ class MobileBuildFilter implements FilterContract
     /**
      * Just a team method to demonstrate the filter usage.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
      * @param mixed|null $value
      */
     public function team($builder, $value = null)

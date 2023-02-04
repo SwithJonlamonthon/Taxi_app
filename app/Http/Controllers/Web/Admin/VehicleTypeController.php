@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Admin;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Admin\VehicleType;
 use App\Models\Admin\ServiceLocation;
@@ -26,14 +27,14 @@ class VehicleTypeController extends BaseController
     /**
      * The VehicleType model instance.
      *
-     * @var \App\Models\Admin\VehicleType
+     * @var VehicleType
      */
     protected $vehicle_type;
 
     /**
      * VehicleTypeController constructor.
      *
-     * @param \App\Models\Admin\VehicleType $vehicle_type
+     * @param VehicleType $vehicle_type
      */
     public function __construct(VehicleType $vehicle_type, ImageUploaderContract $imageUploader)
     {
@@ -43,7 +44,7 @@ class VehicleTypeController extends BaseController
 
     /**
     * Get all vehicle types
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -93,8 +94,8 @@ class VehicleTypeController extends BaseController
     /**
      * Store Vehicle type.
      *
-     * @param \App\Http\Requests\Admin\VehicleTypes\CreateVehicleTypeRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateVehicleTypeRequest $request
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -132,7 +133,7 @@ class VehicleTypeController extends BaseController
     *
     */
     public function edit($id)
-    {   
+    {
         $page = trans('pages_names.edit_type');
         $type = $this->vehicle_type->where('id', $id)->first();
         // dd($type->is_taxi);
@@ -147,9 +148,9 @@ class VehicleTypeController extends BaseController
     /**
      * Update Vehicle type.
      *
-     * @param \App\Http\Requests\Admin\VehicleTypes\CreateVehicleTypeRequest $request
+     * @param CreateVehicleTypeRequest $request
      * @param App\Models\Admin\VehicleType $vehicle_type
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -189,7 +190,7 @@ class VehicleTypeController extends BaseController
 
             return redirect('types')->with('warning', $message);
         }
-        
+
         $status = $vehicle_type->active == 1 ? 0 : 1;
         $vehicle_type->update([
             'active' => $status
@@ -202,7 +203,7 @@ class VehicleTypeController extends BaseController
      * Delete Vehicle type.
      *
      * @param App\Models\Admin\VehicleType $vehicle_type
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,

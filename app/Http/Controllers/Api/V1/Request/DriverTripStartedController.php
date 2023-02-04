@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\BaseController;
 use App\Models\Request\Request as RequestModel;
 use App\Jobs\Notifications\AndroidPushNotification;
 use App\Transformers\Requests\TripRequestTransformer;
+use stdClass;
 
 /**
  * @group Driver-trips-apis
@@ -79,14 +80,14 @@ class DriverTripStartedController extends BaseController
         $pus_request_detail = $request_result->toJson();
         $push_data = ['notification_enum'=>PushEnums::DRIVER_STARTED_THE_TRIP,'result'=>(string)$pus_request_detail];
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::DRIVER_STARTED_THE_TRIP;
         $socket_data->result = $request_result;
         // Form a socket sturcture using users'id and message with event name
         // $socket_message = structure_for_socket($user->id, 'user', $socket_data, 'trip_status');
         // dispatch(new NotifyViaSocket('transfer_msg', $socket_message));
-        
+
         // dispatch(new NotifyViaMqtt('trip_status_'.$user->id, json_encode($socket_data), $user->id));
         $user->notify(new AndroidPushNotification($title, $body));
         dispatch_notify:

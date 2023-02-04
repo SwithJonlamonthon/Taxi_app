@@ -16,7 +16,7 @@ class CancellationReasonController extends Controller
     /**
      * FaqController constructor.
      *
-     * @param \App\Models\Admin\CancellationReason $reason
+     * @param CancellationReason $reason
      */
     public function __construct(CancellationReason $reason)
     {

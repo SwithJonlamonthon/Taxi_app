@@ -2,6 +2,8 @@
 
 namespace App\Jobs\Notifications;
 
+use Log;
+
 class OtpNotification extends BaseNotification
 {
     /**
@@ -59,6 +61,6 @@ class OtpNotification extends BaseNotification
         // @TODO implement send sms
 
         // Log the sms sent.
-        \Log::info("Sent OTP Sms - with Mb: {$to}, Msg: {$this->message}");
+        Log::info("Sent OTP Sms - with Mb: {$to}, Msg: {$this->message}");
     }
 }

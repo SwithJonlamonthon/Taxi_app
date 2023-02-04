@@ -11,6 +11,8 @@ use App\Jobs\Notifications\Auth\Registration\UserRegistrationNotification;
 use App\Models\User;
 use App\Models\Admin\AdminDetail;
 use DB;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
 class AdminRegistrationController extends ApiController
@@ -19,21 +21,21 @@ class AdminRegistrationController extends ApiController
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $admin_detail;
 
     /**
      * AdminRegistrationController constructor.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      */
     public function __construct(User $user, AdminDetail $admin_detail)
     {
@@ -44,8 +46,8 @@ class AdminRegistrationController extends ApiController
     /**
      * Register the admin user.
      * @hideFromAPIDocumentation
-     * @param \App\Http\Requests\Auth\Registration\UserRegistrationRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param UserRegistrationRequest $request
+     * @return JsonResponse
      */
     public function register(AdminRegistrationRequest $request)
     {
@@ -69,7 +71,7 @@ class AdminRegistrationController extends ApiController
             event(new UserRegistered($user));
 
             $this->dispatch(new UserRegistrationNotification($user));
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e . 'Error while Create Admin. Input params : ' . json_encode($request->all()));
             return $this->respondBadRequest('Unknown error occurred. Please try again later or contact us if it continues.');

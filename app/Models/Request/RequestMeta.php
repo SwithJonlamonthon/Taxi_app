@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Admin\Driver;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class RequestMeta extends Model
 {
@@ -36,7 +37,7 @@ class RequestMeta extends Model
     /**
      * The request that the meta belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function request()
     {
@@ -45,7 +46,7 @@ class RequestMeta extends Model
     /**
     * The request that the meta belongs to.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function driver()
     {

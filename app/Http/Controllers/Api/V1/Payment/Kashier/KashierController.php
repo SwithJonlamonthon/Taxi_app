@@ -17,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use stdClass;
 
 class KashierController extends Controller
 {
@@ -117,7 +118,7 @@ class KashierController extends Controller
 
         $pus_request_detail = json_encode($request->all());
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message = PushEnums::AMOUNT_CREDITED;
         $socket_data->result = $request->all();

@@ -4,6 +4,7 @@ namespace App\Models\Access;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Access\Traits\PermissionTrait;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Permission extends Model
 {
@@ -46,7 +47,7 @@ class Permission extends Model
     /**
      * The roles associated with the permission.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function roles()
     {

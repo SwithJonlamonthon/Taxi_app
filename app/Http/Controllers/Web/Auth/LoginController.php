@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Web\Auth;
 
 use App\Models\User;
 use App\Events\Event;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\Auth\UserLogin;
@@ -26,14 +30,14 @@ class LoginController extends ApiController
     /**
      * The OTP handler instance.
      *
-     * @var \App\Base\Services\OTP\Handler\OTPHandlerContract
+     * @var OTPHandlerContract
      */
     protected $otpHandler;
 
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -48,8 +52,8 @@ class LoginController extends ApiController
     /**
      * LoginController constructor.
      *
-     * @param \App\Models\User $user
-     * @param \App\Base\Services\OTP\Handler\OTPHandlerContract $otpHandler
+     * @param User $user
+     * @param OTPHandlerContract $otpHandler
      */
     public function __construct(User $user, OTPHandlerContract $otpHandler)
     {
@@ -60,8 +64,8 @@ class LoginController extends ApiController
     /**
      * Login the normal user.
      *
-     * @param \App\Http\Requests\Auth\UserLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param UserLoginRequest $request
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -76,8 +80,8 @@ class LoginController extends ApiController
     /**
      * Login the Web admin users.
      *
-     * @param \App\Http\Requests\Auth\AdminLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param AdminLoginRequest $request
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -97,8 +101,8 @@ class LoginController extends ApiController
     /**
      * Logout the user.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @return RedirectResponse
      * @response
      * {
      *"success": true,
@@ -125,10 +129,10 @@ class LoginController extends ApiController
     /**
      * Login the user for SPA and respond accordingly.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserAccountSPA($request, $role, array $conditions = [])
     {
@@ -138,10 +142,10 @@ class LoginController extends ApiController
     /**
      * Login the user for Mobile App and respond accordingly.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserAccountApp($request, $role, array $conditions = [])
     {
@@ -151,15 +155,15 @@ class LoginController extends ApiController
     /**
      * Login the user for SPA or Mobile App and respond accordingly.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param bool $needsToken
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserAccount($request, $role, $needsToken = true, array $conditions = [])
     {
-        
+
 
         if ($request->has('social_id')) {
             return $this->setLoginIdentifier('social_id')
@@ -201,11 +205,11 @@ class LoginController extends ApiController
         /**
      * Login the user using their email and password.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param bool $needsToken
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserWithMobile($request, $role, $needsToken = true, array $conditions = [])
     {
@@ -234,11 +238,11 @@ class LoginController extends ApiController
     /**
      * Login the user using their email and password.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param bool $needsToken
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserWithPassword($request, $role, $needsToken = true, array $conditions = [])
     {
@@ -269,11 +273,11 @@ class LoginController extends ApiController
     /**
      * Login the user using social unique id
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param bool $needsToken
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserWithSocialUniqueId($request, $role, $needsToken = true, array $conditions = [])
     {
@@ -299,11 +303,11 @@ class LoginController extends ApiController
     /**
      * Login the user using their mobile and otp.
      *
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param FormRequest $request
      * @param string|array $role
      * @param bool $needsToken
      * @param array $conditions
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function loginUserWithOTP($request, $role, $needsToken = true, array $conditions = [])
     {
@@ -335,7 +339,7 @@ class LoginController extends ApiController
      *
      * @param string $email
      * @param string|array $role
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromEmail($email, $role)
     {
@@ -349,7 +353,7 @@ class LoginController extends ApiController
      *
      * @param string $social_unique_id
      * @param string|array $role
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromSocialUniqueId($social_unique_id, $role)
     {
@@ -363,7 +367,7 @@ class LoginController extends ApiController
      *
      * @param string $social_unique_id
      * @param string|array $role
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromSocialId($social_unique_id, $role)
     {
@@ -378,7 +382,7 @@ class LoginController extends ApiController
      *
      * @param $username $email
      * @param string|array $role
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromUsername($username, $role)
     {
@@ -392,7 +396,7 @@ class LoginController extends ApiController
      *
      * @param string $mobile
      * @param string|array $role
-     * @return \App\Models\User|null
+     * @return User|null
      */
     protected function resolveUserFromMobile($mobile, $role)
     {
@@ -434,10 +438,10 @@ class LoginController extends ApiController
      * SPA login will authenticate the user using sessions which will create the cookie on refresh.
      * First party apps (Mobile App) will get the access token and refresh token.
      *
-     * @param \App\Models\User $user
-     * @param \Illuminate\Foundation\Http\FormRequest $request
+     * @param User $user
+     * @param FormRequest $request
      * @param bool $needsToken
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return Response|JsonResponse
      */
     protected function authenticateAndRespond(User $user, $request, $needsToken = false)
     {
@@ -495,7 +499,7 @@ class LoginController extends ApiController
      * Generate and issue the Password Grant Token for the user.
      *
      * @param array $data
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     protected function issueToken(array $data)
     {
@@ -506,9 +510,9 @@ class LoginController extends ApiController
     /**
      * Login user using standard auth method and respond success.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param bool $remember
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function authenticateUser(User $user, $remember = false)
     {
@@ -520,9 +524,9 @@ class LoginController extends ApiController
     /**
      * Login user using standard auth method and respond success.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param bool $remember
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     protected function set(User $user, $remember = false)
     {

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use ElephantIO\Client;
+use Expection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
@@ -43,7 +44,7 @@ class NotifyViaMqtt //implements ShouldQueue
             $mqtt = new Mqtt();
             $output = $mqtt->ConnectAndPublish($this->event_name, $this->message, $this->client_id);
             Log::info($output);
-        } catch (\Expection $e) {
+        } catch (Expection $e) {
             Log::error($e);
         }
     }

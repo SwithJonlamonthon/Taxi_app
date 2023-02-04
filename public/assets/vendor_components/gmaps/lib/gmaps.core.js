@@ -120,7 +120,7 @@ var getElementById = function(id, context) {
     element = $('#' + id, context)[0];
   } else {
     element = document.getElementById(id);
-  };
+  }
 
   return element;
 };
@@ -270,7 +270,7 @@ var GMaps = (function(global) {
       if (!getElementById('gmaps_context_menu')) return;
 
       var context_menu_element = getElementById('gmaps_context_menu');
-      
+
       context_menu_element.innerHTML = html;
 
       var context_menu_items = context_menu_element.getElementsByTagName('a'),
@@ -307,11 +307,11 @@ var GMaps = (function(global) {
 
         var overlay = new google.maps.OverlayView();
         overlay.setMap(self.map);
-        
+
         overlay.draw = function() {
           var projection = overlay.getProjection(),
               position = e.marker.getPosition();
-          
+
           e.pixel = projection.fromLatLngToContainerPixel(position);
 
           buildContextMenuHTML(control, e);

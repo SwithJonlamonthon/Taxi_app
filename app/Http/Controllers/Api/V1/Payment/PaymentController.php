@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1\Payment;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Payment\CardInfo;
 use App\Base\Constants\Auth\Role;
@@ -50,7 +51,7 @@ class PaymentController extends BaseController
     /**
      * User-Add Card
      * @bodyParam payment_nonce string required  Payment nonce fron entered value
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response {
      *"success": true,
      *"message": "card_added_succesfully",
@@ -82,7 +83,7 @@ class PaymentController extends BaseController
 
     /**
      * List cards
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response {
      * "success": true,
      * "message": "card_listed_succesfully",

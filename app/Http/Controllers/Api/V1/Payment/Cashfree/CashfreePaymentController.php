@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Payment\Cashfree;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use App\Base\Constants\Auth\Role;
 use App\Http\Controllers\ApiController;
@@ -28,6 +29,7 @@ use App\Models\Payment\UserWallet;
 use App\Models\Payment\OwnerWallet;
 use App\Models\Payment\OwnerWalletHistory;
 use App\Transformers\Payment\OwnerWalletTransformer;
+use stdClass;
 
 
 /**
@@ -235,7 +237,7 @@ class CashfreePaymentController extends ApiController
                 $pus_request_detail = json_encode($request->all());
                 $push_data = ['notification_enum'=>PushEnums::AMOUNT_CREDITED,'result'=>(string)$pus_request_detail];
 
-                $socket_data = new \stdClass();
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
                 $socket_data->result = $request->all();
@@ -262,7 +264,7 @@ class CashfreePaymentController extends ApiController
                     $pus_request_detail = json_encode($request->all());
                     $push_data = ['notification_enum'=>PushEnums::CARD_TO_WALLET_TRANSACTION_FAILED,'result'=>(string)$pus_request_detail];
 
-                    $socket_data = new \stdClass();
+                    $socket_data = new stdClass();
                     $socket_data->success = true;
                     $socket_data->success_message  = PushEnums::CARD_TO_WALLET_TRANSACTION_FAILED;
                     $socket_data->result = $request->all();
@@ -277,7 +279,7 @@ class CashfreePaymentController extends ApiController
 
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e);
             Log::error('Error while Add money to wallet. Input params : ' . json_encode($request->all()));
             return $this->respondBadRequest('Unknown error occurred. Please try again later or contact us if it continues.');

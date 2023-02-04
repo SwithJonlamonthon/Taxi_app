@@ -19,7 +19,7 @@ class PromoCodeController extends BaseController
     /**
      * PromoController constructor.
      *
-     * @param \App\Models\Admin\Promo $promo
+     * @param Promo $promo
      */
     public function __construct(Promo $promo)
     {

@@ -383,10 +383,10 @@
       for (var j = 0; j < stackLength; j++) {
         token = this._stack[j](token, i, tokens)
         if (token === void 0) break
-      };
+      }
 
       if (token !== void 0) out.push(token)
-    };
+    }
 
     return out
   }
@@ -723,9 +723,9 @@
 
       if (a[i] > b[j]) {
         j++
-        continue
+
       }
-    };
+    }
 
     return intersectSet
   }
@@ -947,7 +947,7 @@
       }, 0)
 
       this.tokenStore.add(token, { ref: docRef, tf: tf })
-    };
+    }
 
     if (emitEvent) this.eventEmitter.emit('add', doc, this)
   }
@@ -1145,7 +1145,7 @@
           idf = this.idf(token)
 
       documentVector.insert(this.corpusTokens.indexOf(token), tf * idf)
-    };
+    }
 
     return documentVector
   }
@@ -1742,7 +1742,7 @@
     if (rest.length === 0) {
       root[key].docs[doc.ref] = doc
       this.length += 1
-      return
+
     } else {
       return this.add(rest, doc, root[key])
     }

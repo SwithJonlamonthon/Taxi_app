@@ -1,6 +1,11 @@
 <?php
 
 // The default SMS Sender ID to use when one is not provided.
+use App\Base\Libraries\SMS\Providers\MSG91;
+use App\Base\Libraries\SMS\Providers\SMSIndiaHub;
+use App\Base\Libraries\SMS\Providers\SMSLog;
+use App\Base\Libraries\SMS\Providers\SMSTrap;
+
 $defaultSenderId = 'WE3';
 
 return [
@@ -48,25 +53,25 @@ return [
     'providers' => [
 
         'smsindiahub' => [
-            'class' => \App\Base\Libraries\SMS\Providers\SMSIndiaHub::class,
+            'class' => SMSIndiaHub::class,
             'username' => env('SMSINDIAHUB_USERNAME'),
             'password' => env('SMSINDIAHUB_PASSWORD'),
             'sender_id' => env('SMS_SENDER_ID', $defaultSenderId),
         ],
 
         'msg91' => [
-            'class' => \App\Base\Libraries\SMS\Providers\MSG91::class,
+            'class' => MSG91::class,
             'authkey' => env('MSG91_AUTH_KEY'),
             'sender_id' => env('SMS_SENDER_ID', $defaultSenderId),
         ],
 
         'trap' => [
-            'class' => \App\Base\Libraries\SMS\Providers\SMSTrap::class,
+            'class' => SMSTrap::class,
             'email' => env('SMS_TRAP_EMAIL'),
         ],
 
         'log' => [
-            'class' => \App\Base\Libraries\SMS\Providers\SMSLog::class,
+            'class' => SMSLog::class,
         ],
 
     ],

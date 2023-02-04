@@ -11,6 +11,8 @@ use App\Transformers\Requests\ZoneTypeWithPackagePriceTransformer;
 use App\Models\Admin\Promo;
 use Carbon\Carbon;
 use App\Models\Admin\PromoUser;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class PackagesTransformer extends Transformer
 {
@@ -21,7 +23,7 @@ class PackagesTransformer extends Transformer
      * @var array
      */
     protected array $availableIncludes = [
-        
+
     ];
     /**
      * Resources that can be included default.
@@ -29,7 +31,7 @@ class PackagesTransformer extends Transformer
      * @var array
      */
     protected array $defaultIncludes = [
-        
+
         'typesWithPrice'
     ];
 
@@ -48,7 +50,7 @@ class PackagesTransformer extends Transformer
             'short_description'=>$package->short_description,
         ];
 
-       
+
         return $params;
     }
 
@@ -57,10 +59,10 @@ class PackagesTransformer extends Transformer
     * Include the vehicle type along with price.
     *
     * @param User $user
-    * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+    * @return Collection|NullResource
     */
     public function includeTypesWithPrice(PackageType $package)
-    {   
+    {
 
         $zone_detail = find_zone(request()->input('pick_lat'), request()->input('pick_lng'));
 
@@ -116,7 +118,7 @@ class PackagesTransformer extends Transformer
             $zone_types[$key]['discounted_totel'] = $coupon_applied_sub_total;
 
             $zone_types[$key]['has_discount'] = true;
-            
+
             $zone_types[$key]['promocode_id'] = $coupon_detail->id;
 
 
@@ -133,7 +135,7 @@ class PackagesTransformer extends Transformer
 
 
 
-              
+
         return $zone_types
         ? $this->collection(collect($zone_types), new ZoneTypeWithPackagePriceTransformer)
         : $this->null();

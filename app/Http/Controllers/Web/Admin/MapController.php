@@ -8,6 +8,7 @@ use App\Base\Constants\Auth\Role;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\ServiceLocation;
 use App\Models\Request\Request as RequestRequest;
+use stdClass;
 
 class MapController extends Controller
 {
@@ -64,7 +65,7 @@ class MapController extends Controller
             foreach ($coordinates as $key => $coordinate) {
                 $polygon = [];
                 foreach ($coordinate[0] as $key => $point) {
-                    $pp = new \stdClass;
+                    $pp = new stdClass;
                     $pp->lat = $point->getLat();
                     $pp->lng = $point->getLng();
                     $polygon [] = $pp;
@@ -89,7 +90,7 @@ class MapController extends Controller
 
         $default_lat = get_settings('default_latitude');
         $default_lng = get_settings('default_longitude');
-        
+
         $zone = Zone::active()->companyKey()->first();
 
         if ($zone) {
@@ -106,7 +107,7 @@ class MapController extends Controller
             foreach ($coordinates as $key => $coordinate) {
                 $polygon = [];
                 foreach ($coordinate[0] as $key => $point) {
-                    $pp = new \stdClass;
+                    $pp = new stdClass;
                     $pp->lat = $point->getLat();
                     $pp->lng = $point->getLng();
                     $polygon [] = $pp;

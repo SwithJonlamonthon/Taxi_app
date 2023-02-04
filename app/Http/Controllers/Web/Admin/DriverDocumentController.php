@@ -18,6 +18,7 @@ use App\Base\Constants\Masters\DriverDocumentStatus;
 use App\Base\Services\ImageUploader\ImageUploaderContract;
 use App\Http\Requests\Admin\Driver\DriverDocumentUploadRequest;
 use Kreait\Firebase\Contract\Database;
+use stdClass;
 
 class DriverDocumentController extends BaseController
 {
@@ -33,7 +34,7 @@ class DriverDocumentController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(ImageUploaderContract $imageUploader,Database $database)
     {
@@ -150,12 +151,12 @@ class DriverDocumentController extends BaseController
         $formated_driver = $this->formatResponseData($driver_result);
 
         $socket_params = $formated_driver['data'];
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = $socket_success_message;
         $socket_data->data  = $socket_params;
 
-        
+
         // dispatch(new NotifyViaMqtt('approval_status_'.$driver_details->id, json_encode($socket_data), $driver_details->id));
 
         $user->notify(new AndroidPushNotification($title, $body, $push_data));

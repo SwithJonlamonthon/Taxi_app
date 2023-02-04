@@ -8,6 +8,7 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasActiveCompanyKey;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
@@ -59,7 +60,7 @@ class ServiceLocation extends Model
     * The Servicelocation has many Zone.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasMany
+    * @return hasMany
     */
     public function zones()
     {

@@ -3,6 +3,7 @@
 namespace App\Base\Libraries\Access;
 
 use Exception;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class Access {
 	/**
@@ -15,7 +16,7 @@ class Access {
 	/**
 	 * Get the current authenticated user object.
 	 *
-	 * @return \Illuminate\Contracts\Auth\Authenticatable|null
+	 * @return Authenticatable|null
 	 */
 	public function user() {
 		return auth($this->guard)->user();

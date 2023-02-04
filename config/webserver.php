@@ -12,6 +12,9 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
+use Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator;
+use Hyn\Tenancy\Generators\Webserver\Vhost\NginxGenerator;
+
 return [
 
     /**
@@ -47,7 +50,7 @@ return [
         /**
          * The generator taking care of hooking into the Apache services and files.
          */
-        'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\ApacheGenerator::class,
+        'generator' => ApacheGenerator::class,
 
         /**
          * The view that holds the vhost configuration template.
@@ -133,7 +136,7 @@ return [
         /**
          * The generator taking care of hooking into the nginx services and files.
          */
-        'generator' => \Hyn\Tenancy\Generators\Webserver\Vhost\NginxGenerator::class,
+        'generator' => NginxGenerator::class,
 
         /**
          * The view that holds the vhost configuration template.

@@ -7,6 +7,7 @@ use App\Models\Admin\Driver;
 use App\Models\Request\Request;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class DriverWalletHistory extends Model
 {
@@ -38,7 +39,7 @@ class DriverWalletHistory extends Model
     * The user wallet that the user_id belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function driver()
     {
@@ -79,5 +80,5 @@ class DriverWalletHistory extends Model
         return Carbon::parse($this->updated_at)->setTimezone($timezone)->format('jS M h:i A');
     }
 
-    
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Common;
 use App\Http\Controllers\ApiController;
 use App\Models\City;
 use App\Transformers\CityTransformer;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @resource Cities
@@ -16,7 +17,7 @@ class CityController extends ApiController
     /**
      * Get all the cities.
      *@hideFromAPIDocumentation
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -31,7 +32,7 @@ class CityController extends ApiController
      * Get all cities by state
      *
      *@hideFromAPIDocumentation
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function byState($state_id)
     {
@@ -46,7 +47,7 @@ class CityController extends ApiController
      *
      *@hideFromAPIDocumentation
      * @param City $city
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show(City $city)
     {

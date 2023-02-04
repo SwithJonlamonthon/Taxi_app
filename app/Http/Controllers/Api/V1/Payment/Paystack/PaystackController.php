@@ -25,6 +25,7 @@ use App\Models\Payment\OwnerWalletHistory;
 use App\Transformers\Payment\OwnerWalletTransformer;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
+use stdClass;
 
 /**
  * @group Paystack Payment Gateway
@@ -148,7 +149,7 @@ class PaystackController extends ApiController
 
                 $pus_request_detail = json_encode($request->all());
 
-                $socket_data = new \stdClass();
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
                 $socket_data->result = $request->all();
@@ -222,7 +223,7 @@ class PaystackController extends ApiController
 
                 $pus_request_detail = json_encode($request->all());
 
-                $socket_data = new \stdClass();
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
                 $socket_data->result = $request->all();

@@ -20,6 +20,7 @@ use App\Models\Admin\ZoneTypePackagePrice;
 use Illuminate\Support\Facades\Log;
 use App\Models\Request\RequestCancellationFee;
 use App\Base\Constants\Setting\Settings;
+use stdClass;
 
 /**
  * @group Driver-trips-apis
@@ -85,7 +86,7 @@ class DriverEndRequestController extends BaseController
         // Get currency code of Request
         $service_location = $request_detail->zoneType->zone->serviceLocation;
         $currency_code = $service_location->currency_code;
-        
+
         // $currency_code = get_settings('currency_code');
         $requested_currency_symbol = $service_location->currency_symbol;
 
@@ -163,16 +164,16 @@ class DriverEndRequestController extends BaseController
 
             $previous_range = 0;
             $exceeding_range = 0;
-            $package= null;            
+            $package= null;
 
         $zone_type_package_prices = $zone_type->zoneTypePackage()->orderBy('free_min','asc')->get();
 
 
-        foreach ($zone_type_package_prices as $key => $zone_type_package_price) {            
-            
+        foreach ($zone_type_package_prices as $key => $zone_type_package_price) {
+
             if($zone_type_package_price->free_min == $duration){
                 $package = $zone_type_package_price;
-                
+
                 break;
             }
             elseif($zone_type_package_price->free_min < $duration){
@@ -186,14 +187,14 @@ class DriverEndRequestController extends BaseController
 
             if($exceeding_range != 0 && $package == null){
                 $package = ($previous_range == 0) ? $exceeding_zone_type : $previous_zone_type;
-               
+
 
                 break;
 
             } else {
                 $package = $previous_zone_type;
 
-               
+
             }
         }
 
@@ -211,7 +212,7 @@ class DriverEndRequestController extends BaseController
           $calculated_bill =  $this->calculateRentalRideFares($zone_type_price, $distance, $duration, $waiting_time, $promo_detail,$request_detail);
 
           // Log::info($calculated_bill);
-            
+
         }
 
 
@@ -252,7 +253,7 @@ class DriverEndRequestController extends BaseController
             ]);
 
             }
-            
+
 
         } elseif ($request_detail->payment_opt==PaymentType::CARD) {
             // @TODO in future
@@ -337,14 +338,14 @@ class DriverEndRequestController extends BaseController
                 'is_credit'=>false
             ]);
         }
-               
+
             }
         }
         // @TODO need to add driver commision if the payment type is wallet
         // Store Request bill
 
         $bill = $request_detail->requestBill()->create($calculated_bill);
-    
+
         // Log::info($bill);
 
         $request_result = fractal($request_detail, new TripRequestTransformer)->parseIncludes(['requestBill','userDetail','driverDetail']);
@@ -362,7 +363,7 @@ class DriverEndRequestController extends BaseController
         $pus_request_detail = $request_result->toJson();
         $push_data = ['notification_enum'=>PushEnums::DRIVER_END_THE_TRIP,'result'=>(string)$pus_request_detail];
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::DRIVER_END_THE_TRIP;
         $socket_data->result = $request_result;
@@ -393,7 +394,7 @@ class DriverEndRequestController extends BaseController
     *
     */
     public function calculateRideFares($zone_type_price, $distance, $duration, $waiting_time, $coupon_detail,$request_detail)
-    {   
+    {
         $request_place = $request_detail->requestPlace;
 
         $airport_surge = find_airport($request_place->pick_lat,$request_place->pick_lng);
@@ -469,7 +470,7 @@ class DriverEndRequestController extends BaseController
             // $price_discount = ($sub_total * ($seat_discount / 100));
 
 
-            // $sub_total -= $price_discount; 
+            // $sub_total -= $price_discount;
 
             $base_price -= ($base_price * ($seat_discount / 100));
 
@@ -524,16 +525,16 @@ class DriverEndRequestController extends BaseController
         $admin_commision = round(($sub_total * ($service_fee / 100)),0);
 
         }else{
-            
+
             $admin_commision = round($service_fee,0);
 
         }
         // Admin commision with tax amount
         $admin_commision_with_tax = round(($tax_amount + $admin_commision),0);
-        $driver_commision = round(($sub_total+$discount_amount),0);  
+        $driver_commision = round(($sub_total+$discount_amount),0);
         // Driver Commission
         if($coupon_detail && $coupon_detail->deduct_from==2){
-            $driver_commision = $sub_total;  
+            $driver_commision = $sub_total;
         }
         // Total Amount
         $total_amount = round($sub_total + $admin_commision_with_tax,0);
@@ -565,7 +566,7 @@ class DriverEndRequestController extends BaseController
     *
     */
     public function calculateRentalRideFares($zone_type_price, $distance, $duration, $waiting_time, $coupon_detail,$request_detail)
-    {   
+    {
         $request_place = $request_detail->requestPlace;
 
         $airport_surge = find_airport($request_place->pick_lat,$request_place->pick_lng);
@@ -587,7 +588,7 @@ class DriverEndRequestController extends BaseController
         $calculatable_distance = $distance - $zone_type_price->free_distance;
         $calculatable_distance = $calculatable_distance<0?0:$calculatable_distance;
 
-        $price_per_distance = $zone_type_price->distance_price_per_km; 
+        $price_per_distance = $zone_type_price->distance_price_per_km;
 
         // Validate if the current time in surge timings
 
@@ -641,7 +642,7 @@ class DriverEndRequestController extends BaseController
             // $price_discount = ($sub_total * ($seat_discount / 100));
 
 
-            // $sub_total -= $price_discount; 
+            // $sub_total -= $price_discount;
 
             $base_price -= ($base_price * ($seat_discount / 100));
 
@@ -689,16 +690,16 @@ class DriverEndRequestController extends BaseController
         $admin_commision = round(($sub_total * ($service_fee / 100)),0);
 
         }else{
-            
+
             $admin_commision = round($service_fee,0);
 
         }
         // Admin commision with tax amount
         $admin_commision_with_tax = round(($tax_amount + $admin_commision),0);
-        $driver_commision = round(($sub_total+$discount_amount),0);  
+        $driver_commision = round(($sub_total+$discount_amount),0);
         // Driver Commission
         if($coupon_detail && $coupon_detail->deduct_from==2){
-            $driver_commision = round($sub_total,0);  
+            $driver_commision = round($sub_total,0);
         }
         // Total Amount
         $total_amount = round(($sub_total + $admin_commision_with_tax),0);
@@ -734,9 +735,9 @@ class DriverEndRequestController extends BaseController
         $current_date = Carbon::today()->toDateTimeString();
 
         $expired = Promo::where('id', $promo_code_id)->where('to', '>', $current_date)->first();
-        
+
         return $expired;
-        
+
         // $exceed_usage = PromoUser::where('promo_code_id', $expired->id)->where('user_id', $user_id)->get()->count();
 
         // if ($exceed_usage >= $expired->uses_per_user) {
@@ -746,6 +747,6 @@ class DriverEndRequestController extends BaseController
         // if ($expired->total_uses > $expired->total_uses+1) {
         //     return null;
         // }
-        
+
     }
 }

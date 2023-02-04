@@ -6,6 +6,7 @@ use App\Base\Slug\HasSlug;
 use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class City extends Model
 {
@@ -55,7 +56,7 @@ class City extends Model
     /**
      * The state that the city belongs to.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function state()
     {

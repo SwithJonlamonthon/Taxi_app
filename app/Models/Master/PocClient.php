@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Base\Uuid\UuidModel;
 use App\Models\User;
 use App\Models\Master\Project;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class PocClient extends Model
@@ -31,7 +32,7 @@ class PocClient extends Model
     /**
      * The roles associated with the user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function user()
     {
@@ -41,7 +42,7 @@ class PocClient extends Model
     //  * The roles associated with the user.
     //  *
     //  * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     
+
     // public function project()
     // {
     //     return $this->belongsTo(Project::class, 'id', 'project_id');

@@ -13,6 +13,8 @@ use App\Transformers\Common\SosTransformer;
 use App\Transformers\User\FavouriteLocationsTransformer;
 use App\Base\Constants\Setting\Settings;
 use Carbon\Carbon;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class UserTransformer extends Transformer
 {
@@ -99,7 +101,7 @@ class UserTransformer extends Transformer
      * Include the roles of the user.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeRoles(User $user)
     {
@@ -113,7 +115,7 @@ class UserTransformer extends Transformer
      * Include the request of the user.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeOnTripRequest(User $user)
     {
@@ -127,7 +129,7 @@ class UserTransformer extends Transformer
     * Include the request meta of the user.
     *
     * @param User $user
-    * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+    * @return Collection|NullResource
     */
     public function includeMetaRequest(User $user)
     {
@@ -142,7 +144,7 @@ class UserTransformer extends Transformer
     * Include the request meta of the user.
     *
     * @param User $user
-    * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+    * @return Collection|NullResource
     */
     public function includeLaterMetaRequest(User $user)
     {
@@ -167,7 +169,7 @@ class UserTransformer extends Transformer
     * Include the request meta of the user.
     *
     * @param User $user
-    * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+    * @return Collection|NullResource
     */
     public function includeSos(User $user)
     {
@@ -186,7 +188,7 @@ class UserTransformer extends Transformer
      * Include the favourite location of the user.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeFavouriteLocations(User $user)
     {

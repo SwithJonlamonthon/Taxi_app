@@ -19,7 +19,7 @@ class SMS implements SMSContract
     /** @var array */
     protected $config;
 
-    /** @var \Illuminate\Contracts\Queue\Queue */
+    /** @var Queue */
     protected $queue;
 
     /** @var string */
@@ -46,9 +46,9 @@ class SMS implements SMSContract
     /**
      * SMS constructor.
      *
-     * @param \Illuminate\Config\Repository $config
-     * @param \Illuminate\Contracts\Queue\Queue $queue
-     * @throws \Exception
+     * @param ConfigRepository $config
+     * @param Queue $queue
+     * @throws Exception
      */
     public function __construct(ConfigRepository $config, Queue $queue)
     {
@@ -157,7 +157,7 @@ class SMS implements SMSContract
      * @param string|object|null $message
      * @param int|null $type
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function send($numbers = null, $message = null, $type = null)
     {

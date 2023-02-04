@@ -15,6 +15,10 @@ use App\Models\Traits\HasActive;
 use App\Models\Admin\AdminDetail;
 use App\Models\Admin\UserDetails;
 use App\Models\Payment\UserWallet;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 use Laravel\Passport\HasApiTokens;
 use App\Models\LinkedSocialAccount;
 use App\Models\Payment\DriverWallet;
@@ -155,7 +159,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The roles associated with the user.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function roles()
     {
@@ -165,7 +169,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The OTP associated with the user's mobile number.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function otp()
     {
@@ -176,7 +180,7 @@ class User extends Authenticatable implements CanSendOTPContract
      * Get the user model for the given username.
      *
      * @param string $username
-     * @return \Illuminate\Database\Eloquent\Model|null|static
+     * @return Model|null|static
      */
     public function findForPassport($username)
     {
@@ -208,7 +212,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The Staff associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function admin()
     {
@@ -218,7 +222,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The Bank info associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function bankInfo()
     {
@@ -228,7 +232,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The Staff associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function developer()
     {
@@ -238,7 +242,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
     * The user wallet history associated with the user's id.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasOne
+    * @return hasOne
     */
     public function userWalletHistory()
     {
@@ -248,7 +252,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
     * The favouriteLocations associated with the user's id.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasOne
+    * @return hasOne
     */
     public function favouriteLocations()
     {
@@ -271,7 +275,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The Driver associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function driver()
     {
@@ -290,7 +294,7 @@ class User extends Authenticatable implements CanSendOTPContract
     /**
      * The Driver associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function userDetails()
     {
@@ -340,7 +344,7 @@ class User extends Authenticatable implements CanSendOTPContract
         return $this->apn_token;
     }
 
-    
+
 
     protected $searchable = [
         'columns' => [
@@ -353,7 +357,7 @@ class User extends Authenticatable implements CanSendOTPContract
     * The user that the country belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function countryDetail()
     {

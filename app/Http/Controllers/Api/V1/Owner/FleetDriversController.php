@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Owner;
 
 use App\Models\Admin\Driver;
+use Exception;
 use Illuminate\Support\Carbon;
 use App\Transformers\Driver\DriverProfileTransformer;
 use App\Http\Controllers\Api\V1\BaseController;
@@ -33,7 +34,7 @@ class FleetDriversController extends BaseController
         $this->fleet = $fleet;
 
         $this->database = $database;
-        
+
         $this->imageUploader = $imageUploader;
 
         $this->user = $user;
@@ -42,8 +43,8 @@ class FleetDriversController extends BaseController
 
     /**
      * List Drivers For Assign Drivers
-     * 
-     * 
+     *
+     *
      * */
     public function listDrivers()
     {
@@ -52,7 +53,7 @@ class FleetDriversController extends BaseController
         $drivers = Driver::where('owner_id',$owner_id)->get();
 
         $result = fractal($drivers, new DriverTransformer);
-    
+
         return $this->respondOk($result);
 
     }
@@ -64,8 +65,8 @@ class FleetDriversController extends BaseController
      * @bodyParam mobile string required mobile of the driver
      * @bodyParam address string required address of the driver
      * @bodyParam profile string required profile pic of the driver
-     * 
-     * 
+     *
+     *
      * */
     public function addDriver(Request $request){
 
@@ -119,7 +120,7 @@ class FleetDriversController extends BaseController
 
         $driver = $user->driver()->create($created_params);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error while Registering a driver account. Input params : ' . json_encode($request->all()));
             return $this->respondBadRequest('Unknown error occurred. Please try again later or contact us if it continues.');
@@ -134,8 +135,8 @@ class FleetDriversController extends BaseController
 
     /**
      * Delete Drivers
-     * 
-     * 
+     *
+     *
      * */
     public function deleteDriver(Driver $driver){
 
@@ -150,6 +151,6 @@ class FleetDriversController extends BaseController
 
     }
 
-    
+
 
 }

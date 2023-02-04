@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Registration;
 
+use App\Http\Requests\Auth\Registration\UserRegistrationRequest;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Admin\Driver;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Database;
 use App\Base\Constants\Auth\Role;
@@ -65,8 +68,8 @@ class DriverSignupController extends LoginController
     * @bodyParam car_number string required car number of the driver
     * @bodyParam car_color string required car color of the driver
     *
-    * @param \App\Http\Requests\Auth\Registration\UserRegistrationRequest $request
-    * @return \Illuminate\Http\JsonResponse
+    * @param UserRegistrationRequest $request
+    * @return JsonResponse
     * @responseFile responses/auth/register.json
     */
 
@@ -101,7 +104,7 @@ class DriverSignupController extends LoginController
         if ($validate_exists_mobile) {
             $this->throwCustomException('Provided mobile has already been taken');
         }
-        
+
         if (!$country_code) {
             $this->throwCustomException('unable to find country');
         }
@@ -184,7 +187,7 @@ class DriverSignupController extends LoginController
         if($request->has('role') && $request->role=='driver'){
 
             $validate_exists_mobile = $this->user->belongsTorole(Role::DRIVER)->where('mobile', $mobile)->exists();
-        
+
         }
         if($request->has('role') && $request->role=='owner'){
 
@@ -208,7 +211,7 @@ class DriverSignupController extends LoginController
         if ($validate_exists_email) {
             $this->throwCustomException('Provided email has already been taken');
         }
-        
+
         }
 
         if ($validate_exists_mobile) {
@@ -217,7 +220,7 @@ class DriverSignupController extends LoginController
 
         return $this->respondSuccess(null, 'mobile_validated');
     }
-   
+
     /**
     * Validate Mobile-For-Driver-For-Login
     * @bodyParam mobile integer required mobile of driver
@@ -240,7 +243,7 @@ class DriverSignupController extends LoginController
         if($request->has('role') && $request->role=='owner'){
 
             $validate_exists_mobile = $this->user->belongsTorole(Role::OWNER)->where('mobile', $mobile)->exists();
-        }   
+        }
 
         if ($validate_exists_mobile) {
             return $this->respondSuccess(null, 'mobile_exists');
@@ -293,9 +296,9 @@ class DriverSignupController extends LoginController
      * @bodyParam device_token string required device_token of the owner
      * @bodyParam service_location_id uuid required service location of the owner. it can be listed from service location list apis
      * @bodyParam login_by tinyInt required from which device the owner registered
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @responseFile responses/auth/register.json
-     * 
+     *
      * */
     public function ownerRegister(Request $request){
 
@@ -374,12 +377,12 @@ class DriverSignupController extends LoginController
         $owner = $user->owner()->create($created_params);
 
         $owner_wallet = $owner->ownerWalletDetail()->create(['amount_added'=>0]);
-        
+
 
         $this->database->getReference('owners/'.$owner->id)->set(['id'=>$owner->id,'active'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
 
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
             Log::error('Error while Registering a owner account. Input params : ' . json_encode($request->all()));

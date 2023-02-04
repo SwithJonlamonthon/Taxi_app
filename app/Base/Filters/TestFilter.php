@@ -3,6 +3,7 @@
 namespace App\Base\Filters;
 
 use App\Base\Libraries\QueryFilter\FilterContract;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Test filter to demonstrate the custom filter usage.
@@ -23,7 +24,7 @@ class TestFilter implements FilterContract {
 	/**
 	 * Just a dummy method to demonstrate the filter usage.
 	 *
-	 * @param \Illuminate\Database\Eloquent\Builder $builder
+	 * @param Builder $builder
 	 * @param mixed|null $value
 	 */
 	public function dummy($builder, $value = null) {

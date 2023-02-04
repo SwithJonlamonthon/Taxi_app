@@ -1746,7 +1746,7 @@
                     default:
                         g = n(l, e, t, a, i, o, s), p.width = a, p.height = i, p.y = g.y, p.x = g.x } return p } }, function(e, t, r) { "use strict";
             t.__esModule = !0, t["default"] = function() { var e, t, r; for (t = 0, r = arguments.length; t < r; t += 1)
-                    if (((e = arguments[t]) || !1 === e || 0 === e) && !isNaN(e = Number(e))) return e; return } }, function(e, t, r) { "use strict";
+                    if (((e = arguments[t]) || !1 === e || 0 === e) && !isNaN(e = Number(e))) return e;  } }, function(e, t, r) { "use strict";
             t.__esModule = !0, t.setRootSender = t.raiseEventGroup = t.raiseError = t.raiseWarning = t.disposeEvents = t.getListeners = t.triggerEvent = t.removeListener = t.addListener = void 0; var n = {},
                 a = {},
                 i = function(e, t, r, n) { try { e[0].call(t, r, n || {}) } catch (a) { setTimeout((function() { throw a }), 0) } },

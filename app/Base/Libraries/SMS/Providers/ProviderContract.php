@@ -2,6 +2,9 @@
 
 namespace App\Base\Libraries\SMS\Providers;
 
+use App\Base\Libraries\SMS\Exceptions\SMSFailException;
+use App\Base\Libraries\SMS\Exceptions\SMSInsufficientCreditsException;
+
 interface ProviderContract {
 	/**
 	 * Send the SMS.
@@ -10,8 +13,8 @@ interface ProviderContract {
 	 * @param string $message
 	 * @param int $type
 	 * @return bool
-	 * @throws \App\Base\Libraries\SMS\Exceptions\SMSFailException
-	 * @throws \App\Base\Libraries\SMS\Exceptions\SMSInsufficientCreditsException
+	 * @throws SMSFailException
+	 * @throws SMSInsufficientCreditsException
 	 */
 	public function send(array $numbers, $message, $type);
 }

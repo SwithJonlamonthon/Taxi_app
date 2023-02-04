@@ -4,6 +4,7 @@ namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class DriverAvailability extends Model
 {
@@ -35,7 +36,7 @@ class DriverAvailability extends Model
     * The driver that the uploaded data belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function driver()
     {
@@ -61,7 +62,7 @@ class DriverAvailability extends Model
     public function getConvertedDurationAtAttribute()
     {
         $hours =intdiv($this->duration,60). 'hr'." ".($this->duration % 60)."mins";
-        
+
 
         return $hours;
     }

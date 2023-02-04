@@ -17,6 +17,8 @@ use App\Transformers\Requests\TripRequestTransformer;
 use App\Base\Constants\Setting\Settings;
 use App\Models\Admin\Sos;
 use App\Transformers\Common\SosTransformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class DriverProfileTransformer extends Transformer
 {
@@ -170,7 +172,7 @@ class DriverProfileTransformer extends Transformer
      * Include the request of the driver.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeOnTripRequest(Driver $user)
     {
@@ -186,7 +188,7 @@ class DriverProfileTransformer extends Transformer
     * Include the request meta of the user.
     *
     * @param User $user
-    * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+    * @return Collection|NullResource
     */
     public function includeSos(Driver $user)
     {
@@ -206,7 +208,7 @@ class DriverProfileTransformer extends Transformer
      * Include the meta request of the driver.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeMetaRequest(Driver $user)
     {

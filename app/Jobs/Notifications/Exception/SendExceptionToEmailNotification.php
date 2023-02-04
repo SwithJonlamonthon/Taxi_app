@@ -3,6 +3,7 @@
 namespace App\Jobs\Notifications\Exception;
 
 use App\Jobs\Notifications\BaseNotification;
+use Config;
 use Illuminate\Mail\Message;
 
 class SendExceptionToEmailNotification extends BaseNotification
@@ -41,7 +42,7 @@ class SendExceptionToEmailNotification extends BaseNotification
      */
     protected function sendExceptionEmail()
     {
-        $appName = \Config::get('app.name');
+        $appName = Config::get('app.name');
 
         $this->mailer()
             ->send('email.errors.exception', $this->emailTemplateModel, function (Message $message) {

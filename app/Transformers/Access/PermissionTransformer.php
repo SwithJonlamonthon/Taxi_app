@@ -4,6 +4,8 @@ namespace App\Transformers\Access;
 
 use App\Models\Access\Permission;
 use App\Transformers\Transformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class PermissionTransformer extends Transformer
 {
@@ -35,7 +37,7 @@ class PermissionTransformer extends Transformer
      * Include the roles associated with the permission.
      *
      * @param Permission $permission
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeRoles(Permission $permission)
     {

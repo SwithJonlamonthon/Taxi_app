@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class DriverNeededDocumentController extends BaseController
 {
-    
+
     protected $neededDoc;
     protected $doctypes = ['jpg','png','doc','pdf'];
 
     /**
      * DriverNeededDocumentController constructor.
      *
-     * @param \App\Models\Admin\DriverNeededDocument $neededDoc
+     * @param DriverNeededDocument $neededDoc
      */
     public function __construct(DriverNeededDocument $neededDoc)
     {
@@ -61,7 +61,7 @@ class DriverNeededDocumentController extends BaseController
           if(env('APP_FOR')=='demo'){
             $message = 'you cannot perform this action. this is demo version';
         return redirect('needed_doc')->with('success', $message);
-            
+
         }
         Validator::make($request->all(), [
             'name' => 'required|unique:driver_needed_documents,name'
@@ -106,14 +106,14 @@ class DriverNeededDocumentController extends BaseController
           if(env('APP_FOR')=='demo'){
             $message = 'you cannot perform this action. this is demo version';
         return redirect('needed_doc')->with('success', $message);
-            
+
         }
         Validator::make($request->all(), [
             'name' => 'required|unique:driver_needed_documents,name,'.$neededDoc->id
         ])->validate();
 
         $updated_params = $request->only(['name','has_expiry_date','has_identify_number']);
-       
+
         $updated_params['is_individual'] = $request->document_for;
 
 
@@ -135,7 +135,7 @@ class DriverNeededDocumentController extends BaseController
           if(env('APP_FOR')=='demo'){
             $message = 'you cannot perform this action. this is demo version';
         return redirect('needed_doc')->with('success', $message);
-            
+
         }
         $status = $neededDoc->isActive() ? false: true;
         $neededDoc->update(['active' => $status]);
@@ -149,7 +149,7 @@ class DriverNeededDocumentController extends BaseController
           if(env('APP_FOR')=='demo'){
             $message = 'you cannot perform this action. this is demo version';
         return redirect('needed_doc')->with('success', $message);
-            
+
         }
         $neededDoc->delete();
 

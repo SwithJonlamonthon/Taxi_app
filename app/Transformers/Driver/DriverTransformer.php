@@ -13,6 +13,8 @@ use App\Models\Admin\DriverDocument;
 use App\Models\Admin\DriverNeededDocument;
 use App\Transformers\Access\RoleTransformer;
 use App\Transformers\Requests\TripRequestTransformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class DriverTransformer extends Transformer
 {
@@ -84,7 +86,7 @@ class DriverTransformer extends Transformer
             $params['car_color'] = $user->fleetDetail->car_color;
 
         }
-        
+
         $current_date = Carbon::now();
 
         $total_earnings = RequestBill::whereHas('requestDetail', function ($query) use ($user,$current_date) {
@@ -113,7 +115,7 @@ class DriverTransformer extends Transformer
      * Include the request of the driver.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeOnTripRequest(Driver $user)
     {
@@ -129,7 +131,7 @@ class DriverTransformer extends Transformer
      * Include the meta request of the driver.
      *
      * @param User $user
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeMetaRequest(Driver $user)
     {

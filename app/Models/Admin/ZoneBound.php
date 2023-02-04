@@ -6,6 +6,7 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class ZoneBound extends Model {
 	use HasActive, UuidModel;
@@ -39,7 +40,7 @@ class ZoneBound extends Model {
      * The admin that the uploaded image belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function zone()
     {

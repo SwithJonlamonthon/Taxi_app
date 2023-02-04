@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+
 class ApiController extends Controller
 {
 
@@ -9,8 +12,8 @@ class ApiController extends Controller
      * Validate and get the uploaded file.
      *
      * @param string $name
-     * @param \Illuminate\Http\Request|null $request
-     * @return array|\Illuminate\Http\UploadedFile|null
+     * @param Request|null $request
+     * @return array|UploadedFile|null
      */
     protected function getValidatedUpload($name, $request = null)
     {

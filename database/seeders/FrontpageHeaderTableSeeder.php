@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use DB;
 use Illuminate\Database\Seeder;
 use App\Models\Cms\FrontPage;
 
@@ -16,7 +17,7 @@ class FrontpageHeaderTableSeeder extends Seeder
      */
     public function run()
     {
-        
+
 
         $cms = FrontPage::first();
 
@@ -24,9 +25,9 @@ class FrontpageHeaderTableSeeder extends Seeder
             goto end;
 
         }
-        
-        \DB::table('landingpagecms')->insert(array (
-            0 => 
+
+        DB::table('landingpagecms')->insert(array (
+            0 =>
             array (
                 'id' => 19,
                 'userid' => 1,
@@ -818,7 +819,7 @@ In Accordance with Section 9 of the &quot;Instructions for Minimum Terms of Deve
                     'hserht1' => '<h3>Drop off</h3>',
                     'hsercimage1' => 'SH4JqHAeVXj9Mkz78giGIjxGqyob02kpjMk1fhFq.png',
                     'hserht2' => '<p>Drop off your passenger at their destination</p>',
-                    'contactbanner' => 'INAO5d4sUN0rFwuobaHoRVwiof9c5So89YaxnaND.jpg',                    
+                    'contactbanner' => 'INAO5d4sUN0rFwuobaHoRVwiof9c5So89YaxnaND.jpg',
                     'contacttext' => '<p>Get In Touch With Us</p>
 
 <p>Have a question, inquiry or comment? Feel free to contact us. Simply fill in the contact form or just select your preferred channel and send us a message. We&rsquo;ll do everything we can to respond quickly.</p>
@@ -834,12 +835,12 @@ In Accordance with Section 9 of the &quot;Instructions for Minimum Terms of Deve
 Media Inquiries: <a href="mailto:media@tyt.us">media@tyt.us</a><br />
 Partnership Inquiries: <a href="mailto:partner@tyt.us"> partner@tyt.us</a><br />
 File a complaint: <a href="mailto:compliance@tyt.us"> compliance@tyt.us</a><br />
-General Inquiries: <a href="mailto:info@tyt.us"> info@tyt.us</a></p>',                    
-                    'contactmap' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.8124423896343!2d76.99306681417376!3d11.052684457057428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85c1faf9dbe73%3A0x68dc9947d4882eff!2sTaxi%20Dispatch%20Software%2FSystem%20%7C%20White%20Label%20Taxi%20App%20-%20TagYourTaxi!5e0!3m2!1sen!2sin!4v1616142939290!5m2!1sen!2sin',                    
+General Inquiries: <a href="mailto:info@tyt.us"> info@tyt.us</a></p>',
+                    'contactmap' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.8124423896343!2d76.99306681417376!3d11.052684457057428!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba85c1faf9dbe73%3A0x68dc9947d4882eff!2sTaxi%20Dispatch%20Software%2FSystem%20%7C%20White%20Label%20Taxi%20App%20-%20TagYourTaxi!5e0!3m2!1sen!2sin!4v1616142939290!5m2!1sen!2sin',
                     'driverioslink' => 'https://apps.apple.com/in/app/tagxi-driver/id1608868990',
                     'driverandroidlink' => 'https://play.google.com/store/apps/details?id=com.tagxi.operator"',
                     'userioslink' => 'https://apps.apple.com/in/app/tagxi/id1608868419',
-                    'userandroidlink' => 'https://play.google.com/store/apps/details?id=com.tagxi.user',    
+                    'userandroidlink' => 'https://play.google.com/store/apps/details?id=com.tagxi.user',
                     'menucolor'=>'#ffffff',
                     'menutextcolor'=>'#01f0ff',
                     'menutexthover'=>'#01f0ff',
@@ -851,8 +852,8 @@ General Inquiries: <a href="mailto:info@tyt.us"> info@tyt.us</a></p>',
                     'updated_at' => '2022-08-12',
                 ),
             ));
-        
-        
+
+
         end:
 
     }

@@ -11,6 +11,7 @@ use App\Http\Requests\Master\Roles\UpdateRoleRequest;
 use App\Models\Access\Permission;
 use App\Models\Access\Role;
 use App\Base\Constants\Auth\Role as RoleSlug;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @resource Roles&Permissions
@@ -23,14 +24,14 @@ class RoleController extends BaseController
     /**
      * The role model instance.
      *
-     * @var \App\Models\Access\Role
+     * @var Role
      */
     protected $role;
 
     /**
      * The Permission model instance.
      *
-     * @var \App\Models\Access\Permission
+     * @var Permission
      */
     protected $permission;
 
@@ -49,7 +50,7 @@ class RoleController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      */
     public function index(QueryFilterContract $queryFilter)
@@ -92,7 +93,7 @@ class RoleController extends BaseController
     /**
      * Get Roles By ID
      * @param id
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getById($id)
     {
@@ -113,7 +114,7 @@ class RoleController extends BaseController
      * create the Role.
      *
      * @param \App\Http\Requests\Auth\Registration\CreateRoleRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @response
      * {
      *"success": true,
@@ -132,7 +133,7 @@ class RoleController extends BaseController
     /**
      * Update role
      * @param UpdateRoleRequest $role
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * @hideFromAPIDocumentation
      * @response
      * {

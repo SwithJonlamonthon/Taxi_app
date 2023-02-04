@@ -5,6 +5,8 @@ namespace App\Transformers\Access;
 use App\Models\Access\Role;
 use App\Transformers\Transformer;
 use App\Transformers\User\UserTransformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\NullResource;
 
 class RoleTransformer extends Transformer
 {
@@ -38,7 +40,7 @@ class RoleTransformer extends Transformer
      * Include the permissions of the role.
      *
      * @param Role $role
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includePermissions(Role $role)
     {
@@ -53,7 +55,7 @@ class RoleTransformer extends Transformer
      * Include the users associated with the role.
      *
      * @param Role $role
-     * @return \League\Fractal\Resource\Collection|\League\Fractal\Resource\NullResource
+     * @return Collection|NullResource
      */
     public function includeUsers(Role $role)
     {

@@ -19,6 +19,7 @@ use App\Models\Request\DriverRejectedRequest;
 use Sk\Geohash\Geohash;
 use Kreait\Firebase\Contract\Database;
 use App\Base\Constants\Setting\Settings;
+use stdClass;
 
 class AssignDriversForScheduledRides extends Command
 {
@@ -118,13 +119,13 @@ class AssignDriversForScheduledRides extends Command
         $vehicle_type = $type_id;
 
         $fire_drivers = $this->database->getReference('drivers')->orderByChild('g')->startAt($lower_hash)->endAt($higher_hash)->getValue();
-        
+
         $firebase_drivers = [];
 
         $i=-1;
 
         foreach ($fire_drivers as $key => $fire_driver) {
-            $i +=1; 
+            $i +=1;
             $driver_updated_at = Carbon::createFromTimestamp($fire_driver['updated_at'] / 1000)->timestamp;
 
             if(array_key_exists('vehicle_type',$fire_driver) && $fire_driver['vehicle_type']==$vehicle_type && $fire_driver['is_active']==1 && $fire_driver['is_available']==1 && $conditional_timestamp < $driver_updated_at){
@@ -133,23 +134,23 @@ class AssignDriversForScheduledRides extends Command
 
                 $firebase_drivers[$fire_driver['id']]['distance']= $distance;
 
-            }      
+            }
 
         }
 
         asort($firebase_drivers);
 
             if (!empty($firebase_drivers)) {
-                    
+
                     $nearest_driver_ids = [];
 
                 foreach ($firebase_drivers as $key => $firebase_driver) {
-                    
+
                     $nearest_driver_ids[]=$key;
                 }
 
                     $rejected_drivers = DriverRejectedRequest::where('request_id',$request->id)->pluck('driver_id')->toArray();
-                    
+
                     $nearest_drivers = Driver::where('active', 1)->where('approve', 1)->where('available', 1)->where('vehicle_type', $type_id)->whereIn('id', $nearest_driver_ids)->whereNotIn('id', $meta_drivers)->whereNotIn('id',$rejected_drivers)->limit(10)->get();
 
                     if ($nearest_drivers->isEmpty()) {
@@ -162,7 +163,7 @@ class AssignDriversForScheduledRides extends Command
                             $no_driver_request_ids[0] = $request->id;
 
                              $this->database->getReference('requests/'.$request->id)->update(['no_driver'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
-                             
+
                             dispatch(new NoDriverFoundNotifyJob($no_driver_request_ids));
                         }
                     } else {
@@ -180,16 +181,16 @@ class AssignDriversForScheduledRides extends Command
 
                         // Send notification to the very first driver
                         $first_meta_driver = $selected_drivers[0]['driver_id'];
-                        
+
                         // Add first Driver into Firebase Request Meta
                         $this->database->getReference('request-meta/'.$request->id)->set(['driver_id'=>$first_meta_driver,'request_id'=>$request->id,'user_id'=>$request->user_id,'active'=>1,'is_later'=>1,'updated_at'=> Database::SERVER_TIMESTAMP]);
 
                         $request_result =  fractal($request, new CronTripRequestTransformer)->parseIncludes('userDetail');
                         $pus_request_detail = $request_result->toJson();
                         $push_data = ['notification_enum'=>PushEnums::REQUEST_CREATED,'result'=>(string)$pus_request_detail];
-                        
 
-                        $socket_data = new \stdClass();
+
+                        $socket_data = new stdClass();
                         $socket_data->success = true;
                         $socket_data->success_message  = PushEnums::REQUEST_CREATED;
                         $socket_data->result = $request_result;
@@ -214,7 +215,7 @@ class AssignDriversForScheduledRides extends Command
                             $request->requestMeta()->create($selected_driver);
                         }
                     }
-                
+
             } else {
                  $this->info('no-drivers-available');
                     $request->attempt_for_schedule += 1;

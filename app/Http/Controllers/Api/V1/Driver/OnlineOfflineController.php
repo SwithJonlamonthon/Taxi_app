@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Driver;
 
 use App\Models\Admin\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Carbon;
 use App\Transformers\Driver\DriverProfileTransformer;
 use App\Http\Controllers\Api\V1\BaseController;
@@ -19,7 +20,7 @@ class OnlineOfflineController extends BaseController
     /**
     * Online-Offline driver
     * @group Driver-trips-apis
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     * @responseFile responses/driver/Online-OfflineResponse.json
     * @responseFile responses/driver/DriverOfflineResponse.json
     */

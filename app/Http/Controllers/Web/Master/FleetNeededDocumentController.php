@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class FleetNeededDocumentController extends BaseController
 {
-    
+
     protected $neededDoc;
     protected $doctypes = ['jpg','png','doc','pdf'];
 
     /**
      * FleetNeededDocumentController constructor.
      *
-     * @param \App\Models\Admin\FleetNeededDocument $neededDoc
+     * @param FleetNeededDocument $neededDoc
      */
     public function __construct(FleetNeededDocument $neededDoc)
     {

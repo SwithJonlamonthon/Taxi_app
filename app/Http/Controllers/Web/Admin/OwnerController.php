@@ -29,14 +29,14 @@ class OwnerController extends BaseController
     /**
      * The Owner model instance.
      *
-     * @var \App\Models\Admin\Owner
+     * @var Owner
      */
     protected $owner;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -44,7 +44,7 @@ class OwnerController extends BaseController
     /**
      * OwnerController constructor.
      *
-     * @param \App\Models\Admin\Owner $owner
+     * @param Owner $owner
      */
     public function __construct(Owner $owner, User $user,ImageUploaderContract $imageUploader,Database $database)
     {
@@ -92,7 +92,7 @@ class OwnerController extends BaseController
 
         return view('admin.owners._owners', compact('results'))->render();
     }
-    
+
     public function create(ServiceLocation $area)
     {
         $page = trans('pages_names.add_owner');
@@ -113,16 +113,16 @@ class OwnerController extends BaseController
         $created_params['password'] = bcrypt($request->input('password'));
 
         $user = $this->user->create($userParam);
-        
+
         $token = str_random(40);
         $user->forceFill([
             'email_confirmation_token' => bcrypt($token)
         ])->save();
-        
+
         // $this->dispatch(new EmailConfirmationNotification($user, $token));
 
         $user->attachRole(RoleSlug::OWNER);
-        
+
         $user->owner()->create($created_params);
 
     if($request->has('needed_document'))
@@ -139,7 +139,7 @@ class OwnerController extends BaseController
             $docController->uploadOwnerDoc($name,$expiry_date,$request,$owner,$doc);
         }
     }
-        
+
         $message = trans('succes_messages.owner_added_succesfully');
 
         return redirect("owners/by_area/$request->service_location_id")->with('success', $message);
@@ -190,25 +190,25 @@ class OwnerController extends BaseController
     public function toggleApprove(Owner $owner)
     {
         $status = $owner->approve == 1 ? 0 : 1;
-        
+
         if($status){
-            
-    
+
+
             $err = false;
             $neededDoc = OwnerNeededDocument::where('active','1')->count();
             $uploadedDoc = count($owner->ownerDocument);
-    
+
             if ($neededDoc != $uploadedDoc) {
                 $message = trans('succes_messages.owner_document_not_uploaded');
                 return redirect("owners/by_area/$owner->service_location_id")->with('warning', $message);
             }
-    
+
             foreach ($owner->ownerDocument as $ownerDoc) {
                 if ($ownerDoc->document_status != 1) {
                     $err = true;
                 }
             }
-    
+
             if ($err) {
                 $message = trans('succes_messages.owner_document_not_uploaded');
                 return redirect("owners/by_area/$owner->service_location_id")->with('warning', $message);

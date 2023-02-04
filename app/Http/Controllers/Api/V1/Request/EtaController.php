@@ -22,6 +22,7 @@ use App\Models\Request\Request as RequestModel;
 use App\Transformers\Requests\PackagesTransformer;
 use App\Models\Master\PackageType;
 use App\Base\Constants\Auth\Role;
+use stdClass;
 
 /**
  * @group User-trips-apis
@@ -66,7 +67,7 @@ class EtaController extends ApiController
         if(access()->hasRole(Role::DRIVER)){
 
             $type_id = auth()->user()->driver->vehicle_type;
-            
+
             $type = $zone_detail->zoneType()->where('type_id', $type_id)->first();
 
             if(!$type){
@@ -90,7 +91,7 @@ class EtaController extends ApiController
     * @response {
     "success": true,
     "message": "drop_changed_successfully"}
-    * 
+    *
     */
     public function changeDropLocation(Request $request){
 
@@ -123,7 +124,7 @@ class EtaController extends ApiController
         // Send FCM Notification
         dispatch(new FcmPushNotification($title,$push_data,$device_token));
 
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = PushEnums::DROP_CHANGED;
         $socket_data->result = $request_result;
@@ -148,12 +149,12 @@ class EtaController extends ApiController
             'pick_lng'  => 'required',
         ]);
 
-        
+
         $type = PackageType::active()->get();
 
         $result = fractal($type, new PackagesTransformer);
 
-        return $this->respondSuccess($result);         
+        return $this->respondSuccess($result);
 
     }
 }

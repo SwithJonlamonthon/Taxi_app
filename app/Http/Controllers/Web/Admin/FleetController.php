@@ -22,18 +22,18 @@ use App\Jobs\Notifications\AndroidPushNotification;
 
 class FleetController extends BaseController
 {
-    
+
     /**
      * The Fleet model instance.
      *
-     * @var \App\Models\Admin\Fleet
+     * @var Fleet
      */
     protected $fleet;
 
     /**
      * FleetController constructor.
      *
-     * @param \App\Models\Admin\Fleet $fleet
+     * @param Fleet $fleet
      */
     public function __construct(Fleet $fleet, ImageUploaderContract $imageUploader)
     {
@@ -67,7 +67,7 @@ class FleetController extends BaseController
 
         $carmake = CarMake::active()->get();
          $carmodel = CarModel::active()->get();
-       
+
         $types = VehicleType::active()->get();
 
         return view('admin.fleets.create', compact('page', 'main_menu', 'sub_menu','carmake','types','carmodel'));
@@ -89,7 +89,7 @@ class FleetController extends BaseController
         $fleet = $this->fleet->create($created_params);
 
         $qrCode = $this->generateQRCode($fleet);
-        
+
         $fleet->update([
             'fleet_id' => $qrCode['code'],
             'qr_image' => $qrCode['qrcode'],
@@ -126,7 +126,7 @@ class FleetController extends BaseController
 
         $carmake = CarMake::active()->get();
          $carmodel = CarModel::active()->get();
-        
+
         $types = VehicleType::active()->get();
 
         return view('admin.fleets.update', compact('page', 'item', 'main_menu', 'sub_menu','types','carmake','carmodel'));
@@ -138,9 +138,9 @@ class FleetController extends BaseController
         $updated_params = $request->only(['brand','model','license_number','permission_number']);
         $updated_params['vehicle_type'] = $request->type;
 
-        
+
         $fleet->update($updated_params);
-   
+
         if ($uploadedFile = $this->getValidatedUpload('registration_certificate', $request)) {
             $fleet_document['registration_certificate'] = $this->imageUploader->file($uploadedFile)
                 ->saveFleetRegistrationCertificateImage();
@@ -218,9 +218,9 @@ class FleetController extends BaseController
         if($status){
             $title = trans('push_notifications.fleet_approved_title',[],$user->lang);
             $body = trans('push_notifications.fleet_approved_body',[],$user->lang);
-    
+
         }
-        
+
         $user->notify(new AndroidPushNotification($title, $body));
 
         $message = trans('succes_messages.fleet_approval_status_changed_succesfully');
@@ -236,7 +236,7 @@ class FleetController extends BaseController
     }
 
     public function delete(Fleet $fleet)
-    {   
+    {
          if($fleet->driverDetail){
 
             $fleet->driverDetail()->update(['fleet_id'=>null,'vehicle_type'=>null]);
@@ -292,7 +292,7 @@ class FleetController extends BaseController
             'fleet_id' => $fleet->id,
             'vehicle_type' => $fleet->vehicle_type
         ]);
-        
+
         $message = trans('succes_messages.driver_assigned_succesfully');
 
         return redirect('fleets')->with('success', $message);

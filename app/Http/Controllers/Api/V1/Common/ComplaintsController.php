@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1\Common;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Admin\Complaint;
 use App\Base\Constants\Auth\Role;
@@ -69,7 +70,7 @@ class ComplaintsController extends BaseController
     * "success": true,
     * "message": "complaint_posted_successfully",
     * }
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function makeComplaint(Request $request)
     {
@@ -94,7 +95,7 @@ class ComplaintsController extends BaseController
         }
 
         $created_params['status'] = ComplaintType::NEW_COMPLAINT;
-        
+
         $taxi_complaint = Complaint::create($created_params);
 
         return $this->respondSuccess($data=null, 'complaint_posted_successfully');

@@ -7,15 +7,17 @@ use App\Base\Services\ImageUploader\ImageUploaderContract;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\BaseController;
 // use App\Http\Requests\Taxi\Driver\FleetDocumentUploadRequest;
+use App\Models\Admin\Driver;
 use App\Models\Admin\Fleet;
 use App\Models\Admin\FleetDocument;
 use App\Models\Admin\FleetNeededDocument;
 use App\Models\User;
 use Illuminate\Http\Request;
+use stdClass;
 
 class FleetDocumentController extends BaseController
 {
-    
+
     /**
      * The
      *
@@ -26,7 +28,7 @@ class FleetDocumentController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(ImageUploaderContract $imageUploader)
     {
@@ -65,7 +67,7 @@ class FleetDocumentController extends BaseController
     {
         $expiry_date = $request->expiry_date;
         $this->uploadFleetDoc('document',$expiry_date,$request,$fleet,$needed_document);
-     
+
         $message = trans('success_messages.fleet_document_uploaded_successfully');
 
         return redirect("fleets/document/view/$fleet->id")->with('success', $message);
@@ -128,7 +130,7 @@ class FleetDocumentController extends BaseController
             FleetDocument::create($created_params);
         }
     }
-  
+
     public function toggleApprove(Fleet $fleet, $status)
     {
         $status = $status == true ? 1 : 0;
@@ -158,12 +160,12 @@ class FleetDocumentController extends BaseController
         $formated_driver = $this->formatResponseData($fleet_result);
 
         $socket_params = $formated_fleet['data'];
-        $socket_data = new \stdClass();
+        $socket_data = new stdClass();
         $socket_data->success = true;
         $socket_data->success_message  = $socket_success_message;
         $socket_data->data  = $socket_params;
 
-        
+
         // dispatch(new NotifyViaMqtt('approval_status_'.$driver_details->id, json_encode($socket_data), $driver_details->id));
 
         $user->notify(new AndroidPushNotification($title, $body, $push_data));

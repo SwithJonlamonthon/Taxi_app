@@ -18,7 +18,7 @@ class FaqController extends BaseController
     /**
      * FaqController constructor.
      *
-     * @param \App\Models\Admin\Faq $faq
+     * @param Faq $faq
      */
     public function __construct(Faq $faq)
     {

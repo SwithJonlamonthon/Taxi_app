@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1\Auth\Registration;
 
+use App\Http\Requests\Auth\Registration\UserRegistrationRequest;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Admin\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Contract\Database;
 use App\Base\Constants\Auth\Role;
@@ -64,8 +66,8 @@ class DriverRegistrationControllerBCK extends LoginController
     * @bodyParam car_model string required car model of the driver
     * @bodyParam car_number string required car number of the driver
     *
-    * @param \App\Http\Requests\Auth\Registration\UserRegistrationRequest $request
-    * @return \Illuminate\Http\JsonResponse
+    * @param UserRegistrationRequest $request
+    * @return JsonResponse
     * @responseFile responses/auth/register.json
     */
 
@@ -199,9 +201,9 @@ class DriverRegistrationControllerBCK extends LoginController
         if ($validate_exists_email) {
             $this->throwCustomException('Provided email has already been taken');
         }
-        
+
         }
-        
+
 
 
         if ($validate_exists_mobile) {
@@ -210,7 +212,7 @@ class DriverRegistrationControllerBCK extends LoginController
 
         return $this->respondSuccess(null, 'mobile_validated');
     }
-   
+
     /**
     * Validate Mobile-For-Driver-For-Login
     * @bodyParam mobile integer required mobile of driver

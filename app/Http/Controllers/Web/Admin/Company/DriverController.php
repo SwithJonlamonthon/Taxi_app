@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Country;
 use App\Jobs\NotifyViaMqtt;
 use App\Models\Admin\Driver;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Jobs\NotifyViaSocket;
 use App\Models\Admin\Company;
@@ -33,6 +34,7 @@ use App\Models\Admin\OwnerHiredDriver;
 use App\Models\Admin\Fleet;
 use App\Models\Admin\DriverPrivilegedVehicle;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 /**
  * @resource Driver
@@ -44,14 +46,14 @@ class DriverController extends BaseController
     /**
      * The Driver model instance.
      *
-     * @var \App\Models\Admin\Driver
+     * @var Driver
      */
     protected $driver;
 
     /**
      * The User model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -66,7 +68,7 @@ class DriverController extends BaseController
     /**
      * DriverController constructor.
      *
-     * @param \App\Models\Admin\Driver $driver
+     * @param Driver $driver
      */
     public function __construct(Driver $driver, ImageUploaderContract $imageUploader, User $user)
     {
@@ -77,7 +79,7 @@ class DriverController extends BaseController
 
     /**
     * Get all drivers
-    * @return \Illuminate\Http\JsonResponse
+    * @return JsonResponse
     */
     public function index()
     {
@@ -138,14 +140,14 @@ class DriverController extends BaseController
     /**
      * Create Driver.
      *
-     * @param \App\Http\Requests\Admin\Driver\CreateDriverRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param CreateDriverRequest $request
+     * @return JsonResponse
      */
     public function store(CreateDriverRequest $request)
     {
         $created_params = $request->only(['name','mobile','email','address','state','city','country','gender','car_color','car_number']);
         $created_params['owner_id'] = auth()->user()->owner->id;
-        $created_params['service_location_id'] = auth()->user()->owner->service_location_id; 
+        $created_params['service_location_id'] = auth()->user()->owner->service_location_id;
         $created_params['postal_code'] = $request->postal_code;
         $created_params['uuid'] = driver_uuid();
 
@@ -159,7 +161,7 @@ class DriverController extends BaseController
         if ($validate_exists_mobile) {
             return redirect()->back()->withErrors(['mobile'=>'Provided mobile has already been taken'])->withInput();
         }
-        
+
         DB::beginTransaction();
         try {
             $user = $this->user->create(['name'=>$request->input('name'),
@@ -170,27 +172,27 @@ class DriverController extends BaseController
                 'company_key'=>auth()->user()->company_key,
                 'refferal_code'=> str_random(6)
             ]);
-    
+
             if ($uploadedFile = $this->getValidatedUpload('profile', $request)) {
                 $created_params['profile'] = $this->imageUploader->file($uploadedFile)
                     ->saveDriverProfilePicture();
             }
-    
+
             $user->attachRole(RoleSlug::DRIVER);
-    
+
             $driver = $user->driver()->create($created_params);
-    
+
             $driver_detail = $driver->driverDetail()->create([
                 'is_company_driver' => true
             ]);
-    
+
             $message = trans('succes_messages.driver_added_succesfully');
-    
+
             cache()->tags('drivers_list')->flush();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             // dd($th);
-            return back()->with('warning','Something went wrong!')->withInput();    
+            return back()->with('warning','Something went wrong!')->withInput();
         }
         DB::commit();
 
@@ -230,11 +232,11 @@ class DriverController extends BaseController
             return redirect()->back()->withErrors(['mobile'=>'Provided mobile hs already been taken'])->withInput();
         }
 
-        
+
         DB::beginTransaction();
         try {
             $driver->update($updatedParams);
-    
+
             $driver->user()->update([
                 'name'=>$request->input('name'),
                 'email'=>$request->input('email'),
@@ -242,15 +244,15 @@ class DriverController extends BaseController
             ]);
 
             $message = trans('succes_messages.driver_updated_succesfully');
-    
+
             cache()->tags('drivers_list')->flush();
-        } catch (\Throwable $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             // dd($th);
-            return back()->with('warning','Something went wrong!')->withInput();    
+            return back()->with('warning','Something went wrong!')->withInput();
         }
         DB::commit();
-        
+
         return redirect('company/drivers')->with('success', $message);
     }
 
@@ -378,8 +380,8 @@ class DriverController extends BaseController
 
         $uuid = $request->driver;
         $driver = Driver::whereUuid($uuid)->first();
-        
-        
+
+
         if(!OwnerHiredDriver::whereDriverId($driver->id)->whereOwnerId(auth()->user()->owner->id)->exists()){
             OwnerHiredDriver::create([
                 'driver_id' => $driver->id,
@@ -423,7 +425,7 @@ class DriverController extends BaseController
                 'owner_id' => auth()->user()->owner->id
             ]);
         }
-        
+
         $message = trans('succes_messages.vehicle_assigned_to_driver');
 
         return redirect('company/drivers')->with('success', $message);

@@ -16,7 +16,7 @@ class ComplaintTitleController extends Controller
     /**
      * FaqController constructor.
      *
-     * @param \App\Models\Admin\ComplaintTitle $complaintTitle
+     * @param ComplaintTitle $complaintTitle
      */
     public function __construct(ComplaintTitle $complaintTitle)
     {

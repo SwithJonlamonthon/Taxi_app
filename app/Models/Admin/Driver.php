@@ -12,6 +12,8 @@ use App\Models\Payment\DriverWallet;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\DriverAvailability;
 use App\Models\Payment\DriverWalletHistory;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\hasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use App\Models\Payment\WalletWithdrawalRequest;
@@ -132,7 +134,7 @@ class Driver extends Model
     public function currentRide(){
 
         return $this->requestDetail()->where('is_completed',false)->where('is_cancelled',false)->exists();
-        
+
     }
     public function driverAvailabilities()
     {
@@ -143,16 +145,16 @@ class Driver extends Model
      * The driver that the user_id belongs to.
      * @tested
      *
-     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     * @return belongsTo
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    } 
+    }
     public function serviceLocation()
     {
         return $this->belongsTo(ServiceLocation::class, 'service_location_id', 'id');
-    } 
+    }
    public function owner()
     {
         return $this->belongsTo(Owner::class, 'owner_id', 'id');
@@ -176,7 +178,7 @@ class Driver extends Model
     /**
      * The driver associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function driverDetail()
     {
@@ -186,7 +188,7 @@ class Driver extends Model
     /**
      * The driver document associated with the user's id.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return hasOne
      */
     public function driverDocument()
     {
@@ -195,7 +197,7 @@ class Driver extends Model
     /**
     * The driver wallet history associated with the driver's id.
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasOne
+    * @return hasOne
     */
     public function driverWalletHistory()
     {

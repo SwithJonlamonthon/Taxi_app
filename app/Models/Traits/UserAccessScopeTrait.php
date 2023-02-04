@@ -2,14 +2,16 @@
 
 namespace App\Models\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
+
 trait UserAccessScopeTrait
 {
     /**
      * Scope a query to check if the user belongs to the role using its name.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param array $roleSlugs
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeBelongsToRole($query, ...$roleSlugs)
     {
@@ -25,9 +27,9 @@ trait UserAccessScopeTrait
     /**
      * Scope a query to check if the user doesn't belong to the role using its name.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param array $roleSlugs
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeDoesNotBelongToRole($query, ...$roleSlugs)
     {

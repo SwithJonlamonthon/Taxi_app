@@ -2,13 +2,14 @@
 
 namespace App\Base\Services\ImageEncoder;
 
+use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
 class ImageEncoder implements ImageEncoderContract {
 	/**
 	 * The ImageManager instance.
 	 *
-	 * @var \Intervention\Image\ImageManager
+	 * @var ImageManager
 	 */
 	protected $image;
 
@@ -43,7 +44,7 @@ class ImageEncoder implements ImageEncoderContract {
 	/**
 	 * ImageEncoder constructor.
 	 *
-	 * @param \Intervention\Image\ImageManager $image
+	 * @param ImageManager $image
 	 */
 	public function __construct(ImageManager $image) {
 		$this->image = $image;
@@ -54,7 +55,7 @@ class ImageEncoder implements ImageEncoderContract {
 	 *
 	 * @param mixed $file
 	 * @param bool $autoScale
-	 * @return \Intervention\Image\Image
+	 * @return Image
 	 */
 	public function encode($file, $autoScale = true) {
 		$uploadedImage = $this->image->make($file);

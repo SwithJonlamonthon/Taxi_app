@@ -7,27 +7,28 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseOTPHandler implements OTPHandlerContract
 {
     /**
      * The database connection instance.
      *
-     * @var \Illuminate\Database\ConnectionInterface
+     * @var ConnectionInterface
      */
     protected $connection;
 
     /**
      * The OTP generator instance.
      *
-     * @var \App\Base\Services\OTP\Generator\OTPGeneratorContract
+     * @var OTPGeneratorContract
      */
     protected $generator;
 
     /**
      * The hasher instance.
      *
-     * @var \Illuminate\Contracts\Hashing\Hasher
+     * @var Hasher
      */
     protected $hasher;
 
@@ -41,7 +42,7 @@ class DatabaseOTPHandler implements OTPHandlerContract
     /**
      * The mobile OTP Eloquent model.
      *
-     * @var \Illuminate\Database\Eloquent\Model
+     * @var Model
      */
     protected $model;
 
@@ -97,9 +98,9 @@ class DatabaseOTPHandler implements OTPHandlerContract
     /**
      * DatabaseOTPHandler constructor.
      *
-     * @param \Illuminate\Database\ConnectionInterface $connection
-     * @param \App\Base\Services\OTP\Generator\OTPGeneratorContract $generator
-     * @param \Illuminate\Contracts\Hashing\Hasher $hasher
+     * @param ConnectionInterface $connection
+     * @param OTPGeneratorContract $generator
+     * @param Hasher $hasher
      */
     public function __construct(
         ConnectionInterface $connection,
@@ -438,8 +439,8 @@ class DatabaseOTPHandler implements OTPHandlerContract
     /**
      * Get the model instance to handle OTP DB transactions.
      *
-     * @return \Illuminate\Database\Eloquent\Model
-     * @throws \Exception
+     * @return Model
+     * @throws Exception
      */
     protected function getModel()
     {
@@ -453,7 +454,7 @@ class DatabaseOTPHandler implements OTPHandlerContract
     /**
      * Get the current database connection instance.
      *
-     * @return \Illuminate\Database\ConnectionInterface
+     * @return ConnectionInterface
      */
     protected function getConnection()
     {

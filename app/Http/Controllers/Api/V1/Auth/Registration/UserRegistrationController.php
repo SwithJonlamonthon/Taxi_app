@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Auth\Registration;
 
 use DB;
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Twilio;
 use App\Models\User;
 use App\Models\Country;
@@ -40,14 +42,14 @@ class UserRegistrationController extends LoginController
     /**
      * The OTP handler instance.
      *
-     * @var \App\Base\Services\OTP\Handler\OTPHandlerContract
+     * @var OTPHandlerContract
      */
     protected $otpHandler;
 
     /**
      * The user model instance.
      *
-     * @var \App\Models\User
+     * @var User
      */
     protected $user;
 
@@ -60,8 +62,8 @@ class UserRegistrationController extends LoginController
     /**
      * UserRegistrationController constructor.
      *
-     * @param \App\Models\User $user
-     * @param \App\Base\Services\OTP\Handler\OTPHandlerContract $otpHandler
+     * @param User $user
+     * @param OTPHandlerContract $otpHandler
      */
     public function __construct(User $user, OTPHandlerContract $otpHandler, Country $country, SMSContract $smsContract,ImageUploaderContract $imageUploader)
     {
@@ -85,8 +87,8 @@ class UserRegistrationController extends LoginController
      * @bodyParam device_token string required device_token of the user
      * @bodyParam refferal_code string optional refferal_code of the another user
      * @bodyParam login_by string required from which device the user registered. the input should be 'android',or 'ios'
-     * @param \App\Http\Requests\Auth\Registration\UserRegistrationRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param UserRegistrationRequest $request
+     * @return JsonResponse
      * @responseFile responses/auth/register.json
      */
     public function register(UserRegistrationRequest $request)
@@ -102,7 +104,7 @@ class UserRegistrationController extends LoginController
              if($request->is_web){
 
                 $user = $this->user->belongsTorole(Role::USER)->where('email', $request->email)->first();
-                
+
                 return $this->authenticateAndRespond($user, $request, $needsToken=true);
 
             }
@@ -288,8 +290,8 @@ class UserRegistrationController extends LoginController
      * @bodyParam country string required dial_code of the country
      * @bodyParam mobile int required Mobile of the user
      * @bodyParam email string required Email of the user
-     * @param \App\Http\Requests\Auth\Registration\SendRegistrationOTPRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param SendRegistrationOTPRequest $request
+     * @return JsonResponse
      * @response {
      * "success":true,
      * "message":"success",
@@ -332,7 +334,7 @@ class UserRegistrationController extends LoginController
             // Twilio::message($mobileForOtp, $message);
 
             \Log::info($sms);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             Log::error($e);
             Log::error('Error while Registering a user account. Input params : ' . json_encode($request->all()));
@@ -350,8 +352,8 @@ class UserRegistrationController extends LoginController
      * @bodyParam otp string required Provided otp
      * @bodyParam uuid uuid required uuid comes from sen otp api response
      *
-     * @param \App\Http\Requests\Auth\Registration\ValidateRegistrationOTPRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param ValidateRegistrationOTPRequest $request
+     * @return JsonResponse
      * @response {"success":true,"message":"success"}
      */
     public function validateOTP(ValidateRegistrationOTPRequest $request)

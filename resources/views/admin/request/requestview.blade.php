@@ -240,7 +240,7 @@ var map = new google.maps.Map(document.getElementById('map'), {
 });
 
 @if($item->request_path != null)
-var flightPlanCoordinates = [ < ? php echo $item - > request_path ? > ];
+var flightPlanCoordinates = [ < ? php echo $item - > request_path ? > ]
 
 flightPlanCoordinates = flightPlanCoordinates[0];
 
@@ -258,7 +258,7 @@ flightPath.setMap(map);
 // map new
 var infowindow = new google.maps.InfoWindow();
 var marker, i;
-var markers = new Array();
+var markers = [];
 for (i = 0; i < locations.length; i++) {
     marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i][1], locations[i][2]),

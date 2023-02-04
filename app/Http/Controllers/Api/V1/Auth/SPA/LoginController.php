@@ -6,14 +6,16 @@ use App\Base\Constants\Auth\Role;
 use App\Http\Controllers\Api\V1\Auth\LoginController as BaseLoginController;
 use App\Http\Requests\Auth\SendLoginOTPRequest;
 use App\Http\Requests\Auth\UserLoginRequest;
+use Illuminate\Http\JsonResponse;
+use Log;
 
 class LoginController extends BaseLoginController
 {
     /**
      * Login the normal user.
      *
-     * @param \App\Http\Requests\Auth\UserLoginRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param UserLoginRequest $request
+     * @return JsonResponse
      */
     public function loginSpaUser(UserLoginRequest $request)
     {
@@ -23,8 +25,8 @@ class LoginController extends BaseLoginController
     /**
      * Send the OTP for user login.
      *
-     * @param \App\Http\Requests\Auth\SendLoginOTPRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param SendLoginOTPRequest $request
+     * @return JsonResponse
      */
     public function sendUserLoginOTP(SendLoginOTPRequest $request)
     {
@@ -45,7 +47,7 @@ class LoginController extends BaseLoginController
                      * Send OTP here
                      * Temporary logger
         */
-        \Log::info("Login OTP for {$mobile} is : {$otp}");
+        Log::info("Login OTP for {$mobile} is : {$otp}");
 
         return $this->respondSuccess(['uuid' => $user->getCreatedOTPUuid()]);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1\Common;
 use App\Models\Country;
 use App\Http\Controllers\ApiController;
 use App\Transformers\CountryTransformer;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @group Countries
@@ -16,7 +17,7 @@ class CountryController extends ApiController
     /**
      * Get all the countries.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {

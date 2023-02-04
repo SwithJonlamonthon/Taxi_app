@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use App\Helpers\Exception\ExceptionHelpers;
 use App\Models\Common\AdminUsersCompanyKey;
@@ -13,8 +14,8 @@ trait HasActiveCompanyKey
     /**
      * Scope a query to add the active condition.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Builder $query
+     * @return Builder
      */
     public function scopeCompanyKey($query)
     {

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Master\PocClient;
 use App\Models\Traits\HasActive;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Project extends Model
@@ -55,7 +56,7 @@ class Project extends Model
     * The client has many User.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\hasMany
+    * @return hasMany
     */
     public function pocClient()
     {

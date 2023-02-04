@@ -2,6 +2,8 @@
 
 namespace App\Base\Services\PDF\Generator;
 
+use Illuminate\Http\Response;
+
 interface PDFGeneratorContract {
 	/**
 	 * Load a View with data and convert to HTML for generating PDF.
@@ -28,7 +30,7 @@ interface PDFGeneratorContract {
 	 * Requires the name for the downloaded file.
 	 *
 	 * @param string $filename
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function download($filename);
 
@@ -36,7 +38,7 @@ interface PDFGeneratorContract {
 	 * Return a response to make the PDF viewable in the browser without downloading.
 	 *
 	 * @param string $filename
-	 * @return \Illuminate\Http\Response
+	 * @return Response
 	 */
 	public function stream($filename);
 }

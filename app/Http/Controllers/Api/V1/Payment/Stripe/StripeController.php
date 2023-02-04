@@ -26,6 +26,10 @@ use App\Base\Constants\Setting\Settings;
 use App\Models\Payment\OwnerWallet;
 use App\Models\Payment\OwnerWalletHistory;
 use App\Transformers\Payment\OwnerWalletTransformer;
+use stdClass;
+use Stripe\Customer;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
 
 /**
  * @group Stripe Payment Gateway
@@ -36,7 +40,7 @@ class StripeController extends ApiController
 {
 
 
-    
+
      /**
      * Setup a client secret
      * @response {
@@ -55,12 +59,12 @@ class StripeController extends ApiController
             $test_environment = true;
 
 
-            \Stripe\Stripe::setApiKey($secret_key);
+            Stripe::setApiKey($secret_key);
         }else{
 
             $secret_key = get_settings(Settings::STRIPE_LIVE_SECRET_KEY);
 
-            \Stripe\Stripe::setApiKey($secret_key);
+            Stripe::setApiKey($secret_key);
 
             $test_environment = false;
 
@@ -85,13 +89,13 @@ class StripeController extends ApiController
                 // 'source' => "tok_visa"
             ];
 
-        $customer = \Stripe\Customer::create($create_customer_data);
+        $customer = Customer::create($create_customer_data);
 
 
             $user_currency_code = auth()->user()->countryDetail->currency_code;
             // $user_currency_code = get_settings('currency_code');
 
-            $setup_intent = \Stripe\PaymentIntent::create([
+            $setup_intent = PaymentIntent::create([
                 'amount' => $request->amount *100,
                 'currency'=> strtolower($user_currency_code),
                 'description' => 'Add Money To Wallet',
@@ -106,9 +110,9 @@ class StripeController extends ApiController
       ],
     ],
             ]);
-        
+
         // $setup_intent = SetupIntent::create();
-        $obj = new \stdClass;
+        $obj = new stdClass;
         $obj->message = "Client_token";
         $obj->token = $setup_intent->client_secret;
 
@@ -143,7 +147,7 @@ class StripeController extends ApiController
     {
             $transaction_id = $request->payment_id;
             $user = auth()->user();
-        
+
             if (access()->hasRole('user')) {
             $wallet_model = new UserWallet();
             $wallet_add_history_model = new UserWalletHistory();
@@ -174,8 +178,8 @@ class StripeController extends ApiController
 
 
                 $pus_request_detail = json_encode($request->all());
-        
-                $socket_data = new \stdClass();
+
+                $socket_data = new stdClass();
                 $socket_data->success = true;
                 $socket_data->success_message  = PushEnums::AMOUNT_CREDITED;
                 $socket_data->result = $request->all();
@@ -184,7 +188,7 @@ class StripeController extends ApiController
                 $body = trans('push_notifications.amount_credited_to_your_wallet_body',[],$user->lang);
 
                 // dispatch(new NotifyViaMqtt('add_money_to_wallet_status'.$user_id, json_encode($socket_data), $user_id));
-                
+
                 $user->notify(new AndroidPushNotification($title, $body));
 
                 if (access()->hasRole(Role::USER)) {
@@ -201,7 +205,7 @@ class StripeController extends ApiController
 
     /**
      * Add/update Subscription
-     * 
+     *
      * */
     public function addOrUpdateSubscription(Request $request)
     {
@@ -222,5 +226,5 @@ class StripeController extends ApiController
 
     }
 
-    
+
 }

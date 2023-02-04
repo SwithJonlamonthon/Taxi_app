@@ -6,6 +6,7 @@ use App\Base\Uuid\UuidModel;
 use App\Models\Admin\Driver;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\belongsTo;
 
 class DriverWallet extends Model
 {
@@ -37,7 +38,7 @@ class DriverWallet extends Model
     * The user wallet that the user_id belongs to.
     * @tested
     *
-    * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+    * @return belongsTo
     */
     public function driver()
     {

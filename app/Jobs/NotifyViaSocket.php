@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use ElephantIO\Client;
+use Expection;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\SerializesModels;
@@ -37,7 +38,7 @@ class NotifyViaSocket //implements ShouldQueue
     public function handle()
     {
         return;
-        
+
         try {
             $path2 = base_path('/vendor/autoload.php');
             include("$path2");
@@ -60,7 +61,7 @@ class NotifyViaSocket //implements ShouldQueue
             $client->of('/php/user');
             $client->emit($this->event_name, $this->message);
             $client->close();
-        } catch (\Expection $e) {
+        } catch (Expection $e) {
             Log::error($e);
         }
     }

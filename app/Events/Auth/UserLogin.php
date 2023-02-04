@@ -2,6 +2,7 @@
 
 namespace App\Events\Auth;
 
+use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 
 class UserLogin
@@ -11,14 +12,14 @@ class UserLogin
     /**
      * The authenticated user.
      *
-     * @var \App\Models\User
+     * @var User
      */
     public $user;
 
     /**
      * Create a new event instance.
      *
-     * @param  \App\Models\User  $user
+     * @param  User  $user
      */
     public function __construct($user)
     {
